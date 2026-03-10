@@ -56,7 +56,7 @@ export default async function HomePage() {
                   alt="James Gilmore"
                   width={200}
                   height={200}
-                  className="rounded-full object-cover"
+                  className="h-[200px] w-[200px] rounded-full object-cover"
                   priority
                 />
               </div>
