@@ -1,4 +1,12 @@
 import type { Metadata } from "next";
+import {
+  Plane,
+  Mountain,
+  Mic,
+  Wrench,
+  Presentation,
+  BookOpen,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About | James Gilmore",
@@ -20,12 +28,12 @@ const SKILLS = [
 ];
 
 const INTERESTS = [
-  { label: "Travel", icon: "M" },
-  { label: "Hiking", icon: "H" },
-  { label: "Toastmasters", icon: "T" },
-  { label: "Building Things", icon: "B" },
-  { label: "Public Speaking", icon: "P" },
-  { label: "Reading", icon: "R" },
+  { label: "Travel", icon: Plane },
+  { label: "Hiking", icon: Mountain },
+  { label: "Toastmasters", icon: Mic },
+  { label: "Building Things", icon: Wrench },
+  { label: "Public Speaking", icon: Presentation },
+  { label: "Reading", icon: BookOpen },
 ];
 
 export default function AboutPage() {
@@ -149,8 +157,8 @@ export default function AboutPage() {
                 key={interest.label}
                 className="group flex flex-col items-center gap-3 rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-gold/40 hover:gold-glow"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-light text-sm font-display font-bold text-gold transition-colors duration-300 group-hover:border-gold/40">
-                  {interest.icon}
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-light text-gold transition-colors duration-300 group-hover:border-gold/40">
+                  <interest.icon size={18} />
                 </span>
                 <p className="text-sm font-medium text-text-primary">
                   {interest.label}
