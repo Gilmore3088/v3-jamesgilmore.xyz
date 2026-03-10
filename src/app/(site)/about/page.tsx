@@ -13,7 +13,7 @@ import {
 export const metadata: Metadata = {
   title: "About | James Gilmore",
   description:
-    "Data analyst and engineer building automation tools, analysis platforms, and data pipelines with Python.",
+    "Building systems, exploring ideas, and taking advantage of the most creative technological moment in history.",
 };
 
 const THEMES = [

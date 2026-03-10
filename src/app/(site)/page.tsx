@@ -28,8 +28,7 @@ export default async function HomePage() {
               </p>
 
               <p className="animate-fade-up animation-delay-200 mt-6 text-lg leading-relaxed text-text-secondary">
-                Data analyst and engineer building automation tools and data
-                pipelines with Python.
+                Building systems, exploring ideas, and taking advantage of the most creative technological moment in history.
               </p>
 
               <div className="animate-fade-up animation-delay-300 mt-10 flex flex-wrap gap-4">

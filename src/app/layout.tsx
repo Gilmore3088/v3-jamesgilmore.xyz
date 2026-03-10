@@ -16,7 +16,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "James Gilmore",
-  description: "Data analyst and engineer building automation tools and data pipelines with Python.",
+  description: "Building systems, exploring ideas, and taking advantage of the most creative technological moment in history.",
 };
 
 export default function RootLayout({

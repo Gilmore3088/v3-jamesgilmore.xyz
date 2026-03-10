@@ -31,8 +31,8 @@ export default function Footer() {
               James Gilmore
             </p>
             <p className="mt-2 text-sm text-text-muted leading-relaxed">
-              Data analyst and engineer based in Seattle.
-              Building tools that turn complexity into clarity.
+              Building systems, exploring ideas, and taking advantage of
+              the most creative technological moment in history.
             </p>
           </div>
 
