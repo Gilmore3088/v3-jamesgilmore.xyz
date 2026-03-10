@@ -1,8 +1,11 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/admin/login");
 
   const [blogResult, projectResult, contactResult, unreadResult] =
     await Promise.all([
