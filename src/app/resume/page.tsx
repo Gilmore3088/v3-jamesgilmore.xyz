@@ -56,6 +56,9 @@ export default function ResumePage() {
       <div className="mb-12 text-center">
         <a
           href="/resume.pdf"
+          download="James_Gilmore_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-lg bg-gold px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-gold-light"
         >
           <Download size={16} />
