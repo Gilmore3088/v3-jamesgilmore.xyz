@@ -49,13 +49,13 @@ const CONTACT_LINKS = [
   },
   {
     label: "LinkedIn",
-    value: "linkedin.com/in/jlgilmore",
-    href: "https://www.linkedin.com/in/jlgilmore",
+    value: "linkedin.com/in/JamesLGilmore",
+    href: "https://www.linkedin.com/in/JamesLGilmore",
   },
   {
     label: "GitHub",
-    value: "github.com/jlgilmore",
-    href: "https://github.com/jlgilmore",
+    value: "github.com/Gilmore3088",
+    href: "https://github.com/Gilmore3088",
   },
 ];
 
