@@ -1,21 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+import { createBlogPost } from "../actions";
 
 export default function NewBlogPost() {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -25,54 +14,12 @@ export default function NewBlogPost() {
     setSaving(true);
 
     const formData = new FormData(e.currentTarget);
-    const title = (formData.get("title") as string).trim();
-    const content = (formData.get("content") as string).trim();
-    const category = (formData.get("category") as string).trim() || null;
-    const tagsRaw = (formData.get("tags") as string).trim();
-    const excerptRaw = (formData.get("excerpt") as string).trim();
 
-    if (!title || !content) {
-      setError("Title and content are required.");
+    const result = await createBlogPost(formData);
+    if (result?.error) {
+      setError(result.error);
       setSaving(false);
-      return;
     }
-
-    const slug = slugify(title);
-
-    if (!slug) {
-      setError("Title must contain at least one alphanumeric character.");
-      setSaving(false);
-      return;
-    }
-
-    const tags = tagsRaw
-      ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean)
-      : [];
-
-    const excerpt = excerptRaw || content.slice(0, 200);
-
-    const supabase = createClient();
-    const { error: insertError } = await supabase.from("blogs").insert({
-      title,
-      slug,
-      content,
-      category,
-      tags,
-      excerpt,
-    });
-
-    if (insertError) {
-      if (insertError.message.includes("duplicate")) {
-        setError("A post with this slug already exists. Choose a different title.");
-      } else {
-        setError(`Failed to create post: ${insertError.message}`);
-      }
-      setSaving(false);
-      return;
-    }
-
-    router.push("/admin/blog");
-    router.refresh();
   }
 
   return (

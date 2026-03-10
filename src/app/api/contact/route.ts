@@ -1,17 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod/v4";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please provide a valid email address"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  name: z.string().min(2, "Name must be at least 2 characters").max(100),
+  email: z.string().email("Please provide a valid email address").max(254),
+  message: z
+    .string()
+    .min(10, "Message must be at least 10 characters")
+    .max(5000),
+  website: z.string().max(0).optional(),
 });
 
 const RATE_LIMIT_SECONDS = 60;
 
+function createServiceClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY ??
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
+
 export async function POST(request: NextRequest) {
   try {
+    const origin = request.headers.get("origin");
+    const allowedOrigins = [
+      "https://jamesgilmore.xyz",
+      "https://www.jamesgilmore.xyz",
+    ];
+    if (
+      process.env.NODE_ENV === "production" &&
+      origin &&
+      !allowedOrigins.includes(origin)
+    ) {
+      return NextResponse.json(
+        { success: false, errors: ["Forbidden"] },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
 
     const result = contactSchema.safeParse(body);
@@ -23,9 +51,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { name, email, message } = result.data;
+    const { name, email, message, website } = result.data;
 
-    const supabase = await createClient();
+    if (website) {
+      return NextResponse.json(
+        { success: true, message: "Message sent successfully." },
+        { status: 201 }
+      );
+    }
+
+    const supabase = createServiceClient();
 
     const cutoff = new Date(
       Date.now() - RATE_LIMIT_SECONDS * 1000
@@ -55,7 +90,10 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       return NextResponse.json(
-        { success: false, errors: ["Failed to submit message. Please try again."] },
+        {
+          success: false,
+          errors: ["Failed to submit message. Please try again."],
+        },
         { status: 500 }
       );
     }

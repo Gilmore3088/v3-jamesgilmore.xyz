@@ -47,7 +47,14 @@ export default async function BlogPostPage({ params }: PageProps) {
   }
 
   const rawHtml = await marked(post.content);
-  const sanitizedHtml = DOMPurify.sanitize(rawHtml);
+  const sanitizedHtml = DOMPurify.sanitize(rawHtml, {
+    ALLOWED_TAGS: [
+      "p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "ul", "ol", "li",
+      "strong", "em", "code", "pre", "blockquote", "img", "br", "hr",
+      "table", "thead", "tbody", "tr", "th", "td", "span", "div", "sup", "sub",
+    ],
+    ALLOWED_ATTR: ["href", "src", "alt", "class", "target", "rel", "id"],
+  });
   const formattedDate = format(new Date(post.created_at), "MMMM d, yyyy");
   const readingTime = estimateReadingTime(post.content);
 

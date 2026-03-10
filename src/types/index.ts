@@ -20,6 +20,8 @@ export interface Project {
   project_url: string | null;
   image_url: string | null;
   display_order: number;
+  is_friend_project: boolean;
+  featured: boolean;
   created_at: string;
 }
 

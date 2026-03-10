@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-async function requireAuth() {
+async function requireAdmin() {
   const supabase = await createClient();
   const {
     data: { user },
@@ -18,55 +18,37 @@ async function requireAuth() {
 }
 
 export async function markAsRead(formData: FormData) {
-  const supabase = await requireAuth();
+  const supabase = await requireAdmin();
   const id = formData.get("id") as string;
+  if (!id) return;
 
-  if (!id) {
-    throw new Error("Missing contact ID");
-  }
-
-  const { error } = await supabase
+  await supabase
     .from("contacts")
     .update({ read: true })
     .eq("id", id);
-
-  if (error) {
-    throw new Error(`Failed to mark contact as read: ${error.message}`);
-  }
 
   revalidatePath("/admin/contacts");
   revalidatePath("/admin");
 }
 
 export async function deleteContact(formData: FormData) {
-  const supabase = await requireAuth();
+  const supabase = await requireAdmin();
   const id = formData.get("id") as string;
+  if (!id) return;
 
-  if (!id) {
-    throw new Error("Missing contact ID");
-  }
-
-  const { error } = await supabase.from("contacts").delete().eq("id", id);
-
-  if (error) {
-    throw new Error(`Failed to delete contact: ${error.message}`);
-  }
+  await supabase.from("contacts").delete().eq("id", id);
 
   revalidatePath("/admin/contacts");
   revalidatePath("/admin");
 }
 
 export async function deleteAllRead() {
-  const supabase = await requireAuth();
+  const supabase = await requireAdmin();
 
-  const { error } = await supabase
+  await supabase
     .from("contacts")
     .delete()
     .eq("read", true);
-
-  if (error) {
-    throw new Error(`Failed to delete read contacts: ${error.message}`);
-  }
 
   revalidatePath("/admin/contacts");
   revalidatePath("/admin");
