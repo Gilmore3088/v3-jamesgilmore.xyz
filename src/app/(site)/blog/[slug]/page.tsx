@@ -181,6 +181,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+function estimateReadingTime(content: string): number {
+  const WORDS_PER_MINUTE = 200;
+  const wordCount = content.split(/\s+/).length;
+  return Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE));
+}
+
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = getPost(slug);
@@ -192,41 +198,73 @@ export default async function BlogPostPage({ params }: PageProps) {
   const rawHtml = await marked(post.content);
   const sanitizedHtml = DOMPurify.sanitize(rawHtml);
   const formattedDate = format(new Date(post.created_at), "MMMM d, yyyy");
+  const readingTime = estimateReadingTime(post.content);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-      {/* Back link */}
-      <Link
-        href="/blog"
-        className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-gold transition-colors"
-      >
-        <ArrowLeft size={14} />
-        Back to Blog
-      </Link>
-
-      {/* Post header */}
-      <header className="mt-8">
-        <div className="flex items-center gap-3 text-sm">
-          <span className="rounded-full bg-gold/10 px-3 py-1 font-medium text-gold">
-            {post.category}
-          </span>
-          <time dateTime={post.created_at} className="text-text-muted">
-            {formattedDate}
-          </time>
+    <div className="noise-bg min-h-screen">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        {/* Back link */}
+        <div className="animate-fade-up">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.25em] text-text-muted hover:text-gold transition-colors duration-300"
+          >
+            <ArrowLeft size={12} />
+            Back to Journal
+          </Link>
         </div>
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
-          {post.title}
-        </h1>
-      </header>
 
-      {/* Divider */}
-      <div className="mt-8 h-px bg-border" />
+        {/* Article header */}
+        <header className="mt-12 animate-fade-up animation-delay-100">
+          <div className="flex items-center gap-4">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-gold border border-gold/30 px-3 py-1 rounded-full">
+              {post.category}
+            </span>
+            <time
+              dateTime={post.created_at}
+              className="text-[10px] uppercase tracking-[0.2em] text-text-muted"
+            >
+              {formattedDate}
+            </time>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-text-muted">
+              {readingTime} min read
+            </span>
+          </div>
 
-      {/* Post content */}
-      <article
-        className="prose-custom mt-10"
-        dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-      />
+          <h1 className="mt-6 font-display text-3xl sm:text-4xl lg:text-5xl text-gold-gradient leading-tight">
+            {post.title}
+          </h1>
+        </header>
+
+        {/* Gold rule before content */}
+        <div className="animate-fade-up animation-delay-200">
+          <hr className="hr-gold mt-10 mb-12" />
+        </div>
+
+        {/* Article content */}
+        <div className="flex justify-center animate-fade-up animation-delay-300">
+          <article
+            className="prose-custom max-w-2xl w-full"
+            dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+          />
+        </div>
+
+        {/* Gold rule after content */}
+        <div className="animate-fade-up animation-delay-400">
+          <hr className="hr-gold mt-12 mb-10" />
+        </div>
+
+        {/* Footer navigation */}
+        <div className="animate-fade-up animation-delay-500">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.25em] text-text-muted hover:text-gold transition-colors duration-300"
+          >
+            <ArrowLeft size={12} />
+            All articles
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

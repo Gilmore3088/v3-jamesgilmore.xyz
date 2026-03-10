@@ -20,23 +20,25 @@ export default function BlogCard({
 
   return (
     <Link href={`/blog/${slug}`} className="group block">
-      <article className="rounded-lg border border-border bg-surface p-6 transition-colors hover:border-gold/60">
-        <div className="flex items-center gap-3 text-xs">
-          <span className="rounded-full bg-gold/10 px-3 py-1 font-medium text-gold">
-            {category}
-          </span>
-          <time dateTime={created_at} className="text-text-muted">
-            {formattedDate}
-          </time>
-        </div>
+      <article className="flex h-full flex-col rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-[2px] hover:border-gold/40 hover:gold-glow">
+        <span className="text-xs font-medium uppercase tracking-[0.15em] text-gold">
+          {category}
+        </span>
 
-        <h3 className="mt-3 text-lg font-semibold text-text-primary group-hover:text-gold transition-colors">
+        <h3 className="mt-3 font-display text-xl font-semibold leading-snug text-text-primary transition-colors group-hover:text-gold">
           {title}
         </h3>
 
-        <p className="mt-2 text-sm text-text-secondary leading-relaxed line-clamp-2">
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-text-secondary line-clamp-3">
           {excerpt}
         </p>
+
+        <time
+          dateTime={created_at}
+          className="mt-5 block text-xs text-text-muted"
+        >
+          {formattedDate}
+        </time>
       </article>
     </Link>
   );

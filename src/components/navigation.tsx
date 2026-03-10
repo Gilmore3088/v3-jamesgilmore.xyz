@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -16,41 +16,53 @@ const NAV_LINKS = [
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 20);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   function isActive(href: string): boolean {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   }
 
-  function closeMobileMenu() {
-    setMobileMenuOpen(false);
-  }
-
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-background/90 backdrop-blur-md border-b border-border"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+        <div className="flex h-20 items-center justify-between">
           <Link
             href="/"
-            className="text-xl font-semibold text-gold tracking-tight"
-            onClick={closeMobileMenu}
+            className="font-display text-2xl font-bold tracking-tight text-gold-gradient"
+            onClick={() => setMobileMenuOpen(false)}
           >
-            James Gilmore
+            JG
           </Link>
 
-          <ul className="hidden md:flex items-center gap-8">
+          <ul className="hidden md:flex items-center gap-10">
             {NAV_LINKS.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className={`relative py-1 text-sm font-medium transition-colors hover:text-gold ${
-                    isActive(href)
-                      ? "text-gold after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-gold"
-                      : "text-text-secondary"
+                  className={`relative text-[13px] font-medium uppercase tracking-[0.15em] transition-colors hover:text-gold ${
+                    isActive(href) ? "text-gold" : "text-text-muted"
                   }`}
                 >
                   {label}
+                  {isActive(href) && (
+                    <span className="absolute -bottom-1 left-0 h-px w-full bg-gold" />
+                  )}
                 </Link>
               </li>
             ))}
@@ -58,28 +70,28 @@ export default function Navigation() {
 
           <button
             type="button"
-            className="md:hidden text-text-secondary hover:text-gold transition-colors"
+            className="md:hidden text-text-muted hover:text-gold transition-colors"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background">
-          <ul className="px-4 py-4 space-y-1">
+        <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+          <ul className="px-6 py-6 space-y-1">
             {NAV_LINKS.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-surface-light hover:text-gold ${
+                  className={`block rounded-md px-4 py-3 text-sm font-medium uppercase tracking-widest transition-colors ${
                     isActive(href)
                       ? "text-gold bg-surface"
-                      : "text-text-secondary"
+                      : "text-text-muted hover:text-gold hover:bg-surface"
                   }`}
-                  onClick={closeMobileMenu}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   {label}
                 </Link>

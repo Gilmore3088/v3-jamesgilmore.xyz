@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,9 +8,15 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-playfair",
+});
+
 export const metadata: Metadata = {
   title: "James Gilmore",
-  description: "Portfolio & Blog",
+  description: "Data analyst and engineer building automation tools and data pipelines with Python.",
 };
 
 export default function RootLayout({
@@ -22,10 +26,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased bg-background text-text-primary`}>
-        <Navigation />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-background text-text-primary`}>
+        {children}
       </body>
     </html>
   );

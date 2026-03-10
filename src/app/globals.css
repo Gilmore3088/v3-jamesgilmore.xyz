@@ -1,19 +1,20 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #121212;
-  --color-surface: #1A1A1A;
-  --color-surface-light: #242424;
-  --color-surface-lighter: #2A2A2A;
+  --color-background: #0C0C0C;
+  --color-surface: #151515;
+  --color-surface-light: #1E1E1E;
+  --color-surface-lighter: #282828;
   --color-gold: #C5A572;
   --color-gold-light: #D4BA8A;
   --color-gold-dark: #A88B5C;
-  --color-text-primary: #E8E9EA;
-  --color-text-secondary: #A0A0A0;
-  --color-text-muted: #6B6B6B;
-  --color-border: #333333;
-  --color-border-light: #444444;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-text-primary: #F0F0F0;
+  --color-text-secondary: #9A9A9A;
+  --color-text-muted: #5A5A5A;
+  --color-border: #222222;
+  --color-border-light: #333333;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, serif;
 }
 
 body {
@@ -29,18 +30,73 @@ body {
   color: var(--color-text-primary);
 }
 
+/* Noise texture overlay */
+.noise-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Fade-in animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }
+.animation-delay-400 { animation-delay: 0.4s; }
+.animation-delay-500 { animation-delay: 0.5s; }
+
+/* Gold gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #D4BA8A 0%, #C5A572 40%, #A88B5C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtle glow */
+.gold-glow {
+  box-shadow: 0 0 40px -10px rgb(197 165 114 / 0.15);
+}
+
+/* Horizontal rule accent */
+.hr-gold {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold) 50%, transparent);
+}
+
 /* Blog post typography */
 .prose-custom {
   color: var(--color-text-secondary);
-  line-height: 1.8;
-  font-size: 1rem;
+  line-height: 1.85;
+  font-size: 1.05rem;
 }
 
 .prose-custom h2 {
   color: var(--color-text-primary);
-  font-size: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
   font-weight: 700;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
   margin-bottom: 1rem;
 }
 
@@ -53,7 +109,7 @@ body {
 }
 
 .prose-custom p {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .prose-custom strong {
@@ -64,16 +120,18 @@ body {
 .prose-custom a {
   color: var(--color-gold);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgb(197 165 114 / 0.4);
+  transition: text-decoration-color 0.2s;
 }
 
 .prose-custom a:hover {
-  color: var(--color-gold-light);
+  text-decoration-color: var(--color-gold);
 }
 
 .prose-custom ul,
 .prose-custom ol {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
   padding-left: 1.5rem;
 }
 
@@ -82,9 +140,11 @@ body {
 }
 
 .prose-custom blockquote {
-  border-left: 3px solid var(--color-gold);
-  padding-left: 1rem;
-  margin: 1.5rem 0;
+  border-left: 2px solid var(--color-gold);
+  padding-left: 1.25rem;
+  margin: 2rem 0;
   color: var(--color-text-muted);
   font-style: italic;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
 }
