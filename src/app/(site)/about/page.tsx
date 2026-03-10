@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import {
-  Plane,
-  Mountain,
-  Mic,
-  Wrench,
-  Presentation,
-  BookOpen,
+  Zap,
+  BarChart3,
+  Landmark,
+  Lightbulb,
+  Route,
+  Globe,
+  Brain,
+  Pencil,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -14,26 +16,38 @@ export const metadata: Metadata = {
     "Data analyst and engineer building automation tools, analysis platforms, and data pipelines with Python.",
 };
 
-const SKILLS = [
-  { name: "Python", level: "Advanced" },
-  { name: "pandas", level: "Advanced" },
-  { name: "SQL", level: "Advanced" },
-  { name: "Excel / VBA", level: "Advanced" },
-  { name: "Data Visualization", level: "Advanced" },
-  { name: "Automation", level: "Advanced" },
-  { name: "Jupyter Notebooks", level: "Advanced" },
-  { name: "Flask", level: "Intermediate" },
-  { name: "PostgreSQL", level: "Intermediate" },
-  { name: "Git", level: "Intermediate" },
+const THEMES = [
+  {
+    label: "Automation",
+    description:
+      "If something is done manually more than a few times, it should probably be automated.",
+    icon: Zap,
+  },
+  {
+    label: "Data to Action",
+    description:
+      "Numbers by themselves don't matter. The goal is turning information into decisions.",
+    icon: BarChart3,
+  },
+  {
+    label: "Financial Systems",
+    description:
+      "Deeply interested in how money, incentives, and financial systems shape behavior.",
+    icon: Landmark,
+  },
+  {
+    label: "Idea Exploration",
+    description:
+      "Some ideas turn into real products. Others remain experiments. The process of exploring them is where the fun is.",
+    icon: Lightbulb,
+  },
 ];
 
-const INTERESTS = [
-  { label: "Travel", icon: Plane },
-  { label: "Hiking", icon: Mountain },
-  { label: "Toastmasters", icon: Mic },
-  { label: "Building Things", icon: Wrench },
-  { label: "Public Speaking", icon: Presentation },
-  { label: "Reading", icon: BookOpen },
+const OUTSIDE_WORK = [
+  { label: "Running long distances", icon: Route },
+  { label: "Strategy, history, and economic systems", icon: Brain },
+  { label: "Planning travel and future adventures", icon: Globe },
+  { label: "Sketching out the next idea", icon: Pencil },
 ];
 
 export default function AboutPage() {
@@ -51,120 +65,162 @@ export default function AboutPage() {
           <hr className="hr-gold opacity-30 mt-6" />
         </div>
 
-        {/* Two-Column Hero: Intro Left, Brief Right */}
-        <div className="mt-16 grid gap-12 lg:grid-cols-5">
-          {/* Left Column - Brief Intro */}
-          <div className="lg:col-span-2 animate-fade-up animation-delay-100">
-            <div className="rounded-lg border border-border bg-surface p-8">
-              <h2 className="font-display text-2xl font-semibold text-text-primary">
-                James Gilmore
-              </h2>
-              <p className="mt-2 text-sm text-gold">
-                Data Analyst &amp; Engineer
-              </p>
-              <p className="mt-1 text-xs text-text-muted">
-                Seattle, WA
-              </p>
-              <hr className="hr-gold opacity-20 my-6" />
-              <p className="text-sm text-text-secondary leading-relaxed">
-                Building automation tools, analysis platforms, and data
-                pipelines that help organizations make better decisions.
-                Toastmasters president, traveler, and lifelong learner.
-              </p>
-            </div>
-          </div>
-
-          {/* Right Column - Full Bio */}
-          <div className="lg:col-span-3 animate-fade-up animation-delay-200">
-            <div className="space-y-5 text-text-secondary leading-relaxed">
+        {/* Intro */}
+        <div className="mt-16 animate-fade-up animation-delay-100">
+          <div className="space-y-6 text-text-secondary leading-relaxed text-lg max-w-3xl">
+            <p className="text-text-primary text-2xl font-display leading-snug">
+              Hi -- I&apos;m James.
+            </p>
+            <p>I spend most of my time thinking about systems.</p>
+            <div className="pl-6 border-l-2 border-gold/40 space-y-1 text-text-primary">
+              <p>Systems for money.</p>
+              <p>Systems for data.</p>
+              <p>Systems for ideas.</p>
               <p>
-                I am a data analyst and engineer based in the Seattle area. My
-                work focuses on building automation tools, analysis platforms,
-                and data pipelines that help organizations make better
-                decisions with their data. I spend most of my time working
-                with Python, turning complex datasets into clean, actionable
-                insights.
-              </p>
-              <p>
-                Over the years, I have developed a deep appreciation for the
-                power of automation. What used to take days of manual effort
-                can often be reduced to a streamlined, repeatable process.
-                That efficiency is what drives me -- finding ways to do more
-                with less, and freeing up time for the work that actually
-                matters: analysis, strategy, and communication.
-              </p>
-              <p>
-                Outside of work, I am the president of my local Toastmasters
-                club, where I have grown significantly as a communicator and
-                leader. Public speaking was once a challenge for me, but it
-                has become one of the skills I am most proud of developing. I
-                regularly present to executives and board members at financial
-                institutions across the country.
-              </p>
-              <p>
-                I am also an avid traveler. I have explored Chile and hiked
-                the O Circuit in Torres del Paine, Patagonia -- an experience
-                that reinforced my belief in the power of connection and
-                stepping outside your comfort zone. Whether it is a multi-day
-                trek through the mountains or a conversation with a stranger
-                at a campsite, I believe some of the best growth happens when
-                you put yourself out there.
+                Systems for building things that didn&apos;t exist yesterday.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Skills */}
+        {/* Professional */}
+        <div className="mt-16 animate-fade-up animation-delay-200">
+          <div className="space-y-6 text-text-secondary leading-relaxed max-w-3xl">
+            <p>
+              Professionally, I work in financial technology helping banks
+              understand and grow their customer base through data, analytics,
+              and product strategy. My work sits at the intersection of finance,
+              data, and technology -- turning large, messy datasets into insight
+              and action.
+            </p>
+            <p>But the real thing that drives me is building.</p>
+            <p>
+              I&apos;m endlessly curious about ideas -- especially the moment
+              when an idea stops being abstract and becomes something real.
+            </p>
+          </div>
+        </div>
+
+        {/* The Shift */}
+        <section className="mt-20 animate-fade-up animation-delay-300">
+          <div className="rounded-lg border border-border bg-surface p-8 sm:p-10 max-w-3xl">
+            <div className="space-y-5 text-text-secondary leading-relaxed">
+              <p>
+                For most of history, turning an idea into software required deep
+                technical expertise. Today, that barrier is collapsing.
+              </p>
+              <p>
+                With modern AI tools, creative people can move much closer to
+                being technical builders. The distance between &ldquo;What if
+                someone made this?&rdquo; and actually making it has never been
+                shorter.
+              </p>
+              <p className="text-text-primary font-medium">
+                The biggest constraint now isn&apos;t access to technology.
+              </p>
+              <div className="pl-6 border-l-2 border-gold/40 space-y-1 text-gold">
+                <p>It&apos;s imagination.</p>
+                <p>And the willingness to try.</p>
+              </div>
+              <p>That shift fascinates me.</p>
+              <p>
+                For the first time, millions of people can look at a problem, ask
+                &ldquo;What about this idea?&rdquo;, and then actually build it.
+              </p>
+              <p className="text-gold font-display text-lg italic">
+                What a time to be alive.
+              </p>
+              <p>That possibility fuels me every day.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* What I Spend Time On */}
         <section className="mt-24 animate-fade-up animation-delay-300">
           <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Technical Proficiency
+            Focus Areas
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-            Skills
+            What I Spend Time On
           </h2>
           <hr className="hr-gold opacity-30 mt-6" />
 
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {SKILLS.map((skill) => (
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {THEMES.map((theme) => (
               <div
-                key={skill.name}
-                className="group rounded-lg border border-border bg-surface p-5 text-center transition-all duration-300 hover:border-gold/40 hover:gold-glow"
+                key={theme.label}
+                className="group rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-gold/40 hover:gold-glow"
               >
-                <p className="text-sm font-semibold text-text-primary group-hover:text-gold transition-colors duration-300">
-                  {skill.name}
-                </p>
-                <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-                  {skill.level}
+                <div className="flex items-start gap-4">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-light text-gold transition-colors duration-300 group-hover:border-gold/40 shrink-0">
+                    <theme.icon size={18} />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-text-primary group-hover:text-gold transition-colors duration-300">
+                      {theme.label}
+                    </p>
+                    <p className="mt-1.5 text-sm text-text-secondary leading-relaxed">
+                      {theme.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Outside of Work */}
+        <section className="mt-24 animate-fade-up animation-delay-400">
+          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
+            Beyond the Code
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
+            Outside of Work
+          </h2>
+          <hr className="hr-gold opacity-30 mt-6" />
+
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {OUTSIDE_WORK.map((item) => (
+              <div
+                key={item.label}
+                className="group flex items-center gap-4 rounded-lg border border-border bg-surface p-5 transition-all duration-300 hover:border-gold/40 hover:gold-glow"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-light text-gold transition-colors duration-300 group-hover:border-gold/40 shrink-0">
+                  <item.icon size={18} />
+                </span>
+                <p className="text-sm font-medium text-text-primary">
+                  {item.label}
                 </p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Interests */}
-        <section className="mt-24 animate-fade-up animation-delay-400">
+        {/* Why This Site Exists */}
+        <section className="mt-24 animate-fade-up animation-delay-500">
           <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Beyond the Code
+            The Purpose
           </p>
           <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-            Interests
+            Why This Site Exists
           </h2>
           <hr className="hr-gold opacity-30 mt-6" />
 
-          <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {INTERESTS.map((interest) => (
-              <div
-                key={interest.label}
-                className="group flex flex-col items-center gap-3 rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-gold/40 hover:gold-glow"
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-light text-gold transition-colors duration-300 group-hover:border-gold/40">
-                  <interest.icon size={18} />
-                </span>
-                <p className="text-sm font-medium text-text-primary">
-                  {interest.label}
-                </p>
-              </div>
-            ))}
+          <div className="mt-10 space-y-5 text-text-secondary leading-relaxed max-w-3xl">
+            <p>
+              This site is simply a home for things I care about -- ideas,
+              projects, experiments, and thoughts about the systems that shape
+              our world.
+            </p>
+            <div className="pl-6 border-l-2 border-gold/40 space-y-1 text-text-primary">
+              <p>Some things will turn into meaningful tools.</p>
+              <p>Some will become businesses.</p>
+              <p>Some will remain interesting attempts.</p>
+            </div>
+            <p>But they all start the same way:</p>
+            <p className="text-gold font-display text-xl italic">
+              A question. What if this existed?
+            </p>
           </div>
         </section>
       </div>

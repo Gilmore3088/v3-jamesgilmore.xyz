@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { format } from "date-fns";
+import { getAllPosts } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Blog | James Gilmore",
@@ -8,40 +9,7 @@ export const metadata: Metadata = {
     "Reflections on growth, travel, data, and building things by James Gilmore.",
 };
 
-const BLOG_POSTS = [
-  {
-    title: "Setbacks as Stepping Stones",
-    slug: "setbacks-as-stepping-stones",
-    excerpt:
-      "We often think of setbacks as obstacles or roadblocks that slow us down. But if we look closely, setbacks can actually be stepping stones, giving us the push we need to grow stronger, sharper, and more resilient.",
-    category: "Failure",
-    created_at: "2025-08-19",
-  },
-  {
-    title: "We all start as strangers",
-    slug: "we-all-start-as-strangers",
-    excerpt:
-      "In many respects, we grow up being told to avoid strangers. But when does a stranger stop being a stranger? As we age, it seems increasingly challenging to meet new people.",
-    category: "Connections",
-    created_at: "2025-01-06",
-  },
-  {
-    title: "Christmas - the gift of travel",
-    slug: "christmas-the-gift-of-travel",
-    excerpt:
-      "The holidays have become an opportunity to explore the world, create lasting memories, and reflect on my relationship with the season.",
-    category: "Travel",
-    created_at: "2024-12-25",
-  },
-  {
-    title: "Building a Path Forward: My First Blog",
-    slug: "building-a-path-forward",
-    excerpt:
-      "Sometimes these posts will be short, more of a stream of consciousness. Other times they will be longer, well-thought-out reflections on life, my interests, and the process of growth.",
-    category: "Welcome",
-    created_at: "2024-10-18",
-  },
-];
+export const revalidate = 60;
 
 const ANIMATION_DELAYS = [
   "animation-delay-100",
@@ -50,8 +18,30 @@ const ANIMATION_DELAYS = [
   "animation-delay-400",
 ] as const;
 
-export default function BlogPage() {
-  const [featuredPost, ...remainingPosts] = BLOG_POSTS;
+export default async function BlogPage() {
+  const posts = await getAllPosts();
+  const [featuredPost, ...remainingPosts] = posts;
+
+  if (!featuredPost) {
+    return (
+      <div className="noise-bg min-h-screen">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+          <header className="mb-16 animate-fade-up">
+            <p className="text-xs font-medium uppercase tracking-[0.25em] text-gold mb-4">
+              Journal
+            </p>
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl text-gold-gradient leading-tight">
+              Blog
+            </h1>
+            <p className="mt-4 max-w-xl text-text-secondary text-lg leading-relaxed">
+              No posts yet. Check back soon.
+            </p>
+            <hr className="hr-gold mt-8 max-w-[120px]" />
+          </header>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="noise-bg min-h-screen">

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ExternalLink, Github } from "lucide-react";
+import { getMyProjects, getFriendsProjects } from "@/lib/data";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Projects | James Gilmore",
@@ -15,43 +18,6 @@ interface ProjectItem {
   project_url: string | null;
   github_url: string | null;
 }
-
-const MY_PROJECTS: ProjectItem[] = [
-  {
-    title: "GutenBites.com",
-    description:
-      "A podcast platform delivering concise summaries of classic literature and historical works in 7-15 minute audio experiences.",
-    technologies: ["Podcasting", "Content", "Audio"],
-    project_url: "https://gutenbites.com/",
-    github_url: null,
-  },
-  {
-    title: "JamesGilmore.xyz",
-    description:
-      "My personal portfolio website, built with Python and Flask.",
-    technologies: ["Python", "Flask", "Bootstrap", "PostgreSQL"],
-    project_url: "https://www.JamesGilmore.xyz",
-    github_url: null,
-  },
-];
-
-const FRIENDS_PROJECTS: ProjectItem[] = [
-  {
-    title: "FormulaBot.com",
-    description:
-      "The single platform to connect, analyze, visualize, clean, transform and enrich your data - powered by AI.",
-    technologies: ["AI", "Data Analysis", "Automation"],
-    project_url: "https://www.formulabot.com/",
-    github_url: null,
-  },
-  {
-    title: "MRAP Investments",
-    description: "Orlando real estate investors.",
-    technologies: ["Real Estate", "Investment"],
-    project_url: "https://www.instagram.com/mrapinvestments",
-    github_url: null,
-  },
-];
 
 function ProjectCard({
   title,
@@ -111,7 +77,10 @@ function ProjectCard({
   );
 }
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const myProjects = await getMyProjects();
+  const friendsProjects = await getFriendsProjects();
+
   return (
     <div className="noise-bg">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
@@ -131,8 +100,15 @@ export default function ProjectsPage() {
 
         {/* My Projects */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2 animate-fade-up animation-delay-100">
-          {MY_PROJECTS.map((project) => (
-            <ProjectCard key={project.title} {...project} />
+          {myProjects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              title={project.title}
+              description={project.description}
+              technologies={project.technologies ?? []}
+              project_url={project.project_url}
+              github_url={project.github_url}
+            />
           ))}
         </div>
 
@@ -160,8 +136,15 @@ export default function ProjectsPage() {
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 animate-fade-up animation-delay-300">
-          {FRIENDS_PROJECTS.map((project) => (
-            <ProjectCard key={project.title} {...project} />
+          {friendsProjects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              title={project.title}
+              description={project.description}
+              technologies={project.technologies ?? []}
+              project_url={project.project_url}
+              github_url={project.github_url}
+            />
           ))}
         </div>
       </div>
