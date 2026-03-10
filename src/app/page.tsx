@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import ProjectCard from "@/components/project-card";
@@ -5,14 +6,6 @@ import BlogCard from "@/components/blog-card";
 import SectionHeading from "@/components/section-heading";
 
 const FEATURED_PROJECTS = [
-  {
-    title: "FormulaBot.com",
-    description:
-      "The single platform to connect, analyze, visualize, clean, transform and enrich your data - powered by AI.",
-    technologies: ["AI", "Data Analysis", "Automation"],
-    project_url: "https://www.formulabot.com/",
-    github_url: null,
-  },
   {
     title: "GutenBites.com",
     description:
@@ -27,13 +20,6 @@ const FEATURED_PROJECTS = [
       "My personal portfolio website, built with Python and Flask.",
     technologies: ["Python", "Flask", "Bootstrap", "PostgreSQL"],
     project_url: "https://www.JamesGilmore.xyz",
-    github_url: null,
-  },
-  {
-    title: "MRAP Investments",
-    description: "Orlando real estate investors.",
-    technologies: ["Real Estate", "Investment"],
-    project_url: "https://www.instagram.com/mrapinvestments",
     github_url: null,
   },
 ];
@@ -70,32 +56,45 @@ export default function HomePage() {
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       {/* Hero */}
       <section className="py-20 sm:py-28">
-        <h1 className="text-4xl font-bold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
-          James Gilmore
-        </h1>
-        <p className="mt-4 text-xl text-gold sm:text-2xl">
-          Building data tools and automation with Python
-        </p>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-text-secondary">
-          Data analyst and engineer focused on building automation tools,
-          analysis platforms, and data pipelines. I enjoy turning complex data
-          challenges into clean, efficient solutions.
-        </p>
+        <div className="flex flex-col-reverse items-start gap-10 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
+              James Gilmore
+            </h1>
+            <p className="mt-4 text-xl text-gold sm:text-2xl">
+              Building data tools and automation with Python
+            </p>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-text-secondary">
+              Data analyst and engineer focused on building automation tools,
+              analysis platforms, and data pipelines. I enjoy turning complex
+              data challenges into clean, efficient solutions.
+            </p>
 
-        <div className="mt-10 flex flex-wrap gap-4">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 rounded-lg bg-gold px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-gold-light"
-          >
-            View Projects
-            <ArrowRight size={16} />
-          </Link>
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-colors hover:border-gold hover:text-gold"
-          >
-            Read Blog
-          </Link>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Link
+                href="/projects"
+                className="inline-flex items-center gap-2 rounded-lg bg-gold px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-gold-light"
+              >
+                View Projects
+                <ArrowRight size={16} />
+              </Link>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-colors hover:border-gold hover:text-gold"
+              >
+                Read Blog
+              </Link>
+            </div>
+          </div>
+
+          <Image
+            src="/profile.jpg"
+            alt="James Gilmore"
+            width={200}
+            height={200}
+            className="rounded-full border-2 border-border object-cover"
+            priority
+          />
         </div>
       </section>
 
@@ -103,7 +102,7 @@ export default function HomePage() {
       <section className="pb-20">
         <SectionHeading
           title="Featured Projects"
-          subtitle="A selection of projects I've built or contributed to."
+          subtitle="Projects I've built."
         />
         <div className="grid gap-6 sm:grid-cols-2">
           {FEATURED_PROJECTS.map((project) => (
