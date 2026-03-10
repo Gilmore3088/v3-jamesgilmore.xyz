@@ -221,6 +221,9 @@ export default function AboutPage() {
             <p className="text-gold font-display text-xl italic">
               A question. What if this existed?
             </p>
+            <p className="text-text-primary font-display text-lg mt-4">
+              Now I feel I have the answer... let&apos;s find out.
+            </p>
           </div>
         </section>
       </div>
