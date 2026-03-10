@@ -1,65 +1,147 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import ProjectCard from "@/components/project-card";
+import BlogCard from "@/components/blog-card";
+import SectionHeading from "@/components/section-heading";
 
-export default function Home() {
+const FEATURED_PROJECTS = [
+  {
+    title: "FormulaBot.com",
+    description:
+      "The single platform to connect, analyze, visualize, clean, transform and enrich your data - powered by AI.",
+    technologies: ["AI", "Data Analysis", "Automation"],
+    project_url: "https://www.formulabot.com/",
+    github_url: null,
+  },
+  {
+    title: "GutenBites.com",
+    description:
+      "A podcast platform delivering concise summaries of classic literature and historical works in 7-15 minute audio experiences.",
+    technologies: ["Podcasting", "Content", "Audio"],
+    project_url: "https://gutenbites.com/",
+    github_url: null,
+  },
+  {
+    title: "JamesGilmore.xyz",
+    description:
+      "My personal portfolio website, built with Python and Flask.",
+    technologies: ["Python", "Flask", "Bootstrap", "PostgreSQL"],
+    project_url: "https://www.JamesGilmore.xyz",
+    github_url: null,
+  },
+  {
+    title: "MRAP Investments",
+    description: "Orlando real estate investors.",
+    technologies: ["Real Estate", "Investment"],
+    project_url: "https://www.instagram.com/mrapinvestments",
+    github_url: null,
+  },
+];
+
+const LATEST_POSTS = [
+  {
+    title: "Setbacks as Stepping Stones",
+    slug: "setbacks-as-stepping-stones",
+    excerpt:
+      "We often think of setbacks as obstacles or roadblocks that slow us down. But if we look closely, setbacks can actually be stepping stones.",
+    category: "Failure",
+    created_at: "2025-08-19",
+  },
+  {
+    title: "We all start as strangers",
+    slug: "we-all-start-as-strangers",
+    excerpt:
+      "In many respects, we grow up being told to avoid strangers. But when does a stranger stop being a stranger?",
+    category: "Connections",
+    created_at: "2025-01-06",
+  },
+  {
+    title: "Christmas - the gift of travel",
+    slug: "christmas-the-gift-of-travel",
+    excerpt:
+      "The holidays have become an opportunity to explore the world, create lasting memories, and reflect on my relationship with the season.",
+    category: "Travel",
+    created_at: "2024-12-25",
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      {/* Hero */}
+      <section className="py-20 sm:py-28">
+        <h1 className="text-4xl font-bold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
+          James Gilmore
+        </h1>
+        <p className="mt-4 text-xl text-gold sm:text-2xl">
+          Building data tools and automation with Python
+        </p>
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-text-secondary">
+          Data analyst and engineer focused on building automation tools,
+          analysis platforms, and data pipelines. I enjoy turning complex data
+          challenges into clean, efficient solutions.
+        </p>
+
+        <div className="mt-10 flex flex-wrap gap-4">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 rounded-lg bg-gold px-6 py-3 text-sm font-semibold text-background transition-colors hover:bg-gold-light"
+          >
+            View Projects
+            <ArrowRight size={16} />
+          </Link>
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-colors hover:border-gold hover:text-gold"
+          >
+            Read Blog
+          </Link>
+        </div>
+      </section>
+
+      {/* Featured Projects */}
+      <section className="pb-20">
+        <SectionHeading
+          title="Featured Projects"
+          subtitle="A selection of projects I've built or contributed to."
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+        <div className="grid gap-6 sm:grid-cols-2">
+          {FEATURED_PROJECTS.map((project) => (
+            <ProjectCard key={project.title} {...project} />
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="mt-10 text-center">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gold hover:text-gold-light transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            View all projects
+            <ArrowRight size={14} />
+          </Link>
         </div>
-      </main>
+      </section>
+
+      {/* Latest Posts */}
+      <section className="pb-24">
+        <SectionHeading
+          title="Latest Posts"
+          subtitle="Reflections on growth, travel, and building things."
+        />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {LATEST_POSTS.map((post) => (
+            <BlogCard key={post.slug} {...post} />
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gold hover:text-gold-light transition-colors"
+          >
+            Read all posts
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
