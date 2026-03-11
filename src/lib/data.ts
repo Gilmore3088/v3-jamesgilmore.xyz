@@ -44,7 +44,7 @@ export async function getFriendsProjects() {
 }
 
 export async function getProjectBySlug(slug: string) {
-  const supabase = await createClient();
+  const supabase = createStaticClient();
   const { data } = await supabase
     .from("projects")
     .select("*")
@@ -84,7 +84,7 @@ export async function getAllPosts() {
 }
 
 export async function getPostBySlug(slug: string) {
-  const supabase = await createClient();
+  const supabase = createStaticClient();
   const { data } = await supabase
     .from("blogs")
     .select("*")
