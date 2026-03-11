@@ -49,13 +49,13 @@ export default async function HomePage() {
             </div>
 
             <div className="animate-fade-up animation-delay-200 shrink-0">
-              <div className="rounded-full p-[3px] ring-2 ring-gold/50 ring-offset-2 ring-offset-background">
+              <div className="overflow-hidden rounded-2xl ring-2 ring-gold/50 ring-offset-2 ring-offset-background">
                 <Image
                   src="/profile.jpg"
                   alt="James Gilmore"
                   width={200}
                   height={200}
-                  className="h-[200px] w-[200px] rounded-full object-cover"
+                  className="block"
                   priority
                 />
               </div>
