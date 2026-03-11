@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { marked } from "marked";
-import DOMPurify from "isomorphic-dompurify";
 import { ArrowLeft } from "lucide-react";
 import { getPostBySlug, getAllSlugs } from "@/lib/data";
+import { renderMarkdown, estimateReadingTime } from "@/lib/markdown";
 
 export const revalidate = 60;
 
@@ -32,12 +31,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-function estimateReadingTime(content: string): number {
-  const WORDS_PER_MINUTE = 200;
-  const wordCount = content.split(/\s+/).length;
-  return Math.max(1, Math.round(wordCount / WORDS_PER_MINUTE));
-}
-
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
@@ -46,15 +39,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
-  const rawHtml = await marked(post.content);
-  const sanitizedHtml = DOMPurify.sanitize(rawHtml, {
-    ALLOWED_TAGS: [
-      "p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "ul", "ol", "li",
-      "strong", "em", "code", "pre", "blockquote", "img", "br", "hr",
-      "table", "thead", "tbody", "tr", "th", "td", "span", "div", "sup", "sub",
-    ],
-    ALLOWED_ATTR: ["href", "src", "alt", "class", "target", "rel", "id"],
-  });
+  const sanitizedHtml = await renderMarkdown(post.content);
   const formattedDate = format(new Date(post.created_at), "MMMM d, yyyy");
   const readingTime = estimateReadingTime(post.content);
 

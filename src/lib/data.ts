@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
+import type { Project } from "@/types";
 
 function createStaticClient() {
   return createSupabaseClient(
@@ -15,6 +16,7 @@ export async function getFeaturedProjects() {
     .select("*")
     .eq("featured", true)
     .eq("is_friend_project", false)
+    .neq("status", "draft")
     .order("display_order", { ascending: true });
   return data ?? [];
 }
@@ -25,6 +27,7 @@ export async function getMyProjects() {
     .from("projects")
     .select("*")
     .eq("is_friend_project", false)
+    .neq("status", "draft")
     .order("display_order", { ascending: true });
   return data ?? [];
 }
@@ -35,7 +38,29 @@ export async function getFriendsProjects() {
     .from("projects")
     .select("*")
     .eq("is_friend_project", true)
+    .neq("status", "draft")
     .order("display_order", { ascending: true });
+  return data ?? [];
+}
+
+export async function getProjectBySlug(slug: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("slug", slug)
+    .neq("status", "draft")
+    .single();
+  return data as Project | null;
+}
+
+export async function getAllProjectSlugs() {
+  const supabase = createStaticClient();
+  const { data } = await supabase
+    .from("projects")
+    .select("slug")
+    .eq("is_friend_project", false)
+    .neq("status", "draft");
   return data ?? [];
 }
 

@@ -10,13 +10,16 @@ interface ProjectData {
   id: string;
   title: string;
   description: string | null;
+  content: string | null;
   category: string | null;
   technologies: string[] | null;
   github_url: string | null;
   project_url: string | null;
+  thumbnail_url: string | null;
   display_order: number;
   is_friend_project: boolean;
   featured: boolean;
+  status: string;
 }
 
 export default function EditProjectPage() {
@@ -112,8 +115,15 @@ export default function EditProjectPage() {
 
         <div>
           <label htmlFor="description" className="mb-1 block text-sm font-medium text-text-secondary">Description</label>
-          <textarea id="description" name="description" rows={4} defaultValue={project.description ?? ""}
+          <textarea id="description" name="description" rows={3} defaultValue={project.description ?? ""}
             className="w-full rounded-md border border-border bg-surface-light px-3 py-2 text-sm text-text-primary outline-none transition-colors focus:border-gold" />
+        </div>
+
+        <div>
+          <label htmlFor="content" className="mb-1 block text-sm font-medium text-text-secondary">Case Study Content</label>
+          <textarea id="content" name="content" rows={12} defaultValue={project.content ?? ""}
+            className="w-full rounded-md border border-border bg-surface-light px-3 py-2 text-sm text-text-primary outline-none transition-colors focus:border-gold font-mono" />
+          <p className="mt-1 text-xs text-text-muted">Markdown supported. Tell the story: problem, approach, outcome.</p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2">
@@ -143,7 +153,24 @@ export default function EditProjectPage() {
           </div>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-3">
+        <div>
+          <label htmlFor="thumbnail_url" className="mb-1 block text-sm font-medium text-text-secondary">Thumbnail URL</label>
+          <input id="thumbnail_url" name="thumbnail_url" type="url" defaultValue={project.thumbnail_url ?? ""}
+            className="w-full rounded-md border border-border bg-surface-light px-3 py-2 text-sm text-text-primary outline-none transition-colors focus:border-gold" />
+          <p className="mt-1 text-xs text-text-muted">Image shown on project cards</p>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-4">
+          <div>
+            <label htmlFor="status" className="mb-1 block text-sm font-medium text-text-secondary">Status</label>
+            <select id="status" name="status" defaultValue={project.status ?? "completed"}
+              className="w-full rounded-md border border-border bg-surface-light px-3 py-2 text-sm text-text-primary outline-none transition-colors focus:border-gold">
+              <option value="draft">Draft</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
           <div>
             <label htmlFor="display_order" className="mb-1 block text-sm font-medium text-text-secondary">Display Order</label>
             <input id="display_order" name="display_order" type="number" defaultValue={project.display_order ?? 0}
@@ -152,7 +179,7 @@ export default function EditProjectPage() {
           <div className="flex items-center gap-3 pt-6">
             <input id="featured" name="featured" type="checkbox" value="true" defaultChecked={project.featured}
               className="h-4 w-4 rounded border-border bg-surface-light accent-gold" />
-            <label htmlFor="featured" className="text-sm text-text-secondary">Featured on homepage</label>
+            <label htmlFor="featured" className="text-sm text-text-secondary">Featured</label>
           </div>
           <div className="flex items-center gap-3 pt-6">
             <input id="is_friend_project" name="is_friend_project" type="checkbox" value="true" defaultChecked={project.is_friend_project}

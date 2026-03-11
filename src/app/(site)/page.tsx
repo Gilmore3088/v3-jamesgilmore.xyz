@@ -24,7 +24,7 @@ export default async function HomePage() {
               </h1>
 
               <p className="animate-fade-up animation-delay-100 mt-5 text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-                Data Analyst &amp; Engineer
+                Builder &amp; Systems Thinker
               </p>
 
               <p className="animate-fade-up animation-delay-200 mt-6 text-lg leading-relaxed text-text-secondary">
@@ -76,10 +76,10 @@ export default async function HomePage() {
           <div className="grid gap-6 sm:grid-cols-2">
             {projects.map((project, i) => (
               <div
-                key={project.title}
+                key={project.id}
                 className={`animate-fade-up animation-delay-${(i + 1) * 100}`}
               >
-                <ProjectCard {...project} />
+                <ProjectCard project={project} variant="featured" />
               </div>
             ))}
           </div>
