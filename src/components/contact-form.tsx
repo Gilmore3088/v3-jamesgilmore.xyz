@@ -44,7 +44,7 @@ function validateForm(
 }
 
 const INPUT_CLASS =
-  "mt-3 w-full border-b border-border bg-transparent px-0 pb-3 text-sm text-text-primary placeholder-text-muted outline-none transition-colors duration-300 focus:border-gold aria-[invalid=true]:border-red-500/70";
+  "mt-2 w-full rounded-xl border-2 border-ink bg-paper px-4 py-3 text-base text-ink placeholder:text-muted outline-none transition-shadow focus:shadow-[4px_4px_0_var(--color-mustard)] aria-[invalid=true]:border-coral";
 
 export default function ContactForm() {
   const [name, setName] = useState("");
@@ -102,24 +102,24 @@ export default function ContactForm() {
       {/* Status region: always in the DOM so screen readers announce changes */}
       <div aria-live="polite" role="status" className="mb-8 empty:hidden">
         {status === "success" && (
-          <div className="animate-fade-up rounded-lg border border-green-800/50 bg-green-900/10 p-5 text-sm text-green-400">
+          <div className="animate-fade-up rounded-xl border-2 border-ink bg-mint p-4 font-bold">
             Message sent successfully. I will get back to you soon.
           </div>
         )}
 
         {status === "error" && (
-          <div className="animate-fade-up rounded-lg border border-red-800/50 bg-red-900/10 p-5 text-sm text-red-400">
+          <div className="animate-fade-up rounded-xl border-2 border-ink bg-coral p-4 font-bold text-white">
             {serverError ??
               "Something went wrong. Please try again or email me directly."}
           </div>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} noValidate className="space-y-8">
+      <form onSubmit={handleSubmit} noValidate className="space-y-6">
         <div>
           <label
             htmlFor="name"
-            className="block text-xs font-medium uppercase tracking-[0.15em] text-text-muted"
+            className="block text-sm font-extrabold"
           >
             Name
           </label>
@@ -136,7 +136,7 @@ export default function ContactForm() {
             placeholder="Your name"
           />
           {errors.name && (
-            <p id="name-error" className="mt-2 text-xs text-red-400">
+            <p id="name-error" className="mt-1.5 text-sm font-bold text-coral">
               {errors.name}
             </p>
           )}
@@ -145,7 +145,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="email"
-            className="block text-xs font-medium uppercase tracking-[0.15em] text-text-muted"
+            className="block text-sm font-extrabold"
           >
             Email
           </label>
@@ -162,7 +162,7 @@ export default function ContactForm() {
             placeholder="you@example.com"
           />
           {errors.email && (
-            <p id="email-error" className="mt-2 text-xs text-red-400">
+            <p id="email-error" className="mt-1.5 text-sm font-bold text-coral">
               {errors.email}
             </p>
           )}
@@ -171,7 +171,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="message"
-            className="block text-xs font-medium uppercase tracking-[0.15em] text-text-muted"
+            className="block text-sm font-extrabold"
           >
             Message
           </label>
@@ -187,7 +187,7 @@ export default function ContactForm() {
             placeholder="Your message..."
           />
           {errors.message && (
-            <p id="message-error" className="mt-2 text-xs text-red-400">
+            <p id="message-error" className="mt-1.5 text-sm font-bold text-coral">
               {errors.message}
             </p>
           )}
@@ -213,7 +213,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="inline-flex items-center gap-2.5 rounded-lg bg-gold px-8 py-3.5 text-sm font-semibold text-background transition-all duration-300 hover:bg-gold-light hover:shadow-[0_0_30px_-5px_rgb(197_165_114/0.3)] disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn btn-coral disabled:cursor-not-allowed disabled:opacity-60"
         >
           <Send size={15} />
           {status === "submitting" ? "Sending..." : "Send Message"}

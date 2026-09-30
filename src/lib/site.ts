@@ -1,7 +1,7 @@
 export const SITE_URL = "https://jamesgilmore.xyz";
 export const SITE_NAME = "James Gilmore";
 export const SITE_DESCRIPTION =
-  "Building systems, exploring ideas, and taking advantage of the most creative technological moment in history.";
+  "I run far, plan trips like heists, and build stuff that didn't exist yesterday. Seattle-based, fintech by day.";
 
 export const SOCIAL = {
   github: "https://github.com/Gilmore3088",

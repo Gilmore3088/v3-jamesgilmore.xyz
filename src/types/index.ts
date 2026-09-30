@@ -38,3 +38,12 @@ export interface ContactSubmission {
   created_at: string;
   read: boolean;
 }
+
+export interface NowItem {
+  id: string;
+  label: string;
+  text: string;
+  accent: "coral" | "teal" | "mustard" | "lilac" | "mint";
+  display_order: number;
+  updated_at: string;
+}

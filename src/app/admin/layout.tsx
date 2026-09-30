@@ -5,6 +5,7 @@ import {
   FileText,
   FolderKanban,
   Mail,
+  Sparkles,
   LogOut,
   ArrowLeft,
 } from "lucide-react";
@@ -13,6 +14,7 @@ const NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Blog Posts", href: "/admin/blog", icon: FileText },
   { label: "Projects", href: "/admin/projects", icon: FolderKanban },
+  { label: "Currently", href: "/admin/now", icon: Sparkles },
   { label: "Contacts", href: "/admin/contacts", icon: Mail },
 ];
 

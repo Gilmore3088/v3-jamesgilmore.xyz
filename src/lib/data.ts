@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import type { Project } from "@/types";
+import type { NowItem, Project } from "@/types";
 
 function createStaticClient() {
   return createSupabaseClient(
@@ -97,4 +97,19 @@ export async function getAllSlugs() {
   const supabase = createStaticClient();
   const { data } = await supabase.from("blogs").select("slug");
   return data ?? [];
+}
+
+/**
+ * The four "Currently" boxes on the home page. Editable in the admin panel.
+ * Falls back to the defaults in src/content/profile.ts when the table is
+ * empty or does not exist yet.
+ */
+export async function getNowItems() {
+  const supabase = createStaticClient();
+  const { data, error } = await supabase
+    .from("now_items")
+    .select("id, label, text, accent, display_order, updated_at")
+    .order("display_order", { ascending: true });
+  if (error || !data || data.length === 0) return null;
+  return data as NowItem[];
 }

@@ -1,23 +1,20 @@
 interface SectionHeadingProps {
   title: string;
-  subtitle?: string;
+  note?: string;
+  as?: "h1" | "h2";
 }
 
-export default function SectionHeading({
-  title,
-  subtitle,
-}: SectionHeadingProps) {
+/** Big display heading with an optional handwritten aside. */
+export default function SectionHeading({ title, note, as = "h2" }: SectionHeadingProps) {
+  const Tag = as;
   return (
-    <div className="mb-14">
-      <h2 className="font-display text-3xl font-semibold text-gold-gradient sm:text-4xl">
-        {title}
-      </h2>
-      <hr className="hr-gold mt-4 opacity-30" />
-      {subtitle && (
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary">
-          {subtitle}
-        </p>
+    <Tag className="mb-6 font-display text-3xl font-extrabold leading-none tracking-tight sm:text-4xl">
+      {title}
+      {note && (
+        <span className="hand ml-3 inline-block -rotate-2 text-xl font-medium tracking-normal text-muted">
+          {note}
+        </span>
       )}
-    </div>
+    </Tag>
   );
 }

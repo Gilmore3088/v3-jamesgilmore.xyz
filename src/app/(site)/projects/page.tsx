@@ -1,140 +1,61 @@
 import type { Metadata } from "next";
 import { getMyProjects, getFriendsProjects } from "@/lib/data";
 import ProjectCard from "@/components/project-card";
+import SectionHeading from "@/components/section-heading";
 import type { Project } from "@/types";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "Stuff I made",
+  description: "Projects by James Gilmore: automation, data tools, and a few things that exist purely because they were fun to make.",
   alternates: { canonical: "/projects" },
-  description:
-    "A collection of projects built by James Gilmore, including data tools, automation platforms, and web applications.",
 };
 
 function FriendsProjectCard({ project }: { project: Project }) {
   const { title, description, technologies, project_url, github_url } = project;
-
   return (
-    <div className="group rounded-lg border border-border bg-surface p-8 transition-all duration-300 hover:border-gold/30 hover:gold-glow">
-      <h3 className="font-display text-xl font-semibold text-text-primary transition-colors duration-300 group-hover:text-gold">
-        {title}
-      </h3>
-
-      <p className="mt-3 text-sm text-text-secondary leading-relaxed">
-        {description}
-      </p>
-
-      {technologies && technologies.length > 0 && (
-        <div className="mt-5 flex flex-wrap gap-2">
-          {technologies.map((tech) => (
-            <span
-              key={tech}
-              className="rounded-full border border-border px-3 py-1 text-xs font-medium text-text-muted transition-colors duration-300 group-hover:border-gold/20 group-hover:text-text-secondary"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-      )}
-
-      <div className="mt-6 flex items-center gap-5">
-        {project_url && (
-          <a
-            href={project_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.15em] text-text-muted transition-colors duration-300 hover:text-gold"
-          >
-            Visit
-          </a>
-        )}
-        {github_url && (
-          <a
-            href={github_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.15em] text-text-muted transition-colors duration-300 hover:text-gold"
-          >
-            Source
-          </a>
-        )}
+    <div className="card grid min-w-0 content-start gap-2 p-5" style={{ ["--c" as string]: "var(--color-line)" }}>
+      <h3 className="m-0 font-display text-xl font-extrabold leading-tight tracking-tight">{title}</h3>
+      <p className="m-0 text-[15px] leading-relaxed text-muted">{description}</p>
+      {technologies?.length > 0 && <p className="m-0 text-xs font-bold text-muted">{technologies.join(" · ")}</p>}
+      <div className="mt-1 flex gap-4 text-sm font-bold">
+        {project_url && <a href={project_url} target="_blank" rel="noopener noreferrer" className="underline decoration-coral decoration-2 underline-offset-4">Visit</a>}
+        {github_url && <a href={github_url} target="_blank" rel="noopener noreferrer" className="underline decoration-coral decoration-2 underline-offset-4">Source</a>}
       </div>
     </div>
   );
 }
 
 export default async function ProjectsPage() {
-  const myProjects = await getMyProjects();
-  const friendsProjects = await getFriendsProjects();
+  const [mine, friends] = await Promise.all([getMyProjects(), getFriendsProjects()]);
 
   return (
-    <div className="noise-bg">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        {/* Page Header */}
-        <div className="animate-fade-up">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Selected Work
-          </p>
-          <h1 className="mt-3 font-display text-4xl font-bold text-gold-gradient sm:text-5xl">
-            My Projects
-          </h1>
-          <p className="mt-4 max-w-xl text-text-secondary">
-            Systems, tools, and explorations. Each project tells a story about the problem it solves and the thinking behind it.
-          </p>
-          <hr className="hr-gold opacity-30 mt-6" />
-        </div>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+      <header className="animate-fade-up max-w-3xl">
+        <p className="hand m-0 inline-block -rotate-2 text-2xl text-coral">some useful, some just fun</p>
+        <h1 className="mt-2 font-display text-4xl font-extrabold leading-[.98] tracking-tight sm:text-6xl">Stuff I&apos;ve made</h1>
+        <p className="mt-5 text-lg text-muted">Systems, tools, and explorations. Each one started with &ldquo;what if this existed?&rdquo; and got far enough to be worth writing down.</p>
+      </header>
 
-        {/* My Projects */}
-        {myProjects.length > 0 ? (
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 animate-fade-up animation-delay-100">
-            {myProjects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                variant="listing"
-              />
-            ))}
+      <section className="py-12">
+        {mine.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {mine.map((project, i) => <ProjectCard key={project.id} project={project} index={i} />)}
           </div>
         ) : (
-          <div className="mt-14 animate-fade-up animation-delay-100">
-            <p className="text-text-muted">Projects coming soon.</p>
+          <p className="text-muted">Projects coming soon.</p>
+        )}
+      </section>
+
+      {friends.length > 0 && (
+        <section className="py-6">
+          <SectionHeading title="Friends' projects" note="work by people I admire" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {friends.map((project) => <FriendsProjectCard key={project.id} project={project} />)}
           </div>
-        )}
-
-        {/* Section Divider */}
-        {friendsProjects.length > 0 && (
-          <>
-            <div className="my-24 flex items-center gap-6">
-              <hr className="hr-gold opacity-20 flex-1" />
-              <span className="text-xs font-medium uppercase tracking-[0.25em] text-text-muted whitespace-nowrap">
-                From the Network
-              </span>
-              <hr className="hr-gold opacity-20 flex-1" />
-            </div>
-
-            {/* Friends' Projects */}
-            <div className="animate-fade-up animation-delay-200">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-                Peers &amp; Collaborators
-              </p>
-              <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-                Friends&apos; Projects
-              </h2>
-              <p className="mt-4 text-text-secondary">
-                Work by people I admire.
-              </p>
-              <hr className="hr-gold opacity-30 mt-6" />
-            </div>
-
-            <div className="mt-14 grid gap-6 sm:grid-cols-2 animate-fade-up animation-delay-300">
-              {friendsProjects.map((project) => (
-                <FriendsProjectCard key={project.id} project={project} />
-              ))}
-            </div>
-          </>
-        )}
-      </div>
+        </section>
+      )}
     </div>
   );
 }

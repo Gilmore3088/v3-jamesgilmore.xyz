@@ -1,233 +1,132 @@
 import type { Metadata } from "next";
-import {
-  Zap,
-  BarChart3,
-  Landmark,
-  Lightbulb,
-  Route,
-  Globe,
-  Brain,
-  Pencil,
-} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import SectionHeading from "@/components/section-heading";
+import FactIcon from "@/components/fact-icon";
+import { ACCENT_BG, ACCENT_VAR } from "@/components/sticker";
+import type { Accent } from "@/content/profile";
 
 export const metadata: Metadata = {
   title: "About",
+  description: "The long version: who James Gilmore is, what he spends his time on, and why this site exists.",
   alternates: { canonical: "/about" },
-  description:
-    "Building systems, exploring ideas, and taking advantage of the most creative technological moment in history.",
 };
 
-const THEMES = [
-  {
-    label: "Automation",
-    description:
-      "If something is done manually more than a few times, it should probably be automated.",
-    icon: Zap,
-  },
-  {
-    label: "Data to Action",
-    description:
-      "Numbers by themselves don't matter. The goal is turning information into decisions.",
-    icon: BarChart3,
-  },
-  {
-    label: "Financial Systems",
-    description:
-      "Deeply interested in how money, incentives, and financial systems shape behavior.",
-    icon: Landmark,
-  },
-  {
-    label: "Idea Exploration",
-    description:
-      "Some ideas turn into real products. Others remain experiments. The process of exploring them is where the fun is.",
-    icon: Lightbulb,
-  },
+const THEMES: { label: string; text: string; accent: Accent; icon: string }[] = [
+  { label: "Automation", text: "If something is done manually more than a few times, it should probably be automated.", accent: "mint", icon: "trend" },
+  { label: "Data to action", text: "Numbers by themselves don't matter. The goal is turning information into decisions.", accent: "lilac", icon: "calendar" },
+  { label: "Financial systems", text: "Deeply interested in how money, incentives, and financial systems shape behavior.", accent: "mustard", icon: "bulb" },
+  { label: "Idea exploration", text: "Some ideas turn into real products. Others remain experiments. The exploring is where the fun is.", accent: "coral", icon: "star" },
 ];
 
-const OUTSIDE_WORK = [
-  { label: "Running long distances", icon: Route },
-  { label: "Strategy, history, and economic systems", icon: Brain },
-  { label: "Planning travel and future adventures", icon: Globe },
-  { label: "Sketching out the next idea", icon: Pencil },
+const OUTSIDE = [
+  "Running long distances",
+  "Strategy, history, and economic systems",
+  "Planning travel and future adventures",
+  "Sketching out the next idea",
+  "Toastmasters (past president, current treasurer)",
+  "UCF Seattle Alumni chair",
 ];
 
 export default function AboutPage() {
   return (
-    <div className="noise-bg">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        {/* Page Header */}
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+      {/* Header */}
+      <header className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_auto]">
         <div className="animate-fade-up">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Get to Know Me
-          </p>
-          <h1 className="mt-3 font-display text-4xl font-bold text-gold-gradient sm:text-5xl">
-            About
+          <p className="hand m-0 inline-block -rotate-2 text-2xl text-coral">the long version</p>
+          <h1 className="mt-2 font-display text-4xl font-extrabold leading-[.98] tracking-tight sm:text-6xl">
+            Hi, I&apos;m James. I spend most of my time <span className="hl">thinking about systems.</span>
           </h1>
-          <hr className="hr-gold opacity-30 mt-6" />
-        </div>
-
-        {/* Intro */}
-        <div className="mt-16 animate-fade-up animation-delay-100">
-          <div className="space-y-6 text-text-secondary leading-relaxed text-lg max-w-3xl">
-            <p className="text-text-primary text-2xl font-display leading-snug">
-              Hi -- I&apos;m James.
-            </p>
-            <p>I spend most of my time thinking about systems.</p>
-            <div className="pl-6 border-l-2 border-gold/40 space-y-1 text-text-primary">
-              <p>Systems for money.</p>
-              <p>Systems for data.</p>
-              <p>Systems for ideas.</p>
-              <p>
-                Systems for building things that didn&apos;t exist yesterday.
-              </p>
-            </div>
+          <div className="mt-6 grid gap-1 border-l-4 border-mustard pl-5 text-lg font-medium">
+            <p className="m-0">Systems for money.</p>
+            <p className="m-0">Systems for data.</p>
+            <p className="m-0">Systems for ideas.</p>
+            <p className="m-0">Systems for building things that didn&apos;t exist yesterday.</p>
           </div>
         </div>
+        <figure className="animate-fade-up animation-delay-200 m-0 w-[min(100%,260px)] -rotate-2 bg-paper p-3 pb-10 shadow-[0_20px_40px_-20px_rgba(28,26,31,.45)]">
+          <Image src="/profile.jpg" alt="James Gilmore" width={400} height={400} className="block aspect-square h-auto w-full object-cover" unoptimized />
+          <figcaption className="hand absolute inset-x-0 bottom-2 text-center text-xl">Seattle, most days</figcaption>
+        </figure>
+      </header>
 
-        {/* Professional */}
-        <div className="mt-16 animate-fade-up animation-delay-200">
-          <div className="space-y-6 text-text-secondary leading-relaxed max-w-3xl">
-            <p>
-              Professionally, I work in financial technology helping banks
-              understand and grow their customer base through data, analytics,
-              and product strategy. My work sits at the intersection of finance,
-              data, and technology -- turning large, messy datasets into insight
-              and action.
-            </p>
-            <p>But the real thing that drives me is building.</p>
-            <p>
-              I&apos;m endlessly curious about ideas -- especially the moment
-              when an idea stops being abstract and becomes something real.
-            </p>
+      {/* Work */}
+      <section className="py-12">
+        <SectionHeading title="The day job" note="fintech, but the fun kind" />
+        <div className="grid gap-6 text-lg leading-relaxed lg:grid-cols-2">
+          <p className="m-0">
+            Professionally, I work in financial technology helping banks understand and grow their customer base through data, analytics, and product strategy. My work sits at the intersection of finance, data, and technology: turning large, messy datasets into insight and action.
+          </p>
+          <p className="m-0">
+            But the real thing that drives me is building. I&apos;m endlessly curious about ideas, especially the moment when an idea stops being abstract and becomes something real.
+          </p>
+        </div>
+      </section>
+
+      {/* The shift */}
+      <section className="py-6">
+        <div className="grid gap-8 rounded-3xl bg-ink p-7 text-bg sm:p-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center">
+          <div>
+            <p className="hand m-0 text-2xl text-mustard">the thing that fascinates me</p>
+            <h2 className="m-0 mt-1 font-display text-3xl font-extrabold leading-none tracking-tight sm:text-4xl">The biggest constraint isn&apos;t access to technology anymore.</h2>
+            <p className="mt-4 font-display text-2xl font-semibold text-coral">It&apos;s imagination. And the willingness to try.</p>
+          </div>
+          <div className="grid gap-4 text-lg leading-relaxed text-bg/85">
+            <p className="m-0">For most of history, turning an idea into software required deep technical expertise. Today, that barrier is collapsing. Creative people can move much closer to being technical builders.</p>
+            <p className="m-0">For the first time, millions of people can look at a problem, ask &ldquo;what about this idea?&rdquo;, and then actually build it.</p>
+            <p className="hand m-0 text-3xl text-mustard">What a time to be alive.</p>
           </div>
         </div>
+      </section>
 
-        {/* The Shift */}
-        <section className="mt-20 animate-fade-up animation-delay-300">
-          <div className="rounded-lg border border-border bg-surface p-8 sm:p-10 max-w-3xl">
-            <div className="space-y-5 text-text-secondary leading-relaxed">
-              <p>
-                For most of history, turning an idea into software required deep
-                technical expertise. Today, that barrier is collapsing.
-              </p>
-              <p>
-                With modern AI tools, creative people can move much closer to
-                being technical builders. The distance between &ldquo;What if
-                someone made this?&rdquo; and actually making it has never been
-                shorter.
-              </p>
-              <p className="text-text-primary font-medium">
-                The biggest constraint now isn&apos;t access to technology.
-              </p>
-              <div className="pl-6 border-l-2 border-gold/40 space-y-1 text-gold">
-                <p>It&apos;s imagination.</p>
-                <p>And the willingness to try.</p>
+      {/* Focus areas */}
+      <section className="py-12">
+        <SectionHeading title="What I spend time on" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          {THEMES.map((t) => (
+            <div key={t.label} className="card grid min-w-0 grid-cols-[auto_1fr] items-start gap-4 p-5" style={{ ["--c" as string]: ACCENT_VAR[t.accent] }}>
+              <span className={`grid h-11 w-11 place-items-center rounded-xl ${ACCENT_BG[t.accent]}`}><FactIcon name={t.icon} /></span>
+              <div>
+                <p className="m-0 font-display text-lg font-extrabold tracking-tight">{t.label}</p>
+                <p className="m-0 mt-1 text-[15px] leading-relaxed text-muted">{t.text}</p>
               </div>
-              <p>That shift fascinates me.</p>
-              <p>
-                For the first time, millions of people can look at a problem, ask
-                &ldquo;What about this idea?&rdquo;, and then actually build it.
-              </p>
-              <p className="text-gold font-display text-lg italic">
-                What a time to be alive.
-              </p>
-              <p>That possibility fuels me every day.</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Outside of work */}
+      <section className="py-12">
+        <SectionHeading title="Outside of work" note="the actually interesting part" />
+        <div className="flex flex-wrap gap-2.5">
+          {OUTSIDE.map((item) => (
+            <span key={item} className="rounded-full border-2 border-ink bg-paper px-4 py-2 text-[15px] font-bold transition-transform hover:-rotate-2 hover:bg-mint">{item}</span>
+          ))}
+        </div>
+      </section>
+
+      {/* Why this site */}
+      <section className="py-12">
+        <SectionHeading title="Why this site exists" />
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
+          <div className="text-lg leading-relaxed">
+            <p className="m-0">This site is simply a home for things I care about: ideas, projects, experiments, and thoughts about the systems that shape our world.</p>
+            <div className="mt-5 grid gap-1 border-l-4 border-lilac pl-5 font-medium">
+              <p className="m-0">Some things will turn into meaningful tools.</p>
+              <p className="m-0">Some will become businesses.</p>
+              <p className="m-0">Some will remain interesting attempts.</p>
             </div>
           </div>
-        </section>
-
-        {/* What I Spend Time On */}
-        <section className="mt-24 animate-fade-up animation-delay-300">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Focus Areas
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-            What I Spend Time On
-          </h2>
-          <hr className="hr-gold opacity-30 mt-6" />
-
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-            {THEMES.map((theme) => (
-              <div
-                key={theme.label}
-                className="group rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-gold/40 hover:gold-glow"
-              >
-                <div className="flex items-start gap-4">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-light text-gold transition-colors duration-300 group-hover:border-gold/40 shrink-0">
-                    <theme.icon size={18} />
-                  </span>
-                  <div>
-                    <p className="text-sm font-semibold text-text-primary group-hover:text-gold transition-colors duration-300">
-                      {theme.label}
-                    </p>
-                    <p className="mt-1.5 text-sm text-text-secondary leading-relaxed">
-                      {theme.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="card p-6 sm:p-8" style={{ ["--c" as string]: "var(--color-coral)" }}>
+            <p className="m-0 text-lg">But they all start the same way. A question:</p>
+            <p className="hand m-0 mt-2 text-4xl leading-tight">What if this existed?</p>
+            <p className="m-0 mt-4 font-display text-xl font-semibold">Now I feel I have the answer... let&apos;s find out.</p>
+            <Link href="/projects" className="btn mt-6">See what I&apos;ve built <ArrowRight size={16} /></Link>
           </div>
-        </section>
-
-        {/* Outside of Work */}
-        <section className="mt-24 animate-fade-up animation-delay-400">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Beyond the Code
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-            Outside of Work
-          </h2>
-          <hr className="hr-gold opacity-30 mt-6" />
-
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {OUTSIDE_WORK.map((item) => (
-              <div
-                key={item.label}
-                className="group flex items-center gap-4 rounded-lg border border-border bg-surface p-5 transition-all duration-300 hover:border-gold/40 hover:gold-glow"
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-light text-gold transition-colors duration-300 group-hover:border-gold/40 shrink-0">
-                  <item.icon size={18} />
-                </span>
-                <p className="text-sm font-medium text-text-primary">
-                  {item.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Why This Site Exists */}
-        <section className="mt-24 animate-fade-up animation-delay-500">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            The Purpose
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-            Why This Site Exists
-          </h2>
-          <hr className="hr-gold opacity-30 mt-6" />
-
-          <div className="mt-10 space-y-5 text-text-secondary leading-relaxed max-w-3xl">
-            <p>
-              This site is simply a home for things I care about -- ideas,
-              projects, experiments, and thoughts about the systems that shape
-              our world.
-            </p>
-            <div className="pl-6 border-l-2 border-gold/40 space-y-1 text-text-primary">
-              <p>Some things will turn into meaningful tools.</p>
-              <p>Some will become businesses.</p>
-              <p>Some will remain interesting attempts.</p>
-            </div>
-            <p>But they all start the same way:</p>
-            <p className="text-gold font-display text-xl italic">
-              A question. What if this existed?
-            </p>
-            <p className="text-text-primary font-display text-lg mt-4">
-              Now I feel I have the answer... let&apos;s find out.
-            </p>
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

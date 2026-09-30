@@ -1,105 +1,19 @@
 import { ImageResponse } from "next/og";
-import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+import { SITE_NAME } from "@/lib/site";
 
-export const alt = `${SITE_NAME} - Builder & Systems Thinker`;
+export const alt = `${SITE_NAME}. Runner, trip planner, builder of things.`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function OGImage() {
   return new ImageResponse(
-    <div
-      style={{
-        background: "linear-gradient(135deg, #0C0C0C 0%, #151515 100%)",
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        padding: "80px",
-        position: "relative",
-      }}
-    >
-      {/* Gold accent rule along the left edge */}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          top: 0,
-          width: "10px",
-          height: "100%",
-          background: "linear-gradient(180deg, #D4BA8A 0%, #C5A572 40%, #A88B5C 100%)",
-        }}
-      />
-
-      {/* Monogram */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "72px",
-          height: "72px",
-          borderRadius: "12px",
-          border: "2px solid #C5A572",
-          color: "#C5A572",
-          fontSize: 34,
-          fontWeight: 700,
-          fontFamily: "Georgia, serif",
-          marginBottom: "40px",
-        }}
-      >
-        JG
-      </div>
-
-      <div
-        style={{
-          fontSize: 88,
-          fontWeight: 700,
-          fontFamily: "Georgia, serif",
-          color: "#F0F0F0",
-          lineHeight: 1.05,
-          letterSpacing: "-0.02em",
-        }}
-      >
-        {SITE_NAME}
-      </div>
-
-      <div
-        style={{
-          fontSize: 22,
-          color: "#C5A572",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          marginTop: "20px",
-        }}
-      >
-        Builder &amp; Systems Thinker
-      </div>
-
-      <div
-        style={{
-          fontSize: 26,
-          color: "#9A9A9A",
-          lineHeight: 1.5,
-          maxWidth: "860px",
-          marginTop: "36px",
-        }}
-      >
-        {SITE_DESCRIPTION}
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          bottom: "56px",
-          right: "80px",
-          fontSize: 20,
-          color: "#808080",
-          letterSpacing: "0.05em",
-        }}
-      >
-        jamesgilmore.xyz
-      </div>
+    <div style={{ background: "#FFF8EC", width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", position: "relative", fontFamily: "sans-serif" }}>
+      <div style={{ position: "absolute", top: 48, right: 72, background: "#FF6B4A", color: "#fff", border: "4px solid #1C1A1F", borderRadius: 999, padding: "12px 24px", fontSize: 26, fontWeight: 800, transform: "rotate(6deg)", boxShadow: "6px 6px 0 #1C1A1F" }}>SEATTLE, WA</div>
+      <div style={{ position: "absolute", bottom: 60, right: 90, background: "#12A5B3", color: "#fff", border: "4px solid #1C1A1F", borderRadius: 999, padding: "12px 24px", fontSize: 26, fontWeight: 800, transform: "rotate(-5deg)", boxShadow: "6px 6px 0 #1C1A1F" }}>LONG RUNS</div>
+      <div style={{ fontSize: 30, color: "#FF6B4A", marginBottom: 18 }}>hey, that&apos;s me</div>
+      <div style={{ fontSize: 80, fontWeight: 800, color: "#1C1A1F", lineHeight: 1, letterSpacing: "-0.03em", maxWidth: 900 }}>I&apos;m James. I run far, plan trips like heists, and build stuff.</div>
+      <div style={{ display: "flex", marginTop: 34, fontSize: 28, color: "#6B6570" }}>jamesgilmore.xyz</div>
+      <div style={{ position: "absolute", left: 80, bottom: 52, width: 260, height: 18, background: "#F7BE34", transform: "rotate(-2deg)" }} />
     </div>,
     { ...size }
   );

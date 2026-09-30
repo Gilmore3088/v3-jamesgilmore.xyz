@@ -1,20 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Bricolage_Grotesque, DM_Sans, Caveat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-const inter = Inter({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  axes: ["opsz"],
+  variable: "--font-bricolage",
 });
 
-const playfair = Playfair_Display({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-playfair",
+  variable: "--font-dm-sans",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["500", "700"],
+  variable: "--font-caveat",
 });
 
 export const metadata: Metadata = {
@@ -29,13 +37,13 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   keywords: [
     "James Gilmore",
+    "Seattle",
+    "running",
+    "travel",
+    "fintech",
     "data analysis",
     "automation",
-    "financial technology",
-    "fintech",
-    "Python",
-    "systems thinking",
-    "Seattle",
+    "building things",
   ],
   openGraph: {
     type: "website",
@@ -64,8 +72,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0C0C0C",
-  colorScheme: "dark",
+  themeColor: "#FFF8EC",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -74,8 +82,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-background text-text-primary`}>
+    <html lang="en">
+      <body className={`${bricolage.variable} ${dmSans.variable} ${caveat.variable} font-sans antialiased bg-bg text-ink`}>
         {children}
         <Analytics />
         <SpeedInsights />

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Download } from "lucide-react";
+import SectionHeading from "@/components/section-heading";
+
+const ACCENTS = ["var(--color-mustard)", "var(--color-mint)", "var(--color-lilac)", "var(--color-coral)", "var(--color-teal)"];
 
 export const metadata: Metadata = {
   title: "Resume",
@@ -115,192 +118,85 @@ const EDUCATION = [
 
 export default function ResumePage() {
   return (
-    <div className="noise-bg">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        {/* Page Header */}
-        <div className="animate-fade-up">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Professional Background
-          </p>
-          <h1 className="mt-3 font-display text-4xl font-bold text-gold-gradient sm:text-5xl">
-            Resume
-          </h1>
-          <hr className="hr-gold opacity-30 mt-6" />
+    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+      <header className="animate-fade-up flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <p className="hand m-0 inline-block -rotate-2 text-2xl text-coral">the official version</p>
+          <h1 className="mt-2 font-display text-4xl font-extrabold leading-[.98] tracking-tight sm:text-6xl">Resume</h1>
+          <p className="mt-4 max-w-xl text-lg text-muted">Fifteen years of turning data, sales, and stubborn processes into things that work.</p>
         </div>
+        <a href="/resume.pdf" download="James_Gilmore_Resume.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-coral">
+          <Download size={16} /> Download the PDF
+        </a>
+      </header>
 
-        {/* Download Button */}
-        <div className="mt-10 animate-fade-up animation-delay-100">
-          <a
-            href="/resume.pdf"
-            download="James_Gilmore_Resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 rounded-lg bg-gold px-7 py-3.5 text-sm font-semibold text-background transition-all duration-300 hover:bg-gold-light hover:shadow-[0_0_30px_-5px_rgb(197_165_114/0.3)]"
-          >
-            <Download size={16} />
-            Download Resume
-          </a>
-        </div>
-
-        {/* Professional Experience - Timeline Layout */}
-        <section className="mt-20 animate-fade-up animation-delay-200">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Career Path
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-            Professional Experience
-          </h2>
-          <hr className="hr-gold opacity-30 mt-6" />
-
-          <div className="mt-12 relative">
-            {/* Vertical timeline line */}
-            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border hidden sm:block" />
-
-            <div className="space-y-10">
-              {EXPERIENCE.map((job) => (
-                <div
-                  key={`${job.role}-${job.company}`}
-                  className="relative sm:pl-10"
-                >
-                  {/* Timeline dot */}
-                  <div className="absolute left-0 top-2 hidden sm:flex h-[15px] w-[15px] items-center justify-center">
-                    <div className="h-[9px] w-[9px] rounded-full border-2 border-gold bg-background" />
-                  </div>
-
-                  <div className="rounded-lg border border-border bg-surface p-7 transition-all duration-300 hover:border-gold/30 hover:gold-glow">
-                    <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-                      <div>
-                        <h3 className="font-display text-xl font-semibold text-text-primary">
-                          {job.role}
-                        </h3>
-                        <p className="mt-1 text-sm text-gold">
-                          {job.company}
-                          {job.location ? ` -- ${job.location}` : ""}
-                        </p>
-                      </div>
-                      <span className="mt-1 text-xs font-medium uppercase tracking-[0.15em] text-text-muted sm:mt-1 whitespace-nowrap">
-                        {job.period}
-                      </span>
-                    </div>
-
-                    <ul className="mt-5 space-y-3">
-                      {job.highlights.map((highlight, i) => (
-                        <li
-                          key={i}
-                          className="flex gap-3 text-sm text-text-secondary leading-relaxed"
-                        >
-                          <span className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-gold/60" />
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+      {/* Experience */}
+      <section className="py-12">
+        <SectionHeading title="Where I've worked" />
+        <div className="grid gap-5">
+          {EXPERIENCE.map((job, i) => (
+            <article key={`${job.role}-${job.company}`} className="card p-6 sm:p-7" style={{ ["--c" as string]: ACCENTS[i % ACCENTS.length] }}>
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h3 className="m-0 font-display text-2xl font-extrabold leading-tight tracking-tight">{job.role}</h3>
+                  <p className="m-0 mt-1 font-bold">{job.company}{job.location ? ` · ${job.location}` : ""}</p>
                 </div>
-              ))}
+                <span className="hand text-xl text-coral">{job.period}</span>
+              </div>
+              <ul className="m-0 mt-4 grid list-none gap-2 p-0">
+                {job.highlights.map((h, j) => (
+                  <li key={j} className="grid grid-cols-[auto_1fr] gap-3 text-[15px] leading-relaxed text-muted">
+                    <span className="mt-2.5 h-2 w-2 rounded-full bg-ink" aria-hidden="true" />
+                    {h}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Skills */}
+      <section className="py-6">
+        <SectionHeading title="Tools I reach for" />
+        <div className="grid gap-4 sm:grid-cols-3">
+          {Object.entries(SKILLS).map(([category, items], i) => (
+            <div key={category} className={`rounded-2xl border-2 border-ink p-5 ${["bg-mint", "bg-lilac", "bg-mustard"][i % 3]}`}>
+              <p className="hand m-0 text-2xl">{category}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {items.map((skill) => (
+                  <span key={skill} className="rounded-full border-2 border-ink bg-paper px-3 py-1 text-sm font-bold">{skill}</span>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        {/* Skills */}
-        <section className="mt-24 animate-fade-up animation-delay-300">
-          <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-            Technical Proficiency
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-            Skills
-          </h2>
-          <hr className="hr-gold opacity-30 mt-6" />
-
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {Object.entries(SKILLS).map(([category, items]) => (
-              <div
-                key={category}
-                className="rounded-lg border border-border bg-surface p-6"
-              >
-                <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-gold">
-                  {category}
-                </h3>
-                <hr className="hr-gold opacity-20 mt-3 mb-4" />
-                <div className="flex flex-wrap gap-2">
-                  {items.map((skill) => (
-                    <span
-                      key={skill}
-                      className="rounded border border-border bg-surface-light px-3 py-1.5 text-sm text-text-secondary transition-colors duration-300 hover:border-gold/40 hover:text-text-primary"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+      {/* Education + community */}
+      <div className="grid gap-10 py-12 lg:grid-cols-2">
+        <section>
+          <SectionHeading title="School" />
+          <div className="grid gap-4">
+            {EDUCATION.map((edu) => (
+              <div key={edu.degree} className="card p-5" style={{ ["--c" as string]: "var(--color-teal)" }}>
+                <p className="m-0 font-display text-xl font-extrabold tracking-tight">{edu.degree}, <span className="font-semibold text-muted">{edu.focus}</span></p>
+                <p className="m-0 mt-1 font-bold">{edu.school}</p>
               </div>
             ))}
           </div>
         </section>
-
-        {/* Education & Community - Side by Side */}
-        <div className="mt-24 grid gap-10 lg:grid-cols-2">
-          {/* Education */}
-          <section className="animate-fade-up animation-delay-400">
-            <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-              Academic Background
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-              Education
-            </h2>
-            <hr className="hr-gold opacity-30 mt-6" />
-
-            <div className="mt-10 space-y-4">
-              {EDUCATION.map((edu) => (
-                <div
-                  key={edu.degree}
-                  className="rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-gold/30 hover:gold-glow"
-                >
-                  <h3 className="font-display text-lg font-semibold text-text-primary">
-                    {edu.degree},{" "}
-                    <span className="italic text-text-secondary">
-                      {edu.focus}
-                    </span>
-                  </h3>
-                  <p className="mt-2 text-sm text-gold">{edu.school}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Community */}
-          <section className="animate-fade-up animation-delay-500">
-            <p className="text-xs font-medium uppercase tracking-[0.15em] text-text-muted">
-              Leadership &amp; Service
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold text-text-primary">
-              Community
-            </h2>
-            <hr className="hr-gold opacity-30 mt-6" />
-
-            <div className="mt-10 space-y-4">
-              {COMMUNITY.map((item) => (
-                <div
-                  key={item.organization}
-                  className="rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-gold/30 hover:gold-glow"
-                >
-                  <h3 className="font-display text-lg font-semibold text-text-primary">
-                    {item.organization}
-                  </h3>
-                  <hr className="hr-gold opacity-15 my-3" />
-                  <div className="space-y-1.5">
-                    {item.roles.map((role) => (
-                      <p
-                        key={role}
-                        className="text-sm text-text-secondary"
-                      >
-                        {role}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
+        <section>
+          <SectionHeading title="Community" />
+          <div className="grid gap-4">
+            {COMMUNITY.map((item) => (
+              <div key={item.organization} className="card p-5" style={{ ["--c" as string]: "var(--color-coral)" }}>
+                <p className="m-0 font-display text-xl font-extrabold tracking-tight">{item.organization}</p>
+                <p className="m-0 mt-1 text-[15px] text-muted">{item.roles.join(" · ")}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );

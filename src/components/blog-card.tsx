@@ -9,37 +9,25 @@ interface BlogCardProps {
   slug: string;
 }
 
-export default function BlogCard({
-  title,
-  excerpt,
-  category,
-  created_at,
-  slug,
-}: BlogCardProps) {
-  const formattedDate = format(new Date(created_at), "MMMM d, yyyy");
+/** A post as a single row: title, one-line excerpt, handwritten date. */
+export default function BlogCard({ title, excerpt, category, created_at, slug }: BlogCardProps) {
+  const date = format(new Date(created_at), "MMM ''yy");
 
   return (
-    <Link href={`/blog/${slug}`} className="group block">
-      <article className="flex h-full flex-col rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-[2px] hover:border-gold/40 hover:gold-glow">
-        <span className="text-xs font-medium uppercase tracking-[0.15em] text-gold">
-          {category}
-        </span>
-
-        <h3 className="mt-3 font-display text-xl font-semibold leading-snug text-text-primary transition-colors group-hover:text-gold">
+    <Link
+      href={`/blog/${slug}`}
+      className="group grid grid-cols-1 items-baseline gap-1 border-b-2 border-ink py-4 no-underline sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-4"
+    >
+      <div className="min-w-0">
+        <p className="m-0 text-[11px] font-extrabold uppercase tracking-wider text-teal">{category}</p>
+        <h3 className="m-0 mt-0.5 font-display text-xl font-extrabold leading-tight tracking-tight group-hover:underline group-hover:decoration-coral group-hover:decoration-[3px] group-hover:underline-offset-4">
           {title}
         </h3>
-
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-text-secondary line-clamp-3">
-          {excerpt}
-        </p>
-
-        <time
-          dateTime={created_at}
-          className="mt-5 block text-xs text-text-muted"
-        >
-          {formattedDate}
-        </time>
-      </article>
+        <p className="m-0 mt-1 line-clamp-2 text-[15px] text-muted">{excerpt}</p>
+      </div>
+      <time dateTime={created_at} className="hand whitespace-nowrap text-xl text-coral">
+        {date}
+      </time>
     </Link>
   );
 }
