@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Warm — James Gilmore option A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Nunito:wght@400;600;700&display=swap">
+<style>
+/* A friendly one-column personal site. Warm off-white, forest green accent, rounded photo, conversational copy. */
+:root{--bg:#FBF9F4;--card:#FFFFFF;--ink:#23281F;--muted:#6A7062;--line:#E6E2D6;--green:#2F6B4F;--green-soft:#E3EFE8;
+--serif:"Lora",Georgia,serif;--sans:"Nunito",system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}
+a:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
+.wrap{max-width:760px;margin-inline:auto;padding-inline:clamp(16px,4vw,32px)}
+nav{display:flex;justify-content:space-between;align-items:center;padding-block:1.4rem;gap:1rem;flex-wrap:wrap}
+nav .name{font-family:var(--serif);font-weight:600;font-size:1.15rem;color:var(--ink)}
+nav ul{display:flex;gap:1.3rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav li a{color:var(--muted);font-weight:600;font-size:.92rem}nav li a[aria-current]{color:var(--ink)}
+.hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2rem;align-items:center;padding-block:2.5rem 1.5rem}
+.hero img{width:168px;height:168px;border-radius:50%;object-fit:cover;display:block;border:5px solid var(--card);box-shadow:0 10px 30px -14px rgba(35,40,31,.35)}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,4.5vw,2.8rem);line-height:1.15;margin:0 0 .6rem;letter-spacing:-.01em}
+.hero p{margin:0;color:var(--muted);font-size:1.08rem}
+.intro{padding-block:1rem 2rem}
+.intro p{margin:0 0 1rem;max-width:62ch}
+.intro p:first-child{font-size:1.15rem}
+h2{font-family:var(--serif);font-weight:500;font-size:1.55rem;margin:0 0 1rem;letter-spacing:-.01em}
+section{padding-block:1.6rem;border-top:1px solid var(--line)}
+.now{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+.now div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem}
+.now b{display:block;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:.25rem}
+.now span{color:var(--ink)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:baseline;padding:.85rem 0;border-bottom:1px dashed var(--line)}
+.list li:last-child{border-bottom:0}
+.list a.t{color:var(--ink);font-weight:700}
+.list small{display:block;color:var(--muted);font-weight:400;margin-top:.15rem}
+.list time,.list .k{color:var(--muted);font-size:.85rem;white-space:nowrap}
+.pill{display:inline-block;background:var(--green-soft);color:var(--green);font-size:.75rem;font-weight:700;padding:.15rem .55rem;border-radius:999px;margin-left:.4rem;vertical-align:middle}
+.more{display:inline-block;margin-top:.9rem;font-weight:700}
+.hello{background:var(--green);color:#F4F8F5;border-radius:18px;padding:1.8rem;margin-block:1.5rem 0}
+.hello h2{color:#fff;margin-bottom:.4rem}.hello p{margin:0 0 1rem;color:#D6E5DB;max-width:52ch}
+.hello .links{display:flex;gap:.6rem;flex-wrap:wrap}
+.hello .links a{background:#fff;color:var(--green);font-weight:700;padding:.6rem 1rem;border-radius:999px;font-size:.92rem}
+.hello .links a.o{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+footer{padding-block:2rem 2.5rem;color:var(--muted);font-size:.88rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem 1rem}
+@media (max-width:640px){.hero{grid-template-columns:1fr;gap:1.2rem}.hero img{width:132px;height:132px}.now{grid-template-columns:1fr}.list li{grid-template-columns:1fr;gap:.2rem}}
+.dx{position:fixed;left:12px;bottom:12px;z-index:50;display:flex;gap:4px;background:#23281F;padding:6px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.25);font-family:var(--sans)}
+.dx a{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#bbb;background:#3a3f36;text-decoration:none}
+.dx a[aria-current]{background:#fff;color:#000}.dx a.i{width:auto;padding:0 10px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a class="name" href="#">James Gilmore</a><ul><li><a href="#" aria-current="page">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Writing</a></li><li><a href="#">Resume</a></li><li><a href="#">Contact</a></li></ul></nav>
+
+  <header class="hero">
+    <img src="profile.jpg" alt="James Gilmore" width="168" height="168">
+    <div><h1>Hi, I'm James.</h1><p>I live in Seattle, work in fintech, run long distances, and like building things that didn't exist yesterday.</p></div>
+  </header>
+
+  <div class="intro">
+    <p>By day I help banks understand and grow their customer base. That means a lot of data, a lot of spreadsheets, and turning both into decisions people can act on.</p>
+    <p>The thing that really drives me is the moment an idea stops being abstract and becomes something real. With the tools we have now, that moment is closer than it has ever been, and I find that genuinely exciting.</p>
+    <p>This site is a home for the ideas, projects, and half-finished experiments along the way.</p>
+  </div>
+
+  <section>
+    <h2>Right now</h2>
+    <div class="now">
+      <div><b>Working on</b><span>Automating monthly client analysis so it takes minutes instead of days.</span></div>
+      <div><b>Training for</b><span>The next long run. Distance first, speed later.</span></div>
+      <div><b>Reading about</b><span>Strategy, history, and how economic systems shape behavior.</span></div>
+      <div><b>Planning</b><span>The next trip, with a spreadsheet and room for detours.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Things I've made</h2>
+    <ul class="list">
+      <li><div><a class="t" href="#">Monthly analysis automation</a><small>Notebooks that replaced a 20-hour manual reporting cycle.</small></div><span class="k">Python</span></li>
+      <li><div><a class="t" href="#">Implementation playbook</a><small>The process behind 50+ software rollouts with banks.</small></div><span class="k">Process</span></li>
+      <li><div><a class="t" href="#">Department KPI dashboards</a><small>Revenue and attendance on one screen for a college athletics program.</small></div><span class="k">Tableau</span></li>
+      <li><div><a class="t" href="#">This website<span class="pill">In progress</span></a><small>Next.js and Supabase, with an admin panel so I can post without deploying.</small></div><span class="k">Web</span></li>
+    </ul>
+    <a class="more" href="#">All projects →</a>
+  </section>
+
+  <section>
+    <h2>Writing</h2>
+    <ul class="list">
+      <li><div><a class="t" href="#">The barrier to building software just collapsed</a><small>Sample post. The constraint now is imagination and the willingness to try.</small></div><time>Sep 2026</time></li>
+      <li><div><a class="t" href="#">What 60 bank clients taught me about renewals</a><small>Sample post. The relationship is won after the sale.</small></div><time>Aug 2026</time></li>
+      <li><div><a class="t" href="#">Planning a trip like a project</a><small>Sample post. Constraints, spreadsheets, and leaving room for the unplanned.</small></div><time>Jul 2026</time></li>
+    </ul>
+    <a class="more" href="#">All writing →</a>
+  </section>
+
+  <section class="hello">
+    <h2>Say hello</h2>
+    <p>Questions, ideas, or just want to connect? I'd like to hear from you.</p>
+    <div class="links"><a href="#">Email me</a><a class="o" href="#">LinkedIn</a><a class="o" href="#">GitHub</a></div>
+  </section>
+
+  <footer><span>© 2026 James Gilmore</span><span>Seattle, WA</span></footer>
+</div>
+<nav class="dx" aria-label="Options"><a class="i" href="./">Index</a><a href="a-warm.html" aria-current="page">A</a><a href="b-photo.html">B</a><a href="c-classic.html">C</a></nav>
+</body>
+</html>
