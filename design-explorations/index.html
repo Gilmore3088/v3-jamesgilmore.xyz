@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Five Rebrands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,50;1,9..144,300..800,50&family=JetBrains+Mono:wght@400;700&family=Bebas+Neue&family=Work+Sans:wght@300;600&family=Space+Mono:wght@700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: a studio pin-up. Five directions as large tiles, each rendered in its own type and palette. */
+:root{--bg:#F4F4F1;--fg:#16171A;--muted:#6B6E72;--line:#D9DAD5;--card:#FFFFFF;--accent:#1C3DFF;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141518;--fg:#EDEDE9;--muted:#9A9DA3;--line:#2A2C31;--card:#1C1D22;--accent:#7A8CFF;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141518;--fg:#EDEDE9;--muted:#9A9DA3;--line:#2A2C31;--card:#1C1D22;--accent:#7A8CFF;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Instrument Sans",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-inline:clamp(16px,4vw,48px);padding-block:2.5rem 4rem}
+.wrap{max-width:1180px;margin-inline:auto}
+header h1{font-weight:600;font-size:clamp(2rem,5vw,3.6rem);letter-spacing:-.03em;line-height:1;margin:0 0 .8rem}
+header p{max-width:60ch;color:var(--muted);margin:0}
+header code{font-family:"JetBrains Mono",monospace;font-size:.85em;background:var(--card);border:1px solid var(--line);padding:.1rem .4rem;border-radius:4px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem;margin-top:2.4rem}
+.tile{text-decoration:none;display:grid;grid-template-rows:auto 1fr;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card);min-width:0;color:var(--fg)}
+.tile:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.tile .preview{aspect-ratio:16/9;display:grid;align-content:end;padding:1.4rem;position:relative;overflow:hidden}
+.tile .preview .n{position:absolute;top:1rem;left:1.2rem;font-family:"JetBrains Mono",monospace;font-size:12px;opacity:.7}
+.tile .preview .word{font-size:clamp(2.4rem,6vw,4.6rem);line-height:.95;letter-spacing:-.02em;margin:0}
+.tile .preview .sub{margin:.4rem 0 0;font-size:.9rem;opacity:.85}
+.tile .meta{padding:1.2rem 1.4rem 1.4rem;display:grid;gap:.6rem;align-content:start}
+.tile h2{margin:0;font-size:1.2rem;font-weight:600;letter-spacing:-.01em}
+.tile p{margin:0;color:var(--muted);font-size:.95rem}
+.tile .row{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap;margin-top:.3rem}
+.tile .sw{display:flex;gap:4px}.tile .sw i{width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.15);display:inline-block}
+.tile .open{font-size:.85rem;font-weight:600;color:var(--accent)}
+.tile.wide{grid-column:1/-1}
+/* per-direction previews */
+.p1{background:#F5F5F0;color:#121316;background-image:linear-gradient(#CFD1C8 1px,transparent 1px),linear-gradient(90deg,#CFD1C8 1px,transparent 1px);background-size:100% 34px,12.5% 100%}
+.p1 .word{font-family:"Archivo",sans-serif;font-variation-settings:"wdth" 118,"wght" 850}.p1 .word em{font-style:normal;color:#1C3DFF}
+.p2{background:#E7EAE4;color:#16322B}.p2 .word{font-family:"Fraunces",serif;font-weight:300;font-variation-settings:"SOFT" 50,"opsz" 144}.p2 .word i{color:#C2572E;font-weight:500}
+.p3{background:#0B1017;color:#E8E3D8;background-image:radial-gradient(#243244 1px,transparent 1px);background-size:18px 18px}.p3 .word{font-family:"Instrument Sans",sans-serif;font-weight:600}.p3 .word span{color:#FFB224}.p3 .n{color:#FFB224;font-family:"JetBrains Mono",monospace}
+.p4{background:#F2C41C;color:#141414}.p4 .word{font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(3.6rem,9vw,7rem);letter-spacing:0}.p4 .word span{color:#FFFBEA;-webkit-text-stroke:2px #141414}
+.p5{background:#EDF1F7;color:#122443;background-image:linear-gradient(#D3DCE9 1px,transparent 1px),linear-gradient(90deg,#D3DCE9 1px,transparent 1px);background-size:20px 20px}.p5 .word{font-family:"Work Sans",sans-serif;font-weight:300}.p5 .word b{font-weight:600;color:#0F3F9C}.p5 .n{color:#E2542A;font-family:"Space Mono",monospace}
+.p5::after{content:"";position:absolute;inset:8px;border:1px solid #0F3F9C;pointer-events:none;opacity:.5}
+.note{margin-top:2.4rem;padding:1.2rem 1.4rem;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--muted);font-size:.92rem}
+.note b{color:var(--fg)}
+@media (max-width:760px){.grid{grid-template-columns:1fr}.tile.wide{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Five rebrands for jamesgilmore.xyz</h1>
+    <p>Each tile opens a full homepage mockup with its own type, palette, and structure. All five use your real resume figures. Project and post titles marked "sample" are placeholders for your Supabase content. A small switcher in the corner of every page jumps between directions.</p>
+  </header>
+  <div class="grid">
+    <a class="tile" href="01-ledger.html">
+      <div class="preview p1"><span class="n">01 · A2</span><p class="word">Turn the <em>data</em> into a decision.</p><p class="sub">The site is a worksheet</p></div>
+      <div class="meta"><h2>Ledger</h2><p>Column letters, row numbers, formulas under every figure, sheet tabs for navigation. For someone whose work lives in Excel and Jupyter, the spreadsheet is the brand. Light, precise, cobalt accent, expanded grotesk plus mono.</p><div class="row"><span class="sw"><i style="background:#F5F5F0"></i><i style="background:#121316"></i><i style="background:#1C3DFF"></i><i style="background:#ECECE6"></i></span><span class="open">Open direction 1 →</span></div></div>
+    </a>
+    <a class="tile" href="02-fieldnotes.html">
+      <div class="preview p2"><span class="n">02 · Mile 0.0</span><p class="word">Systems for money, data, and <i>ideas.</i></p><p class="sub">A Pacific Northwest field journal</p></div>
+      <div class="meta"><h2>Fieldnotes</h2><p>Fog, spruce, rust. Topographic contour lines drawn behind the hero, mile markers between sections, a soft variable serif with italics doing the emphasis. Warm and human. Leans into Seattle and the running.</p><div class="row"><span class="sw"><i style="background:#E7EAE4"></i><i style="background:#16322B"></i><i style="background:#C2572E"></i><i style="background:#D8C9AC"></i></span><span class="open">Open direction 2 →</span></div></div>
+    </a>
+    <a class="tile" href="03-console.html">
+      <div class="preview p3"><span class="n">03 · james@seattle:~$</span><p class="word">Builds <span>systems</span> that do the boring parts.</p><p class="sub">A live operator console</p></div>
+      <div class="meta"><h2>Console</h2><p>The one dark direction, and nothing like the current site. Status bar, prompt output, a process table for projects, a log tail for posts. Amber phosphor on deep slate. Says "automation" without saying it.</p><div class="row"><span class="sw"><i style="background:#0B1017"></i><i style="background:#FFB224"></i><i style="background:#E8E3D8"></i><i style="background:#66D19E"></i></span><span class="open">Open direction 3 →</span></div></div>
+    </a>
+    <a class="tile" href="04-poster.html">
+      <div class="preview p4"><span class="n">04 · ★</span><p class="word">James <span>Gilmore</span></p><p class="sub">A screen-printed poster</p></div>
+      <div class="meta"><h2>Poster</h2><p>Chrome yellow, condensed black type at enormous scale, stickers for stats, a marquee that reads "what if this existed?". Loud, confident, memorable. The riskiest of the five and the most distinctive.</p><div class="row"><span class="sw"><i style="background:#F2C41C"></i><i style="background:#141414"></i><i style="background:#FFFBEA"></i><i style="background:#D9341E"></i></span><span class="open">Open direction 4 →</span></div></div>
+    </a>
+    <a class="tile wide" href="05-blueprint.html">
+      <div class="preview p5"><span class="n">05 · DWG JG-001 · REV C</span><p class="word">Designs <b>systems</b> that turn data into decisions.</p><p class="sub">An engineering drawing set</p></div>
+      <div class="meta"><h2>Blueprint</h2><p>Grid paper, a system diagram as the hero, a bill of materials for the numbers, project "sheets", a revision log for posts, and a title block footer. The most literal take on "systems thinker". Pale blue, drafting blue, one redline accent.</p><div class="row"><span class="sw"><i style="background:#EDF1F7"></i><i style="background:#0F3F9C"></i><i style="background:#122443"></i><i style="background:#E2542A"></i></span><span class="open">Open direction 5 →</span></div></div>
+    </a>
+  </div>
+  <p class="note"><b>Run locally:</b> from the repo, <code>npx serve design-explorations</code> or <code>cd design-explorations &amp;&amp; python3 -m http.server 8080</code>, then open <code>http://localhost:8080</code>. These are static mockups of the homepage only. Once you pick a direction, I will rebuild the Next.js components to match it across every page.</p>
+</div>
+</body>
+</html>

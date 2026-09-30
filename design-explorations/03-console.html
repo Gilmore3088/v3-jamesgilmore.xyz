@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Console — James Gilmore rebrand 3 of 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout concept: a live operator console. Status bar, prompt output, process table, log tail. Amber phosphor on deep slate, dotted grid. */
+:root{
+  --bg:#0B1017; --panel:#111823; --panel2:#151E2B; --line:#243244; --amber:#FFB224; --amber-dim:#8A6317; --text:#E8E3D8; --dim:#8593A3; --green:#66D19E;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; --sans:"Instrument Sans",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.mono{font-family:var(--mono)}
+.wrap{max-width:1160px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+.status{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--line);font:500 12px var(--mono);color:var(--dim)}
+.status .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem;height:44px;flex-wrap:wrap}
+.status b{color:var(--amber);font-weight:500}
+.status ul{display:flex;gap:1.3rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.status li a{color:var(--dim)}.status li a[aria-current]{color:var(--text)}.status li a::before{content:"./"}
+.status li a[aria-current]::after{content:" *";color:var(--amber)}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:3rem;align-items:center;padding-block:4rem 3rem}
+.prompt{font:400 13px/1.7 var(--mono);color:var(--dim);margin:0 0 .6rem}
+.prompt b{color:var(--amber);font-weight:500}
+h1{font-family:var(--sans);font-weight:600;font-size:clamp(2.6rem,6.5vw,5.6rem);line-height:1;letter-spacing:-.035em;margin:0 0 1.2rem;text-wrap:balance}
+h1 span{color:var(--amber)}
+.lede{font-size:clamp(1.05rem,1.4vw,1.25rem);color:var(--dim);max-width:44ch;margin:0 0 1.6rem}
+.cursor::after{content:"█";color:var(--amber);animation:blink 1.1s steps(1) infinite;margin-left:.15em}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cursor::after{animation:none}}
+.btns{display:flex;gap:.7rem;flex-wrap:wrap}
+.btn{font:500 13px var(--mono);padding:.8rem 1.2rem;border:1px solid var(--amber);color:var(--amber);background:transparent}
+.btn.fill{background:var(--amber);color:#1a1200}
+.btn::before{content:"$ ";opacity:.6}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.panel .bar{display:flex;align-items:center;gap:.6rem;padding:.55rem .9rem;border-bottom:1px solid var(--line);font:500 11px var(--mono);color:var(--dim);background:var(--panel2)}
+.panel .bar i{width:9px;height:9px;border-radius:50%;background:var(--line);display:inline-block}
+.panel .bar i:first-child{background:var(--amber)}
+.id{padding:1rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center}
+.id img{width:110px;height:110px;border-radius:4px;display:block;filter:sepia(.6) saturate(.7) contrast(1.05)}
+.id dl{margin:0;font:400 12px/1.8 var(--mono);display:grid;grid-template-columns:auto 1fr;gap:0 1rem;min-width:0}
+.id dt{color:var(--dim)}.id dd{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.id dd.ok{color:var(--green)}
+/* top-style table */
+.top{width:100%;border-collapse:collapse;font:400 13px/1.6 var(--mono)}
+.top th{text-align:left;color:var(--dim);font-weight:500;padding:.5rem .9rem;border-bottom:1px solid var(--line);background:var(--panel2)}
+.top td{padding:.7rem .9rem;border-bottom:1px solid var(--line);vertical-align:top}
+.top tr:last-child td{border-bottom:0}
+.top td.v{color:var(--amber);font-weight:700;font-size:1.4rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.top td.bar span{display:block;height:6px;background:var(--line);position:relative;min-width:80px;margin-top:.55rem}
+.top td.bar span::after{content:"";position:absolute;inset:0;width:var(--w);background:var(--amber)}
+section{padding-block:1.4rem}
+h2{font:500 12px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.14em;margin:0 0 .9rem}
+h2::before{content:"## ";color:var(--amber)}
+.proc td.n{color:var(--dim);width:3.5rem}
+.proc td.t{font-family:var(--sans);font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
+.proc td.d{font-family:var(--sans);color:var(--dim);max-width:50ch}
+.proc td.s{white-space:nowrap}
+.proc .run{color:var(--green)}.proc .sleep{color:var(--dim)}.proc .build{color:var(--amber)}
+.log{font:400 13px/1.9 var(--mono);padding:.9rem 1rem;margin:0;overflow-x:auto}
+.log div{display:grid;grid-template-columns:9rem 7rem 1fr;gap:1rem;min-width:520px}
+.log time{color:var(--dim)}.log .lvl{color:var(--amber)}
+.log a:hover{text-decoration:underline}
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.4rem}
+.about .panel{padding:1.2rem 1.4rem}
+.about p{margin:0 0 .8rem;color:var(--dim)}
+.about p b{color:var(--text);font-weight:600}
+.kv{font:400 12px/1.9 var(--mono);margin:0;display:grid;grid-template-columns:auto 1fr;gap:0 1.2rem}
+.kv dt{color:var(--dim)}.kv dd{margin:0}
+.cta{margin-block:2rem 1rem;padding:2rem;border:1px dashed var(--amber-dim);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.5rem;align-items:center}
+.cta h3{font-family:var(--sans);font-weight:600;font-size:clamp(1.5rem,3vw,2.4rem);letter-spacing:-.02em;margin:0 0 .4rem;max-width:22ch}
+.cta p{margin:0;font:400 13px var(--mono);color:var(--dim)}
+footer{border-top:1px solid var(--line);margin-top:2rem;padding-block:1.4rem 2rem;font:400 12px var(--mono);color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer a:hover{color:var(--amber)}
+@media (max-width:900px){.hero,.about,.cta{grid-template-columns:1fr}.proc td.d{display:none}.id{grid-template-columns:1fr}}
+.dx{position:fixed;left:12px;bottom:12px;z-index:50;display:flex;gap:4px;background:#121316;padding:6px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.45);font-family:var(--mono)}
+.dx a{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:#bbb;background:#222}
+.dx a[aria-current]{background:#fff;color:#000}
+.dx a.i{width:auto;padding:0 10px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="status"><div class="wrap"><span><b>james@seattle</b>:~/jamesgilmore.xyz</span><ul><li><a href="#" aria-current="page">home</a></li><li><a href="#">about</a></li><li><a href="#">projects</a></li><li><a href="#">resume</a></li><li><a href="#">blog</a></li><li><a href="#">contact</a></li></ul><span>uptime 14y · load 0.42</span></div></div>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <p class="prompt"><b>$</b> whoami --verbose</p>
+      <h1>James Gilmore builds <span>systems</span> that do the boring parts for you.</h1>
+      <p class="lede">Fintech client services by day: 60+ banks, implementations, analytics, renewals. By night: Python, notebooks, and ideas that keep turning into products.</p>
+      <div class="btns"><a class="btn fill" href="#">ls projects</a><a class="btn" href="#">tail -f blog</a></div>
+      <p class="prompt cursor" style="margin-top:1.4rem"><b>$</b> </p>
+    </div>
+    <div class="panel"><div class="bar"><i></i><i></i><i></i><span>id.json</span></div>
+      <div class="id"><img src="profile.jpg" alt="James Gilmore" width="110" height="110">
+        <dl><dt>name</dt><dd>James Gilmore</dd><dt>role</dt><dd>Client Services Manager</dd><dt>loc</dt><dd>Seattle, WA · UTC-7</dd><dt>status</dt><dd class="ok">open_to_problems: true</dd><dt>runs</dt><dd>long ones</dd></dl>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>top — career figures</h2>
+    <div class="panel"><table class="top">
+      <thead><tr><th>METRIC</th><th>VALUE</th><th>SOURCE</th><th>UTIL</th></tr></thead>
+      <tbody>
+        <tr><td>banks_served</td><td class="v">60+</td><td>Velocity Solutions, 2019–present</td><td class="bar"><span style="--w:92%"></span></td></tr>
+        <tr><td>cross_sold_2023</td><td class="v">$2.0M</td><td>coordinated with sales + consulting</td><td class="bar"><span style="--w:70%"></span></td></tr>
+        <tr><td>hours_saved_per_month</td><td class="v">20+</td><td>jupyter automation of monthly analysis</td><td class="bar"><span style="--w:55%"></span></td></tr>
+        <tr><td>implementations_led</td><td class="v">50+</td><td>on-prem and hosted, C-suite to ops</td><td class="bar"><span style="--w:80%"></span></td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section>
+    <h2>ps — projects</h2>
+    <div class="panel"><table class="top proc">
+      <thead><tr><th>PID</th><th>NAME</th><th>DESCRIPTION</th><th>STACK</th><th>STATE</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1001</td><td class="t">monthly-analysis</td><td class="d">Notebooks that replaced a 20-hour manual reporting cycle.</td><td>python pandas</td><td class="s run">running</td></tr>
+        <tr><td class="n">1002</td><td class="t">implementation-playbook</td><td class="d">The process behind 50+ software rollouts with bank executives.</td><td>notion workfront</td><td class="s run">running</td></tr>
+        <tr><td class="n">1003</td><td class="t">kpi-dashboards</td><td class="d">Department-wide tracking for a college athletics program.</td><td>tableau excel</td><td class="s sleep">archived</td></tr>
+        <tr><td class="n">1004</td><td class="t">jamesgilmore.xyz</td><td class="d">This site: Next.js, Supabase, admin panel, no deploy needed to post.</td><td>next supabase</td><td class="s build">building</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section>
+    <h2>tail -n 3 blog.log</h2>
+    <div class="panel"><pre class="log"><div><time>2026-09-14</time><span class="lvl">[building]</span><a href="#">The barrier to building software just collapsed (sample)</a></div><div><time>2026-08-22</time><span class="lvl">[growth]</span><a href="#">What 60 bank clients taught me about renewals (sample)</a></div><div><time>2026-07-03</time><span class="lvl">[travel]</span><a href="#">Planning a trip like a project (sample)</a></div></pre></div>
+  </section>
+
+  <section class="about">
+    <div class="panel"><div class="bar"><i></i><i></i><i></i><span>README.md</span></div><div style="padding:1.2rem 1.4rem"><p><b>I spend most of my time thinking about systems.</b> Systems for money, data, ideas, and for building things that did not exist yesterday.</p><p>The barrier between "what if someone made this" and making it has never been shorter. The constraint now is imagination and the willingness to try.</p></div></div>
+    <div class="panel"><div class="bar"><i></i><i></i><i></i><span>env</span></div><dl class="kv" style="padding:1.2rem 1.4rem"><dt>DATA</dt><dd>python · pandas · jupyter · sql · tableau</dd><dt>CRM</dt><dd>dynamics · salesforce</dd><dt>TOOLS</dt><dd>github · notion · airtable · glide</dd><dt>EDU</dt><dd>MBA entrepreneurship · BS business · UCF</dd><dt>COMMUNITY</dt><dd>toastmasters 832 · UCF Seattle alumni chair</dd></dl></div>
+  </section>
+
+  <div class="cta"><div><h3>Have a tedious process that should be a script?</h3><p>$ mail james --subject "let's talk"</p></div><a class="btn fill" href="#">open contact</a></div>
+  <footer><span>© 2026 James Gilmore</span><span><a href="#">github</a> · <a href="#">linkedin</a> · <a href="#">email</a></span><span>exit 0</span></footer>
+</div>
+<nav class="dx" aria-label="Rebrand directions"><a class="i" href="./">Index</a><a href="01-ledger.html">1</a><a href="02-fieldnotes.html">2</a><a href="03-console.html" aria-current="page">3</a><a href="04-poster.html">4</a><a href="05-blueprint.html">5</a></nav>
+</body>
+</html>

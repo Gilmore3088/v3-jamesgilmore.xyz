@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ledger — James Gilmore rebrand 1 of 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: the site is a worksheet. Column letters, row numbers, merged cells, formulas shown. */
+:root{
+  --paper:#F5F5F0; --cell:#FFFFFF; --ink:#121316; --muted:#66695F; --rule:#CFD1C8; --rule-strong:#121316;
+  --cobalt:#1C3DFF; --cobalt-soft:#E4E9FF;
+  --display:"Archivo",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-inline:0}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px}
+.mono{font-family:var(--mono)}
+.sheet{display:grid;grid-template-columns:3.25rem 1fr;min-height:100vh}
+.colhead{grid-column:1/-1;display:grid;grid-template-columns:3.25rem repeat(8,1fr);border-bottom:1px solid var(--rule);background:var(--cell);position:sticky;top:0;z-index:5}
+.colhead span{font:500 11px/2.2 var(--mono);text-align:center;color:var(--muted);border-right:1px solid var(--rule)}
+.colhead span:first-child{background:#ECECE6}
+.gutter{border-right:1px solid var(--rule);background:#ECECE6;display:flex;flex-direction:column}
+.gutter span{font:500 11px var(--mono);color:var(--muted);text-align:center;padding:.6rem 0;border-bottom:1px solid var(--rule);height:6.5rem;display:flex;align-items:flex-start;justify-content:center}
+.body{min-width:0;background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);background-size:100% 6.5rem,12.5% 100%}
+.wrap{padding-inline:clamp(16px,4vw,48px);max-width:1280px}
+/* tabs */
+.tabs{position:sticky;top:2.2rem;z-index:5;display:flex;gap:2px;padding:0 clamp(16px,4vw,48px);background:var(--paper);border-bottom:1px solid var(--rule-strong);overflow-x:auto}
+.tabs a{font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:.85rem 1rem;border:1px solid var(--rule);border-bottom:0;background:#ECECE6;color:var(--muted);white-space:nowrap}
+.tabs a[aria-current]{background:var(--cell);color:var(--ink);border-color:var(--rule-strong);position:relative;top:1px}
+/* hero */
+.hero>*{min-width:0}
+.hero{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:2rem;padding-block:3.5rem 3rem;align-items:end}
+.cellref{font:500 12px var(--mono);color:var(--cobalt);letter-spacing:.04em}
+h1{font-family:var(--display);font-variation-settings:"wdth" 118,"wght" 850;font-size:clamp(3rem,9vw,8.5rem);line-height:.9;letter-spacing:-.03em;margin:.4rem 0 1.25rem;text-wrap:balance}
+h1 em{font-style:normal;color:var(--cobalt)}
+.lede{font-size:clamp(1.05rem,1.6vw,1.35rem);max-width:34ch;margin:0 0 1.5rem;color:var(--ink)}
+.formula{font:400 13px/1.6 var(--mono);max-width:100%;background:var(--cell);border:1px solid var(--rule-strong);padding:.75rem 1rem;display:inline-block;max-width:100%;overflow-x:auto;white-space:nowrap}
+.formula b{color:var(--cobalt);font-weight:600}
+.photo{position:relative;justify-self:end;width:min(100%,380px)}
+.photo img{display:block;width:100%;height:auto;border:1px solid var(--rule-strong);filter:grayscale(1) contrast(1.05)}
+.photo figcaption{position:absolute;left:0;bottom:-1.6rem;font:500 11px var(--mono);color:var(--muted)}
+.photo::after{content:"";position:absolute;inset:0;background:var(--cobalt);mix-blend-mode:multiply;opacity:.16;pointer-events:none}
+/* metrics */
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--rule-strong);background:var(--cell);margin-block:1rem 3.5rem}
+.metric{padding:1.25rem 1.25rem 1rem;border-right:1px solid var(--rule);min-width:0}
+.metric:last-child{border-right:0}
+.metric .ref{display:flex;justify-content:space-between;font:500 11px var(--mono);color:var(--muted)}
+.metric .val{font-variation-settings:"wdth" 110,"wght" 800;font-size:clamp(2rem,4vw,3.5rem);line-height:1.05;margin:.35rem 0 .2rem;font-variant-numeric:tabular-nums}
+.metric .lbl{font-size:13px;color:var(--muted)}
+.metric .fx{font:400 11px var(--mono);color:var(--cobalt);margin-top:.5rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* sections */
+section{padding-block:1rem 3.5rem}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;border-bottom:2px solid var(--rule-strong);padding-bottom:.6rem;margin-bottom:1.5rem}
+h2{font-variation-settings:"wdth" 112,"wght" 800;font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:-.02em;margin:0;line-height:1}
+.sechead a{font:500 12px var(--mono);color:var(--cobalt);text-transform:uppercase;letter-spacing:.08em}
+.table{width:100%;border-collapse:collapse;background:var(--cell);border:1px solid var(--rule-strong)}
+.table th{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:left;padding:.6rem .9rem;border-bottom:1px solid var(--rule-strong);background:#ECECE6}
+.table td{padding:1rem .9rem;border-bottom:1px solid var(--rule);vertical-align:top}
+.table tr:last-child td{border-bottom:0}
+.table td.n{font:500 12px var(--mono);color:var(--muted);width:3rem}
+.table td.t{font-variation-settings:"wdth" 105,"wght" 700;font-size:1.15rem;line-height:1.2}
+.table td.d{color:var(--muted);max-width:48ch}
+.table td.k{font:400 12px var(--mono);white-space:nowrap}
+.table tr:hover td{background:var(--cobalt-soft)}
+.tag{display:inline-block;font:500 11px var(--mono);border:1px solid var(--rule-strong);padding:.15rem .45rem;margin:.1rem .2rem .1rem 0}
+.posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--rule-strong);background:var(--cell)}
+.post{padding:1.25rem;border-right:1px solid var(--rule);min-width:0}
+.post:last-child{border-right:0}
+.post .cat{font:500 11px var(--mono);color:var(--cobalt);text-transform:uppercase;letter-spacing:.08em}
+.post h3{font-variation-settings:"wdth" 105,"wght" 700;font-size:1.25rem;line-height:1.2;margin:.5rem 0 .6rem;letter-spacing:-.01em}
+.post p{margin:0;color:var(--muted);font-size:.95rem}
+.post time{display:block;margin-top:1rem;font:400 11px var(--mono);color:var(--muted)}
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:2rem}
+.about p{margin:0 0 1rem;max-width:60ch}
+.stack{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule-strong);border:1px solid var(--rule-strong)}
+.stack div{background:var(--cell);padding:1rem}
+.stack b{display:block;font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.5rem}
+.stack span{display:block;font-size:.9rem}
+.cta{background:var(--ink);color:var(--paper);padding:2.5rem clamp(16px,4vw,48px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:center}
+.cta h2{color:var(--paper);font-size:clamp(1.8rem,4vw,3.2rem);max-width:20ch}
+.cta .formula{background:transparent;border-color:var(--paper);color:var(--paper)}
+.btn{display:inline-block;background:var(--cobalt);color:#fff;font:600 14px var(--display);letter-spacing:.02em;padding:1rem 1.5rem;border:1px solid var(--cobalt)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.cta .btn.ghost{color:var(--paper);border-color:var(--paper)}
+footer{padding:1.5rem clamp(16px,4vw,48px);display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;font:400 12px var(--mono);color:var(--muted);border-top:1px solid var(--rule-strong)}
+footer a:hover{color:var(--cobalt)}
+@media (max-width:900px){
+  .hero,.about,.cta{grid-template-columns:1fr}
+  .photo{justify-self:start;width:min(100%,300px);margin-bottom:1.8rem}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .metric:nth-child(2){border-right:0}.metric:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+  .posts{grid-template-columns:1fr}.post{border-right:0;border-bottom:1px solid var(--rule)}.post:last-child{border-bottom:0}
+  .stack{grid-template-columns:1fr}
+  .table td.d{display:none}
+}
+@media (max-width:600px){
+  .formula{white-space:normal}
+  .sheet{grid-template-columns:1fr}.gutter{display:none}.colhead{grid-template-columns:repeat(8,1fr)}.colhead span:first-child{display:none}
+  .body{background-size:100% 6.5rem,25% 100%}
+}
+/* direction switcher */
+.dx{position:fixed;left:12px;bottom:12px;z-index:50;display:flex;gap:4px;background:#121316;padding:6px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.dx a{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 12px var(--mono);color:#bbb;background:#222}
+.dx a[aria-current]{background:#fff;color:#000}
+.dx a.i{width:auto;padding:0 10px;border-radius:999px}
+@media (prefers-reduced-motion:no-preference){.table tr td,.post,.btn{transition:background .15s}}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="colhead"><span></span><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span></div>
+  <div class="gutter"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span></div>
+  <div class="body">
+    <nav class="tabs" aria-label="Sheets">
+      <a href="#" aria-current="page">Home</a><a href="#">About</a><a href="#">Projects</a><a href="#">Resume</a><a href="#">Blog</a><a href="#">Contact</a>
+    </nav>
+    <div class="wrap">
+      <header class="hero">
+        <div>
+          <div class="cellref">A2 · James Gilmore · Seattle, WA</div>
+          <h1>Turn the <em>data</em> into a decision.</h1>
+          <p class="lede">I help banks understand and grow their customer base, then automate the parts nobody should do by hand.</p>
+          <div class="formula">=IF(<b>done_by_hand</b> &gt; 3, <b>AUTOMATE</b>(it), keep_going)</div>
+        </div>
+        <figure class="photo"><img src="profile.jpg" alt="James Gilmore" width="400" height="400"><figcaption>E2 · fig. 1 · not an AI headshot</figcaption></figure>
+      </header>
+
+      <div class="metrics" aria-label="Career figures">
+        <div class="metric"><div class="ref"><span>B7</span><span>count</span></div><div class="val">60+</div><div class="lbl">Financial institutions served</div><div class="fx">=COUNTA(clients!A:A)</div></div>
+        <div class="metric"><div class="ref"><span>C7</span><span>usd</span></div><div class="val">$2M</div><div class="lbl">Cross-sold in one year</div><div class="fx">=SUMIF(deals,"2023")</div></div>
+        <div class="metric"><div class="ref"><span>D7</span><span>hrs/mo</span></div><div class="val">20+</div><div class="lbl">Hours a month handed to a notebook</div><div class="fx">=manual_hours-automated</div></div>
+        <div class="metric"><div class="ref"><span>E7</span><span>pct</span></div><div class="val">227%</div><div class="lbl">Peak revenue growth negotiated</div><div class="fx">=MAX(growth_range)</div></div>
+      </div>
+
+      <section>
+        <div class="sechead"><h2>Projects</h2><a href="#">View all →</a></div>
+        <div style="overflow-x:auto"><table class="table">
+          <thead><tr><th>#</th><th>Project</th><th>What it does</th><th>Stack</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="n">01</td><td class="t">Monthly Analysis Notebooks</td><td class="d">Jupyter pipeline that replaced a 20-hour manual reporting cycle for product analytics.</td><td class="k"><span class="tag">Python</span><span class="tag">Pandas</span></td><td class="k">Shipped</td></tr>
+            <tr><td class="n">02</td><td class="t">Implementation Playbook</td><td class="d">The process behind 50+ on-prem and hosted software rollouts with bank executives.</td><td class="k"><span class="tag">Process</span><span class="tag">Notion</span></td><td class="k">Shipped</td></tr>
+            <tr><td class="n">03</td><td class="t">KPI Dashboards</td><td class="d">Department-wide tracking tools built for a college athletics department.</td><td class="k"><span class="tag">Tableau</span><span class="tag">Excel</span></td><td class="k">Archived</td></tr>
+            <tr><td class="n">04</td><td class="t">jamesgilmore.xyz</td><td class="d">This site. Next.js, Supabase, and an admin panel so posts ship without a deploy.</td><td class="k"><span class="tag">Next.js</span><span class="tag">Supabase</span></td><td class="k">Building</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section>
+        <div class="sechead"><h2>Latest posts</h2><a href="#">All posts →</a></div>
+        <div class="posts">
+          <article class="post"><div class="cat">Building</div><h3>The barrier to building software just collapsed</h3><p>Sample post. Why the constraint is now imagination, not access to technology.</p><time>Sep 2026</time></article>
+          <article class="post"><div class="cat">Growth</div><h3>What 60 bank clients taught me about renewals</h3><p>Sample post. Post-sale is where the relationship is actually won.</p><time>Aug 2026</time></article>
+          <article class="post"><div class="cat">Travel</div><h3>Planning a trip like a project</h3><p>Sample post. Spreadsheets, constraints, and leaving room for the unplanned.</p><time>Jul 2026</time></article>
+        </div>
+      </section>
+
+      <section class="about">
+        <div>
+          <div class="sechead"><h2>About</h2></div>
+          <p>I spend most of my time thinking about systems. Systems for money, for data, for ideas, and for building things that did not exist yesterday.</p>
+          <p>Professionally I work in financial technology. Outside of it I run long distances, read about strategy and economic systems, and sketch the next idea.</p>
+          <a class="btn ghost" href="#">Read the full story</a>
+        </div>
+        <div>
+          <div class="sechead"><h2>Stack</h2></div>
+          <div class="stack">
+            <div><b>Data</b><span>Python · Pandas · Jupyter · SQL · Tableau · Excel</span></div>
+            <div><b>CRM</b><span>Dynamics · Salesforce</span></div>
+            <div><b>Tools</b><span>GitHub · Notion · Airtable · Glide · Workfront</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="cta">
+      <div><h2>Looking for an analyst who automates the tedious stuff?</h2><p class="formula" style="margin:1rem 0 0">=CONTACT(<b>"james"</b>)</p></div>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap"><a class="btn" href="#">Get in touch</a><a class="btn ghost" href="#">Resume</a></div>
+    </div>
+    <footer><span>© 2026 James Gilmore</span><span><a href="#">GitHub</a> · <a href="#">LinkedIn</a> · <a href="#">Email</a></span><span>Sheet 1 of 6</span></footer>
+  </div>
+</div>
+<nav class="dx" aria-label="Rebrand directions"><a class="i" href="./">Index</a><a href="01-ledger.html" aria-current="page">1</a><a href="02-fieldnotes.html">2</a><a href="03-console.html">3</a><a href="04-poster.html">4</a><a href="05-blueprint.html">5</a></nav>
+</body>
+</html>

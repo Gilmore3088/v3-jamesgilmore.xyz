@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fieldnotes — James Gilmore rebrand 2 of 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,50;1,9..144,300..800,50&family=Karla:wght@400;500;600&display=swap">
+<style>
+/* Layout concept: a Pacific Northwest field journal. Contour lines, trail-marker eyebrows, mile markers between sections, warm fog and spruce. */
+:root{
+  --fog:#E7EAE4; --paper:#F3F2EC; --spruce:#16322B; --moss:#587463; --rust:#C2572E; --sand:#D8C9AC; --ink:#1B2521; --muted:#5F6B64; --line:#C9CFC7;
+  --serif:"Fraunces",Georgia,serif; --sans:"Karla",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--fog);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--rust);outline-offset:3px}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+nav.top{display:flex;justify-content:space-between;align-items:center;padding-block:1.4rem;gap:1rem;flex-wrap:wrap}
+.wordmark{font-family:var(--serif);font-size:1.35rem;font-weight:600;font-variation-settings:"SOFT" 50,"opsz" 20;letter-spacing:-.01em}
+.wordmark small{display:block;font-family:var(--sans);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--moss);font-weight:600;margin-top:.1rem}
+nav.top ul{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav.top li a{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--moss);border-bottom:2px solid transparent;padding-bottom:.2rem}
+nav.top li a[aria-current]{color:var(--spruce);border-color:var(--rust)}
+/* hero */
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:3rem;align-items:center;padding-block:3rem 4rem;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none}
+.hero > *{position:relative}
+.marker{display:inline-flex;align-items:center;gap:.6rem;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--rust)}
+.marker::before{content:"";width:10px;height:10px;background:var(--rust);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+h1{font-family:var(--serif);font-weight:300;font-variation-settings:"SOFT" 50,"opsz" 144;font-size:clamp(2.8rem,7vw,6.2rem);line-height:.98;letter-spacing:-.02em;margin:1rem 0 1.4rem;text-wrap:balance;color:var(--spruce)}
+h1 i{font-style:italic;font-weight:500;color:var(--rust)}
+.lede{font-size:clamp(1.05rem,1.5vw,1.25rem);max-width:38ch;color:var(--muted);margin:0 0 1.8rem}
+.actions{display:flex;gap:.8rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.9rem 1.4rem;border-radius:999px;font-weight:600;font-size:.9rem;background:var(--spruce);color:var(--paper);border:1.5px solid var(--spruce)}
+.btn.o{background:transparent;color:var(--spruce)}
+.frame{position:relative;justify-self:center;width:min(100%,420px)}
+.frame img{display:block;width:100%;height:auto;border-radius:220px 220px 24px 24px;border:6px solid var(--paper);box-shadow:0 30px 60px -30px rgba(22,50,43,.5)}
+.frame .stamp{position:absolute;right:-8px;bottom:18px;background:var(--paper);border:1.5px solid var(--spruce);border-radius:999px;padding:.55rem .9rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--spruce);transform:rotate(-6deg)}
+/* mile marker divider */
+.mile{display:flex;align-items:center;gap:1rem;padding-block:2.4rem;color:var(--moss);font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.mile::before,.mile::after{content:"";flex:1;border-top:1px dashed var(--line)}
+/* figures */
+.figures{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.2rem}
+.fig{background:var(--paper);border-radius:18px;padding:1.4rem 1.4rem 1.2rem;border:1px solid var(--line)}
+.fig b{display:block;font-family:var(--serif);font-weight:500;font-variation-settings:"opsz" 96;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1;color:var(--spruce);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.fig span{display:block;margin-top:.5rem;color:var(--muted);font-size:.9rem}
+/* projects */
+h2{font-family:var(--serif);font-weight:400;font-variation-settings:"SOFT" 50,"opsz" 96;font-size:clamp(2rem,4vw,3rem);line-height:1.05;letter-spacing:-.02em;margin:0;color:var(--spruce)}
+.sechead{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;margin-bottom:1.8rem}
+.sechead p{margin:.4rem 0 0;color:var(--muted);max-width:44ch}
+.sechead a{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--rust);white-space:nowrap}
+.projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem}
+.proj{background:var(--paper);border-radius:22px;padding:1.8rem;display:grid;gap:.6rem;align-content:start;border:1px solid var(--line);min-width:0}
+.proj.big{grid-row:span 2;background:var(--spruce);color:var(--paper);border-color:var(--spruce)}
+.proj .k{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--moss)}
+.proj.big .k{color:var(--sand)}
+.proj h3{font-family:var(--serif);font-weight:500;font-variation-settings:"opsz" 48;font-size:1.6rem;line-height:1.1;margin:0;letter-spacing:-.01em}
+.proj.big h3{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:400}
+.proj p{margin:0;color:var(--muted);max-width:48ch}
+.proj.big p{color:#CBD6CF}
+.proj .tags{display:flex;gap:.4rem;flex-wrap:wrap;align-items:flex-start;margin-top:.4rem}
+.proj .tags span{font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:.25rem .6rem;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.proj.big .tags span{border-color:#3E5A50;color:#CBD6CF}
+/* posts as journal entries */
+.journal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2rem}
+.entry{border-top:2px solid var(--spruce);padding-top:1rem;min-width:0}
+.entry time{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--rust)}
+.entry h3{font-family:var(--serif);font-weight:500;font-variation-settings:"opsz" 48;font-size:1.45rem;line-height:1.15;margin:.5rem 0 .5rem;letter-spacing:-.01em;color:var(--spruce)}
+.entry p{margin:0;color:var(--muted);font-size:.95rem}
+/* about strip */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem;align-items:start;background:var(--paper);border-radius:28px;padding:clamp(1.5rem,4vw,3.5rem);border:1px solid var(--line)}
+.about blockquote{margin:0;font-family:var(--serif);font-weight:300;font-style:italic;font-variation-settings:"SOFT" 50,"opsz" 96;font-size:clamp(1.5rem,2.6vw,2.2rem);line-height:1.2;color:var(--spruce)}
+.about ul{list-style:none;margin:0;padding:0;display:grid;gap:.9rem}
+.about li{display:grid;grid-template-columns:auto 1fr;gap:.9rem;align-items:baseline;color:var(--muted)}
+.about li b{font-family:var(--serif);font-weight:500;font-size:1.05rem;color:var(--ink);white-space:nowrap}
+/* cta */
+.cta{text-align:center;padding-block:4rem 3rem}
+.cta h2{font-size:clamp(2.2rem,5vw,4rem);max-width:18ch;margin-inline:auto}
+.cta p{color:var(--muted);margin:.8rem 0 1.6rem}
+footer{border-top:1px solid var(--line);padding-block:1.6rem 2.2rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;color:var(--muted);font-size:.85rem}
+footer a{font-weight:600;color:var(--spruce)}
+@media (max-width:900px){
+  .hero,.about{grid-template-columns:1fr}
+  .frame{width:min(100%,320px);justify-self:start}
+  .figures{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .projects,.journal{grid-template-columns:1fr}
+  .proj.big{grid-row:auto}
+}
+.dx{position:fixed;left:12px;bottom:12px;z-index:50;display:flex;gap:4px;background:#121316;padding:6px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.25);font-family:ui-monospace,monospace}
+.dx a{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:#bbb;background:#222}
+.dx a[aria-current]{background:#fff;color:#000}
+.dx a.i{width:auto;padding:0 10px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top" aria-label="Primary">
+    <a class="wordmark" href="#">James Gilmore<small>Seattle · 47.6° N</small></a>
+    <ul><li><a href="#" aria-current="page">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Resume</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact</a></li></ul>
+  </nav>
+
+  <header class="hero">
+    <canvas id="contours" aria-hidden="true"></canvas>
+    <div>
+      <span class="marker">Trailhead · Fintech · Data · Building</span>
+      <h1>Systems for money, data, and <i>ideas worth building.</i></h1>
+      <p class="lede">I help banks turn large, messy datasets into decisions. On weekends I run long distances and sketch out the next thing to build.</p>
+      <div class="actions"><a class="btn" href="#">See the work</a><a class="btn o" href="#">Read the journal</a></div>
+    </div>
+    <figure class="frame"><img src="profile.jpg" alt="James Gilmore" width="400" height="400"><span class="stamp">Open to good problems</span></figure>
+  </header>
+
+  <div class="mile">Mile 1 · The numbers</div>
+  <div class="figures">
+    <div class="fig"><b>60+</b><span>Financial institutions served, from implementation through renewal</span></div>
+    <div class="fig"><b>$2M</b><span>Cross-sold in a single year with sales and consulting teams</span></div>
+    <div class="fig"><b>20 hrs</b><span>Saved every month with automated analysis notebooks</span></div>
+    <div class="fig"><b>50+</b><span>Software implementations led with executive teams</span></div>
+  </div>
+
+  <div class="mile">Mile 2 · Projects</div>
+  <div class="sechead"><div><h2>Things I have built</h2><p>Some became tools people rely on. Some stayed interesting attempts. All of them started with "what if this existed?"</p></div><a href="#">All projects →</a></div>
+  <div class="projects">
+    <article class="proj big"><span class="k">Featured · Automation</span><h3>Monthly analysis, handed to a notebook</h3><p>A Jupyter pipeline that replaced a 20-hour manual reporting cycle and made product reporting something clients could actually act on.</p><div class="tags"><span>Python</span><span>Pandas</span><span>Jupyter</span></div></article>
+    <article class="proj"><span class="k">Process</span><h3>Implementation playbook</h3><p>The method behind 50+ rollouts, on-prem and hosted, with C-suite and operations teams.</p><div class="tags"><span>Notion</span><span>Workfront</span></div></article>
+    <article class="proj"><span class="k">Analytics</span><h3>Department KPI dashboards</h3><p>Tracking tools that put athletics revenue and attendance on one screen.</p><div class="tags"><span>Tableau</span><span>Excel</span></div></article>
+  </div>
+
+  <div class="mile">Mile 3 · Journal</div>
+  <div class="journal">
+    <article class="entry"><time>Sep 2026 · Building</time><h3>The barrier to building software just collapsed</h3><p>Sample entry. The constraint is imagination now, and the willingness to try.</p></article>
+    <article class="entry"><time>Aug 2026 · Growth</time><h3>What 60 bank clients taught me about renewals</h3><p>Sample entry. The relationship is won after the sale, not before it.</p></article>
+    <article class="entry"><time>Jul 2026 · Travel</time><h3>Planning a trip like a project</h3><p>Sample entry. Constraints, spreadsheets, and leaving room for detours.</p></article>
+  </div>
+
+  <div class="mile">Mile 4 · About</div>
+  <section class="about">
+    <blockquote>"For the first time, millions of people can look at a problem, ask what about this idea, and then actually build it. What a time to be alive."</blockquote>
+    <ul>
+      <li><b>Day job</b><span>Client Services Manager in fintech, helping 60+ banks grow with data and product strategy.</span></li>
+      <li><b>Off the clock</b><span>Long-distance running, strategy and economic history, planning the next trip.</span></li>
+      <li><b>Community</b><span>Toastmasters 832 treasurer and past president. UCF Seattle Alumni chair.</span></li>
+      <li><b>Education</b><span>MBA in Entrepreneurship and BS in Business, University of Central Florida.</span></li>
+    </ul>
+  </section>
+
+  <section class="cta">
+    <h2>Have a problem worth an afternoon?</h2>
+    <p>Data, automation, or an idea that keeps coming back. Let's talk.</p>
+    <a class="btn" href="#">Get in touch</a>
+  </section>
+  <footer><span>© 2026 James Gilmore · Seattle, WA</span><span><a href="#">GitHub</a> · <a href="#">LinkedIn</a> · <a href="#">Email</a></span></footer>
+</div>
+<nav class="dx" aria-label="Rebrand directions"><a class="i" href="./">Index</a><a href="01-ledger.html">1</a><a href="02-fieldnotes.html" aria-current="page">2</a><a href="03-console.html">3</a><a href="04-poster.html">4</a><a href="05-blueprint.html">5</a></nav>
+<script>
+(function(){
+  var c=document.getElementById('contours');if(!c)return;var ctx=c.getContext('2d');
+  function draw(){var r=c.parentElement.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);c.width=r.width*d;c.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,r.width,r.height);
+    ctx.strokeStyle='#587463';ctx.lineWidth=1;
+    for(var k=0;k<14;k++){ctx.beginPath();var base=r.height*0.15+k*(r.height*0.07);
+      for(var x=0;x<=r.width;x+=8){var y=base+Math.sin(x*0.011+k*0.7)*22+Math.sin(x*0.004-k*0.5)*40+Math.cos(x*0.02+k)*6;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);} ctx.globalAlpha=0.35;ctx.stroke();}
+  }
+  draw();window.addEventListener('resize',draw);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Poster — James Gilmore rebrand 4 of 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Public+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+/* Layout concept: a screen-printed poster. Chrome yellow ground, ink-black condensed type at enormous scale, thick rules, one red stamp. */
+:root{
+  --yellow:#F2C41C; --ink:#141414; --paper:#FFFBEA; --red:#D9341E; --mute:#5A5031;
+  --display:"Bebas Neue",Impact,"Arial Narrow",sans-serif; --sans:"Public Sans",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--yellow);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1240px;margin-inline:auto;padding-inline:clamp(16px,4vw,44px)}
+nav.top{display:flex;justify-content:space-between;align-items:center;padding-block:1.2rem;border-bottom:4px solid var(--ink);gap:1rem;flex-wrap:wrap}
+.mark{font-family:var(--display);font-size:2rem;line-height:1;letter-spacing:.02em}
+nav.top ul{display:flex;gap:1.4rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav.top li a{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;line-height:1}
+nav.top li a[aria-current]{background:var(--ink);color:var(--yellow);padding:.15rem .4rem}
+/* hero */
+.hero{position:relative;padding-block:2.5rem 2rem;display:grid;grid-template-columns:minmax(0,1fr) auto;container-type:inline-size;gap:2rem;align-items:end;border-bottom:4px solid var(--ink)}
+h1{font-family:var(--display);font-size:clamp(4.2rem,17vw,19rem);overflow-wrap:anywhere;hyphens:none;line-height:.82;letter-spacing:-.005em;margin:0;text-transform:uppercase}
+h1 span{display:block}
+h1 span:nth-child(2){color:var(--paper);-webkit-text-stroke:3px var(--ink);text-stroke:3px var(--ink)}
+.tagline{font-family:var(--display);font-size:clamp(1.4rem,3vw,2.4rem);letter-spacing:.04em;line-height:1;margin:1.2rem 0 0;max-width:24ch}
+.tagline b{color:var(--red);font-weight:400}
+.photo{position:relative;width:min(38vw,300px);align-self:end}
+.photo img{display:block;width:100%;height:auto;border:4px solid var(--ink);filter:grayscale(1) contrast(1.15)}
+.photo .stamp{position:absolute;top:-1.4rem;left:-1.6rem;background:var(--red);color:var(--paper);font-family:var(--display);font-size:1.15rem;letter-spacing:.08em;padding:.5rem .8rem;transform:rotate(-8deg);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
+/* marquee */
+.marquee{border-bottom:4px solid var(--ink);background:var(--ink);color:var(--yellow);overflow:hidden;white-space:nowrap;font-family:var(--display);font-size:clamp(1.6rem,3.4vw,2.8rem);letter-spacing:.06em;line-height:1;padding-block:.55rem}
+.marquee div{display:inline-block;padding-left:100%;animation:run 26s linear infinite}
+.marquee span{margin-right:3rem}.marquee span::after{content:"★";color:var(--red);margin-left:3rem}
+@keyframes run{to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.marquee div{animation:none;padding-left:0}}
+/* stats as stickers */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;padding-block:2.2rem}
+.stat{background:var(--paper);border:4px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:1.2rem 1.2rem 1rem;min-width:0}
+.stat:nth-child(2){transform:rotate(1.5deg)}.stat:nth-child(3){transform:rotate(-1.2deg)}
+.stat b{display:block;font-family:var(--display);font-size:clamp(3rem,6vw,5.4rem);line-height:.9;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:.5rem;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em}
+/* projects */
+h2{font-family:var(--display);font-size:clamp(3rem,8vw,6.5rem);line-height:.9;margin:0;text-transform:uppercase}
+.sechead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:.5rem 1rem;border-top:4px solid var(--ink);padding-top:1rem;margin-bottom:1.4rem}
+.sechead h2{min-width:0;overflow-wrap:anywhere}
+.sechead a{font-family:var(--display);font-size:1.3rem;letter-spacing:.06em;border-bottom:3px solid var(--ink);white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:4px solid var(--ink);background:var(--ink);gap:4px;margin-bottom:3rem}
+.card{background:var(--paper);padding:1.6rem;min-width:0;display:grid;gap:.5rem;align-content:start}
+.card:nth-child(1){background:var(--ink);color:var(--yellow)}
+.card .k{font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.card:nth-child(1) .k{color:var(--yellow)}
+.card h3{font-family:var(--display);font-size:clamp(2rem,4vw,3.2rem);line-height:.92;margin:0;letter-spacing:.01em}
+.card p{margin:0;max-width:44ch}
+.card:nth-child(1) p{color:#E9DFA6}
+.card .tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.4rem}
+.card .tags span{font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;border:2px solid currentColor;padding:.15rem .5rem}
+/* posts */
+.posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem;margin-bottom:3rem}
+.post{border-top:4px solid var(--ink);padding-top:.9rem;min-width:0}
+.post .k{font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase}
+.post h3{font-family:var(--display);font-size:2rem;line-height:.95;margin:.4rem 0 .5rem}
+.post p{margin:0;color:var(--mute)}
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2rem;border-top:4px solid var(--ink);padding-block:2.4rem;align-items:start}
+.about .big{font-family:var(--display);font-size:clamp(2.2rem,4.6vw,3.8rem);line-height:.95;margin:0}
+.about .big em{font-style:normal;color:var(--red)}
+.about p{margin:0 0 1rem;max-width:52ch}
+.about ul{list-style:none;padding:0;margin:0;display:grid;gap:.5rem}
+.about li{display:flex;gap:.8rem;align-items:baseline;font-weight:500}
+.about li::before{content:"■";color:var(--red);font-size:.8rem}
+/* cta */
+.cta{background:var(--ink);color:var(--yellow);padding:clamp(2rem,5vw,4rem) clamp(16px,4vw,44px);text-align:center}
+.cta h2{font-size:clamp(3rem,10vw,8rem);color:var(--yellow)}
+.cta h2 span{color:var(--paper)}
+.cta p{margin:.8rem auto 1.6rem;max-width:44ch;color:#E9DFA6}
+.btn{display:inline-block;font-family:var(--display);font-size:1.5rem;letter-spacing:.06em;padding:.8rem 1.6rem;background:var(--yellow);color:var(--ink);border:4px solid var(--yellow);line-height:1}
+.btn.o{background:transparent;color:var(--yellow)}
+.btn.dark{background:var(--ink);color:var(--yellow);border-color:var(--ink)}
+footer{padding-block:1.4rem 2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;border-top:4px solid var(--ink)}
+@media (max-width:900px){
+  .hero,.about{grid-template-columns:1fr}
+  .photo{width:min(60vw,240px);align-self:start}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid,.posts{grid-template-columns:1fr}
+}
+.dx{position:fixed;left:12px;bottom:12px;z-index:50;display:flex;gap:4px;background:#121316;padding:6px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.35);font-family:ui-monospace,monospace}
+.dx a{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:#bbb;background:#222}
+.dx a[aria-current]{background:#fff;color:#000}
+.dx a.i{width:auto;padding:0 10px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top" aria-label="Primary"><a class="mark" href="#">JG ★ SEATTLE</a><ul><li><a href="#" aria-current="page">Home</a></li><li><a href="#">About</a></li><li><a href="#">Projects</a></li><li><a href="#">Resume</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact</a></li></ul></nav>
+  <header class="hero">
+    <div>
+      <h1><span>James</span><span>Gilmore</span></h1>
+      <p class="tagline">Builds systems for money, data, and ideas. <b>Automates the tedious stuff.</b></p>
+    </div>
+    <figure class="photo" style="margin:0"><img src="profile.jpg" alt="James Gilmore" width="400" height="400"><span class="stamp">Open to problems</span></figure>
+  </header>
+</div>
+<div class="marquee" aria-hidden="true"><div><span>What if this existed?</span><span>Data to action</span><span>Automate it</span><span>Seattle, WA</span><span>What a time to be alive</span><span>What if this existed?</span><span>Data to action</span><span>Automate it</span></div></div>
+<div class="wrap">
+  <div class="stats" aria-label="Career figures">
+    <div class="stat"><b>60+</b><span>Banks served</span></div>
+    <div class="stat"><b>$2M</b><span>Cross-sold in a year</span></div>
+    <div class="stat"><b>20h</b><span>Saved every month</span></div>
+    <div class="stat"><b>227%</b><span>Peak growth negotiated</span></div>
+  </div>
+
+  <div class="sechead"><h2>Projects</h2><a href="#">All of them →</a></div>
+  <div class="grid">
+    <article class="card"><span class="k">Featured · Automation</span><h3>Monthly analysis, handed to a notebook</h3><p>A Jupyter pipeline that replaced a 20-hour manual reporting cycle and made product reporting something clients act on.</p><div class="tags"><span>Python</span><span>Pandas</span></div></article>
+    <article class="card"><span class="k">Process</span><h3>Implementation playbook</h3><p>The method behind 50+ rollouts with C-suite and operations teams.</p><div class="tags"><span>Notion</span><span>Workfront</span></div></article>
+    <article class="card"><span class="k">Analytics</span><h3>Department KPI dashboards</h3><p>Athletics revenue and attendance on one screen.</p><div class="tags"><span>Tableau</span><span>Excel</span></div></article>
+    <article class="card"><span class="k">Web</span><h3>jamesgilmore.xyz</h3><p>This site. Next.js, Supabase, and an admin panel so posts ship without a deploy.</p><div class="tags"><span>Next.js</span><span>Supabase</span></div></article>
+  </div>
+
+  <div class="sechead"><h2>Posts</h2><a href="#">Read all →</a></div>
+  <div class="posts">
+    <article class="post"><span class="k">Building · Sep 2026</span><h3>The barrier to building software just collapsed</h3><p>Sample post. The constraint is imagination now.</p></article>
+    <article class="post"><span class="k">Growth · Aug 2026</span><h3>What 60 bank clients taught me about renewals</h3><p>Sample post. The relationship is won after the sale.</p></article>
+    <article class="post"><span class="k">Travel · Jul 2026</span><h3>Planning a trip like a project</h3><p>Sample post. Constraints and detours.</p></article>
+  </div>
+
+  <section class="about">
+    <p class="big">Fintech by day. Builder by nature. <em>Runner</em> by choice.</p>
+    <div>
+      <p>I help banks understand and grow their customer base through data, analytics, and product strategy. The real thing that drives me is the moment an idea stops being abstract and becomes something real.</p>
+      <ul><li>MBA, Entrepreneurship · University of Central Florida</li><li>Toastmasters 832 treasurer, past president</li><li>UCF Seattle Alumni chair</li><li>Python, Pandas, SQL, Tableau, Excel, and whatever gets it done</li></ul>
+    </div>
+  </section>
+</div>
+<section class="cta"><h2>Got a problem <span>worth building?</span></h2><p>Data, automation, or an idea that keeps coming back. Send it over.</p><a class="btn" href="#">Get in touch</a> <a class="btn o" href="#">Resume</a></section>
+<div class="wrap"><footer><span>© 2026 James Gilmore</span><span><a href="#">GitHub</a> · <a href="#">LinkedIn</a> · <a href="#">Email</a></span><span>Printed in Seattle</span></footer></div>
+<nav class="dx" aria-label="Rebrand directions"><a class="i" href="./">Index</a><a href="01-ledger.html">1</a><a href="02-fieldnotes.html">2</a><a href="03-console.html">3</a><a href="04-poster.html" aria-current="page">4</a><a href="05-blueprint.html">5</a></nav>
+</body>
+</html>
