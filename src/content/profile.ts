@@ -19,6 +19,7 @@ export const profile = {
     "Seattle-based. Fintech by day, where I make bank data behave. Every other hour goes to the next idea, the next run, or the next trip spreadsheet.",
   photoCaption: "Venice. Zero regrets.",
   photoStickers: ["Seattle, WA", "Long runs", "UCF alum"],
+  coordinates: "47.6062° N · 122.3321° W",
 
   /* ---------- the scrolling tape under the hero ---------- */
   tape: [

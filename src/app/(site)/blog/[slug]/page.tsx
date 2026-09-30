@@ -93,11 +93,11 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       <header className="mt-8 animate-fade-up">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-teal px-3 py-1 font-display text-[11px] font-extrabold uppercase tracking-wider text-white">{post.category}</span>
-          <time dateTime={post.created_at} className="hand text-xl text-coral">{formattedDate}</time>
+          <span className="rounded-full eyebrow rounded-full border border-gold/40 px-3 py-1">{post.category}</span>
+          <time dateTime={post.created_at} className="hand text-lg">{formattedDate}</time>
           <span className="text-sm font-bold text-muted">{readingTime} min read</span>
         </div>
-        <h1 className="mt-4 font-display text-4xl font-extrabold leading-[.98] tracking-tight text-balance sm:text-5xl lg:text-6xl">{post.title}</h1>
+        <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-6xl">{post.title}</h1>
       </header>
 
       <hr className="hr-gold my-10" />
@@ -106,17 +106,17 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       {/* After the post */}
       <div className="mx-auto mt-14 grid max-w-2xl gap-4 sm:grid-cols-2">
-        <Link href="/projects" className="card card-lift grid content-start gap-2 p-5 no-underline" style={{ ["--c" as string]: "var(--color-mint)" }}>
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-mint"><FolderOpen size={18} /></span>
-          <p className="m-0 font-display text-lg font-extrabold tracking-tight">Enjoyed this?</p>
+        <Link href="/projects" className="card card-accent card-lift grid content-start gap-2 p-5 no-underline" style={{ ["--c" as string]: "var(--color-mint)" }}>
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-paper-2/15 text-mint"><FolderOpen size={18} /></span>
+          <p className="m-0 font-display text-lg font-semibold tracking-tight">Enjoyed this?</p>
           <p className="m-0 text-[15px] text-muted">See what I&apos;ve been building.</p>
-          <span className="mt-1 inline-flex items-center gap-1 text-sm font-bold">Stuff I made <ArrowRight size={14} /></span>
+          <span className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-gold">Stuff I made <ArrowRight size={14} /></span>
         </Link>
-        <Link href="/contact" className="card card-lift grid content-start gap-2 p-5 no-underline" style={{ ["--c" as string]: "var(--color-coral)" }}>
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-coral text-white"><Mail size={18} /></span>
-          <p className="m-0 font-display text-lg font-extrabold tracking-tight">Want to argue about it?</p>
+        <Link href="/contact" className="card card-accent card-lift grid content-start gap-2 p-5 no-underline" style={{ ["--c" as string]: "var(--color-coral)" }}>
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-coral/15 text-coral"><Mail size={18} /></span>
+          <p className="m-0 font-display text-lg font-semibold tracking-tight">Want to argue about it?</p>
           <p className="m-0 text-[15px] text-muted">I am always up for a good conversation.</p>
-          <span className="mt-1 inline-flex items-center gap-1 text-sm font-bold">Say hi <ArrowRight size={14} /></span>
+          <span className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-gold">Say hi <ArrowRight size={14} /></span>
         </Link>
       </div>
 

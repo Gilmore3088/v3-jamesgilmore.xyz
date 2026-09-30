@@ -15,13 +15,13 @@ export const metadata: Metadata = {
 function FriendsProjectCard({ project }: { project: Project }) {
   const { title, description, technologies, project_url, github_url } = project;
   return (
-    <div className="card grid min-w-0 content-start gap-2 p-5" style={{ ["--c" as string]: "var(--color-line)" }}>
-      <h3 className="m-0 font-display text-xl font-extrabold leading-tight tracking-tight">{title}</h3>
+    <div className="card grid min-w-0 content-start gap-2 p-6">
+      <h3 className="m-0 font-display text-xl font-semibold leading-tight tracking-tight">{title}</h3>
       <p className="m-0 text-[15px] leading-relaxed text-muted">{description}</p>
       {technologies?.length > 0 && <p className="m-0 text-xs font-bold text-muted">{technologies.join(" · ")}</p>}
-      <div className="mt-1 flex gap-4 text-sm font-bold">
-        {project_url && <a href={project_url} target="_blank" rel="noopener noreferrer" className="underline decoration-coral decoration-2 underline-offset-4">Visit</a>}
-        {github_url && <a href={github_url} target="_blank" rel="noopener noreferrer" className="underline decoration-coral decoration-2 underline-offset-4">Source</a>}
+      <div className="mt-1 flex gap-4 text-sm font-semibold">
+        {project_url && <a href={project_url} target="_blank" rel="noopener noreferrer" className="text-gold underline decoration-gold/40 underline-offset-4 hover:decoration-gold">Visit</a>}
+        {github_url && <a href={github_url} target="_blank" rel="noopener noreferrer" className="text-gold underline decoration-gold/40 underline-offset-4 hover:decoration-gold">Source</a>}
       </div>
     </div>
   );
@@ -33,8 +33,8 @@ export default async function ProjectsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
       <header className="animate-fade-up max-w-3xl">
-        <p className="hand m-0 inline-block -rotate-2 text-2xl text-coral">some useful, some just fun</p>
-        <h1 className="mt-2 font-display text-4xl font-extrabold leading-[.98] tracking-tight sm:text-6xl">Stuff I&apos;ve made</h1>
+        <p className="eyebrow m-0">Expeditions</p>
+        <h1 className="mt-3 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-gold-gradient sm:text-6xl">Stuff I&apos;ve made</h1>
         <p className="mt-5 text-lg text-muted">Systems, tools, and explorations. Each one started with &ldquo;what if this existed?&rdquo; and got far enough to be worth writing down.</p>
       </header>
 

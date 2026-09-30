@@ -98,21 +98,21 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
       <header className="mt-8 animate-fade-up">
         <div className="flex flex-wrap items-center gap-2">
-          {project.category && <span className="rounded-full bg-mustard px-3 py-1 font-display text-[11px] font-extrabold uppercase tracking-wider">{project.category}</span>}
-          <span className="rounded-full border-2 border-ink px-3 py-0.5 font-display text-[11px] font-extrabold uppercase tracking-wider">{statusInfo.label}</span>
-          <time dateTime={project.created_at} className="hand text-xl text-coral">{formattedDate}</time>
+          {project.category && <span className="rounded-full eyebrow rounded-full border border-gold/40 px-3 py-1">{project.category}</span>}
+          <span className="sticker">{statusInfo.label}</span>
+          <time dateTime={project.created_at} className="hand text-lg">{formattedDate}</time>
           {hasCaseStudy && <span className="text-sm font-bold text-muted">{readingTime} min read</span>}
         </div>
-        <h1 className="mt-4 font-display text-4xl font-extrabold leading-[.98] tracking-tight sm:text-5xl lg:text-6xl">{project.title}</h1>
+        <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">{project.title}</h1>
         {project.description && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{project.description}</p>}
       </header>
 
       <div className="mt-6 flex flex-wrap items-center gap-3 animate-fade-up animation-delay-100">
         {project.technologies?.map((tech) => (
-          <span key={tech} className="rounded-full border-2 border-ink bg-paper px-3 py-1 text-sm font-bold">{tech}</span>
+          <span key={tech} className="rounded-full border border-line bg-paper px-3 py-1 text-sm text-muted">{tech}</span>
         ))}
         {project.project_url && (
-          <Link href={project.project_url} target="_blank" rel="noopener noreferrer" className="btn btn-coral !py-2 !px-4 text-sm"><ExternalLink size={14} /> Visit</Link>
+          <Link href={project.project_url} target="_blank" rel="noopener noreferrer" className="btn !py-2 !px-4 text-sm"><ExternalLink size={14} /> Visit</Link>
         )}
         {project.github_url && (
           <Link href={project.github_url} target="_blank" rel="noopener noreferrer" className="btn btn-outline !py-2 !px-4 text-sm"><Github size={14} /> Source</Link>
@@ -124,7 +124,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       {hasCaseStudy ? (
         <article className="prose-custom mx-auto max-w-2xl animate-fade-up animation-delay-200" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
       ) : (
-        <p className="hand py-8 text-center text-3xl text-muted">The full story is still being written.</p>
+        <p className="hand py-8 text-center text-2xl">The full story is still being written.</p>
       )}
 
       <hr className="hr-gold my-10" />

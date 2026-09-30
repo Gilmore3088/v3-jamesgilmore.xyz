@@ -1,28 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, DM_Sans, Caveat } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  axes: ["opsz"],
-  variable: "--font-bricolage",
+  variable: "--font-inter",
 });
 
-const dmSans = DM_Sans({
+const playfair = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-dm-sans",
-});
-
-const caveat = Caveat({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["500", "700"],
-  variable: "--font-caveat",
+  style: ["normal", "italic"],
+  variable: "--font-playfair",
 });
 
 export const metadata: Metadata = {
@@ -39,6 +32,7 @@ export const metadata: Metadata = {
     "James Gilmore",
     "Seattle",
     "running",
+    "history",
     "travel",
     "fintech",
     "data analysis",
@@ -72,8 +66,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFF8EC",
-  colorScheme: "light",
+  themeColor: "#15130F",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -83,7 +77,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${bricolage.variable} ${dmSans.variable} ${caveat.variable} font-sans antialiased bg-bg text-ink`}>
+      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-bg text-ink noise-bg`}>
         {children}
         <Analytics />
         <SpeedInsights />

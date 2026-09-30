@@ -35,20 +35,20 @@ export default function AboutPage() {
       {/* Header */}
       <header className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_auto]">
         <div className="animate-fade-up">
-          <p className="hand m-0 inline-block -rotate-2 text-2xl text-coral">the long version</p>
-          <h1 className="mt-2 font-display text-4xl font-extrabold leading-[.98] tracking-tight sm:text-6xl">
+          <p className="eyebrow m-0">The long version</p>
+          <h1 className="mt-3 font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
             Hi, I&apos;m James. I spend most of my time <span className="hl">thinking about systems.</span>
           </h1>
-          <div className="mt-6 grid gap-1 border-l-4 border-mustard pl-5 text-lg font-medium">
+          <div className="mt-6 grid gap-1 border-l-2 border-gold pl-5 text-lg font-medium">
             <p className="m-0">Systems for money.</p>
             <p className="m-0">Systems for data.</p>
             <p className="m-0">Systems for ideas.</p>
             <p className="m-0">Systems for building things that didn&apos;t exist yesterday.</p>
           </div>
         </div>
-        <figure className="animate-fade-up animation-delay-200 m-0 w-[min(100%,260px)] -rotate-2 bg-paper p-3 pb-10 shadow-[0_20px_40px_-20px_rgba(28,26,31,.45)]">
+        <figure className="animate-fade-up animation-delay-200 m-0 frame w-[min(100%,260px)] ">
           <Image src="/profile.jpg" alt="James Gilmore" width={400} height={400} className="block aspect-square h-auto w-full object-cover" unoptimized />
-          <figcaption className="hand absolute inset-x-0 bottom-2 text-center text-xl">Seattle, most days</figcaption>
+          <figcaption className="hand mt-3 block text-lg">Seattle, most days</figcaption>
         </figure>
       </header>
 
@@ -67,16 +67,16 @@ export default function AboutPage() {
 
       {/* The shift */}
       <section className="py-6">
-        <div className="grid gap-8 rounded-3xl bg-ink p-7 text-bg sm:p-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center">
+        <div className="grid gap-8 card rounded-2xl border-gold/30 p-7 sm:p-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center">
           <div>
-            <p className="hand m-0 text-2xl text-mustard">the thing that fascinates me</p>
-            <h2 className="m-0 mt-1 font-display text-3xl font-extrabold leading-none tracking-tight sm:text-4xl">The biggest constraint isn&apos;t access to technology anymore.</h2>
-            <p className="mt-4 font-display text-2xl font-semibold text-coral">It&apos;s imagination. And the willingness to try.</p>
+            <p className="eyebrow m-0">The thing that fascinates me</p>
+            <h2 className="m-0 mt-1 font-display text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">The biggest constraint isn&apos;t access to technology anymore.</h2>
+            <p className="mt-4 font-display text-2xl italic text-gold">It&apos;s imagination. And the willingness to try.</p>
           </div>
-          <div className="grid gap-4 text-lg leading-relaxed text-bg/85">
+          <div className="grid gap-4 text-lg leading-relaxed text-muted">
             <p className="m-0">For most of history, turning an idea into software required deep technical expertise. Today, that barrier is collapsing. Creative people can move much closer to being technical builders.</p>
             <p className="m-0">For the first time, millions of people can look at a problem, ask &ldquo;what about this idea?&rdquo;, and then actually build it.</p>
-            <p className="hand m-0 text-3xl text-mustard">What a time to be alive.</p>
+            <p className="hand m-0 text-2xl">What a time to be alive.</p>
           </div>
         </div>
       </section>
@@ -86,10 +86,10 @@ export default function AboutPage() {
         <SectionHeading title="What I spend time on" />
         <div className="grid gap-4 sm:grid-cols-2">
           {THEMES.map((t) => (
-            <div key={t.label} className="card grid min-w-0 grid-cols-[auto_1fr] items-start gap-4 p-5" style={{ ["--c" as string]: ACCENT_VAR[t.accent] }}>
-              <span className={`grid h-11 w-11 place-items-center rounded-xl ${ACCENT_BG[t.accent]}`}><FactIcon name={t.icon} /></span>
+            <div key={t.label} className="card card-accent grid min-w-0 grid-cols-[auto_1fr] items-start gap-4 p-5" style={{ ["--c" as string]: ACCENT_VAR[t.accent] }}>
+              <span className={`grid h-11 w-11 place-items-center rounded-full ${ACCENT_BG[t.accent]}`}><FactIcon name={t.icon} /></span>
               <div>
-                <p className="m-0 font-display text-lg font-extrabold tracking-tight">{t.label}</p>
+                <p className="m-0 font-display text-lg font-semibold tracking-tight">{t.label}</p>
                 <p className="m-0 mt-1 text-[15px] leading-relaxed text-muted">{t.text}</p>
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function AboutPage() {
         <SectionHeading title="Outside of work" note="the actually interesting part" />
         <div className="flex flex-wrap gap-2.5">
           {OUTSIDE.map((item) => (
-            <span key={item} className="rounded-full border-2 border-ink bg-paper px-4 py-2 text-[15px] font-bold transition-transform hover:-rotate-2 hover:bg-mint">{item}</span>
+            <span key={item} className="rounded-full border border-line bg-paper px-4 py-2 text-sm text-ink transition-colors transition-transform hover:border-gold/60 hover:text-gold">{item}</span>
           ))}
         </div>
       </section>
@@ -113,16 +113,16 @@ export default function AboutPage() {
         <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
           <div className="text-lg leading-relaxed">
             <p className="m-0">This site is simply a home for things I care about: ideas, projects, experiments, and thoughts about the systems that shape our world.</p>
-            <div className="mt-5 grid gap-1 border-l-4 border-lilac pl-5 font-medium">
+            <div className="mt-5 grid gap-1 border-l-2 border-gold pl-5 font-medium">
               <p className="m-0">Some things will turn into meaningful tools.</p>
               <p className="m-0">Some will become businesses.</p>
               <p className="m-0">Some will remain interesting attempts.</p>
             </div>
           </div>
-          <div className="card p-6 sm:p-8" style={{ ["--c" as string]: "var(--color-coral)" }}>
+          <div className="card card-accent p-6 sm:p-8" style={{ ["--c" as string]: "var(--color-gold)" }}>
             <p className="m-0 text-lg">But they all start the same way. A question:</p>
-            <p className="hand m-0 mt-2 text-4xl leading-tight">What if this existed?</p>
-            <p className="m-0 mt-4 font-display text-xl font-semibold">Now I feel I have the answer... let&apos;s find out.</p>
+            <p className="hand m-0 mt-2 text-3xl leading-tight">What if this existed?</p>
+            <p className="m-0 mt-4 font-display text-xl">Now I feel I have the answer... let&apos;s find out.</p>
             <Link href="/projects" className="btn mt-6">See what I&apos;ve built <ArrowRight size={16} /></Link>
           </div>
         </div>

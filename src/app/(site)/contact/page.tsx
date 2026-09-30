@@ -20,8 +20,8 @@ export default function ContactPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
       <header className="animate-fade-up">
-        <p className="hand m-0 inline-block -rotate-3 text-2xl text-teal">{profile.hello.hand}</p>
-        <h1 className="mt-1 font-display text-4xl font-extrabold leading-[.98] tracking-tight sm:text-6xl">{profile.hello.title}</h1>
+        <p className="hand m-0 text-2xl">{profile.hello.hand}</p>
+        <h1 className="mt-2 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-gold-gradient sm:text-6xl">{profile.hello.title}</h1>
         <p className="mt-4 max-w-xl text-lg text-muted">{profile.hello.text}</p>
       </header>
 
@@ -31,14 +31,14 @@ export default function ContactPage() {
         </div>
 
         <aside className="lg:col-span-2 animate-fade-up animation-delay-200">
-          <div className="card p-6" style={{ ["--c" as string]: "var(--color-mint)" }}>
-            <p className="hand m-0 text-2xl">or find me here</p>
-            <p className="mt-3 flex items-center gap-2 text-sm font-bold"><MapPin size={15} className="text-coral" aria-hidden="true" /> Seattle, WA</p>
+          <div className="card p-6">
+            <p className="hand m-0 text-xl">or find me here</p>
+            <p className="mt-3 flex items-center gap-2 text-sm text-muted"><MapPin size={15} className="text-gold" aria-hidden="true" /> Seattle, WA</p>
             <div className="mt-4 grid gap-3">
               {CONTACT_LINKS.map((link) => (
                 <div key={link.label}>
-                  <p className="m-0 text-[11px] font-extrabold uppercase tracking-wider text-muted">{link.label}</p>
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="font-bold underline decoration-coral decoration-2 underline-offset-4 hover:bg-mustard">{link.value}</a>
+                  <p className="m-0 eyebrow">{link.label}</p>
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="font-semibold text-gold underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{link.value}</a>
                 </div>
               ))}
             </div>

@@ -44,7 +44,7 @@ function validateForm(
 }
 
 const INPUT_CLASS =
-  "mt-2 w-full rounded-xl border-2 border-ink bg-paper px-4 py-3 text-base text-ink placeholder:text-muted outline-none transition-shadow focus:shadow-[4px_4px_0_var(--color-mustard)] aria-[invalid=true]:border-coral";
+  "mt-2 w-full rounded-xl border border-line bg-paper px-4 py-3 text-base text-ink placeholder:text-muted outline-none transition-shadow focus:shadow-[4px_4px_0_var(--color-mustard)] aria-[invalid=true]:border-coral";
 
 export default function ContactForm() {
   const [name, setName] = useState("");
@@ -102,13 +102,13 @@ export default function ContactForm() {
       {/* Status region: always in the DOM so screen readers announce changes */}
       <div aria-live="polite" role="status" className="mb-8 empty:hidden">
         {status === "success" && (
-          <div className="animate-fade-up rounded-xl border-2 border-ink bg-mint p-4 font-bold">
+          <div className="animate-fade-up rounded-lg border border-mint/50 bg-mint/10 p-4 text-sm text-mint">
             Message sent successfully. I will get back to you soon.
           </div>
         )}
 
         {status === "error" && (
-          <div className="animate-fade-up rounded-xl border-2 border-ink bg-coral p-4 font-bold text-white">
+          <div className="animate-fade-up rounded-lg border border-coral/50 bg-coral/10 p-4 text-sm text-coral">
             {serverError ??
               "Something went wrong. Please try again or email me directly."}
           </div>
@@ -119,7 +119,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-extrabold"
+            className="eyebrow block"
           >
             Name
           </label>
@@ -136,7 +136,7 @@ export default function ContactForm() {
             placeholder="Your name"
           />
           {errors.name && (
-            <p id="name-error" className="mt-1.5 text-sm font-bold text-coral">
+            <p id="name-error" className="mt-1.5 text-sm text-coral">
               {errors.name}
             </p>
           )}
@@ -145,7 +145,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-extrabold"
+            className="eyebrow block"
           >
             Email
           </label>
@@ -162,7 +162,7 @@ export default function ContactForm() {
             placeholder="you@example.com"
           />
           {errors.email && (
-            <p id="email-error" className="mt-1.5 text-sm font-bold text-coral">
+            <p id="email-error" className="mt-1.5 text-sm text-coral">
               {errors.email}
             </p>
           )}
@@ -171,7 +171,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="message"
-            className="block text-sm font-extrabold"
+            className="eyebrow block"
           >
             Message
           </label>
@@ -187,7 +187,7 @@ export default function ContactForm() {
             placeholder="Your message..."
           />
           {errors.message && (
-            <p id="message-error" className="mt-1.5 text-sm font-bold text-coral">
+            <p id="message-error" className="mt-1.5 text-sm text-coral">
               {errors.message}
             </p>
           )}
@@ -213,7 +213,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="btn btn-coral disabled:cursor-not-allowed disabled:opacity-60"
+          className="btn disabled:cursor-not-allowed disabled:opacity-60"
         >
           <Send size={15} />
           {status === "submitting" ? "Sending..." : "Send Message"}

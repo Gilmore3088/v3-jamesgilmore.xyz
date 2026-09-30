@@ -1,55 +1,25 @@
 import Link from "next/link";
 import type { Project } from "@/types";
 import type { Accent } from "@/content/profile";
-import { ACCENT_BG, ACCENT_VAR } from "@/components/sticker";
+import { ACCENT_VAR } from "@/components/sticker";
 
-const ACCENTS: Accent[] = ["mint", "coral", "lilac", "mustard", "teal"];
+const ACCENTS: Accent[] = ["mustard", "teal", "coral", "lilac", "mint"];
+const STATUS: Record<string, string> = { in_progress: "Building", archived: "Retired" };
 
-const STATUS: Record<string, string> = {
-  in_progress: "Building",
-  archived: "Retired",
-};
-
-interface ProjectCardProps {
-  project: Project;
-  index?: number;
-}
-
-export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+export default function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
   const { title, slug, description, technologies, status, category } = project;
   const accent = ACCENTS[index % ACCENTS.length];
   const statusLabel = STATUS[status];
 
   return (
-    <Link
-      href={`/projects/${slug}`}
-      className="card card-lift grid min-w-0 content-start gap-2.5 p-5 no-underline"
-      style={{ ["--c" as string]: ACCENT_VAR[accent] }}
-    >
-      <div className="flex flex-wrap items-center gap-2">
-        <span className={`rounded-full px-2.5 py-1 font-display text-[11px] font-extrabold uppercase tracking-wider ${ACCENT_BG[accent]}`}>
-          {category ?? "Project"}
-        </span>
-        {statusLabel && (
-          <span className="rounded-full border-2 border-ink px-2.5 py-0.5 font-display text-[11px] font-extrabold uppercase tracking-wider">
-            {statusLabel}
-          </span>
-        )}
+    <Link href={`/projects/${slug}`} className="card card-accent card-lift group grid min-w-0 content-start gap-2.5 p-6 no-underline" style={{ ["--c" as string]: ACCENT_VAR[accent] }}>
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="eyebrow">{category ?? "Project"}</span>
+        {statusLabel && <span className="sticker">{statusLabel}</span>}
       </div>
-
-      <h3 className="font-display text-xl font-extrabold leading-tight tracking-tight">
-        {title}
-      </h3>
-
-      <p className="m-0 line-clamp-3 text-[15px] leading-relaxed text-muted">
-        {description}
-      </p>
-
-      {technologies && technologies.length > 0 && (
-        <p className="m-0 mt-1 text-xs font-bold text-muted">
-          {technologies.join(" · ")}
-        </p>
-      )}
+      <h3 className="m-0 font-display text-xl font-semibold leading-tight tracking-tight transition-colors group-hover:text-gold">{title}</h3>
+      <p className="m-0 line-clamp-3 text-[15px] leading-relaxed text-muted">{description}</p>
+      {technologies?.length > 0 && <p className="m-0 mt-1 text-xs text-muted/80">{technologies.join(" · ")}</p>}
     </Link>
   );
 }

@@ -7,13 +7,12 @@ export const contentType = "image/png";
 
 export default function OGImage() {
   return new ImageResponse(
-    <div style={{ background: "#FFF8EC", width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", position: "relative", fontFamily: "sans-serif" }}>
-      <div style={{ position: "absolute", top: 48, right: 72, background: "#FF6B4A", color: "#fff", border: "4px solid #1C1A1F", borderRadius: 999, padding: "12px 24px", fontSize: 26, fontWeight: 800, transform: "rotate(6deg)", boxShadow: "6px 6px 0 #1C1A1F" }}>SEATTLE, WA</div>
-      <div style={{ position: "absolute", bottom: 60, right: 90, background: "#12A5B3", color: "#fff", border: "4px solid #1C1A1F", borderRadius: 999, padding: "12px 24px", fontSize: 26, fontWeight: 800, transform: "rotate(-5deg)", boxShadow: "6px 6px 0 #1C1A1F" }}>LONG RUNS</div>
-      <div style={{ fontSize: 30, color: "#FF6B4A", marginBottom: 18 }}>hey, that&apos;s me</div>
-      <div style={{ fontSize: 80, fontWeight: 800, color: "#1C1A1F", lineHeight: 1, letterSpacing: "-0.03em", maxWidth: 900 }}>I&apos;m James. I run far, plan trips like heists, and build stuff.</div>
-      <div style={{ display: "flex", marginTop: 34, fontSize: 28, color: "#6B6570" }}>jamesgilmore.xyz</div>
-      <div style={{ position: "absolute", left: 80, bottom: 52, width: 260, height: 18, background: "#F7BE34", transform: "rotate(-2deg)" }} />
+    <div style={{ background: "linear-gradient(135deg, #15130F 0%, #1F1B15 100%)", width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", position: "relative" }}>
+      <div style={{ position: "absolute", left: 0, top: 0, width: "10px", height: "100%", background: "linear-gradient(180deg, #E0C48C 0%, #C9A96A 45%, #9C7F49 100%)" }} />
+      <div style={{ fontSize: 20, color: "#C9A96A", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 28 }}>47.6062° N · 122.3321° W · Seattle</div>
+      <div style={{ fontSize: 76, fontWeight: 700, fontFamily: "Georgia, serif", color: "#EFE6D3", lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: 940 }}>I&apos;m James. I run far, plan trips like heists, and build stuff.</div>
+      <div style={{ display: "flex", marginTop: 34, fontSize: 26, fontStyle: "italic", fontFamily: "Georgia, serif", color: "#C9A96A" }}>Fintech by day. Everything else by curiosity.</div>
+      <div style={{ position: "absolute", bottom: 52, right: 80, fontSize: 20, color: "#A69C86", letterSpacing: "0.05em" }}>jamesgilmore.xyz</div>
     </div>,
     { ...size }
   );
