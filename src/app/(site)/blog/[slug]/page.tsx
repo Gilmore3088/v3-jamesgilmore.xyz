@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight, FolderOpen, Mail } from "lucide-react";
 import { getPostBySlug, getAllSlugs } from "@/lib/data";
 import { renderMarkdown, estimateReadingTime } from "@/lib/markdown";
+import { SITE_NAME, SITE_URL, jsonLd } from "@/lib/site";
 
 export const revalidate = 60;
 
@@ -22,12 +23,32 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = await getPostBySlug(slug);
 
   if (!post) {
-    return { title: "Post Not Found | James Gilmore" };
+    return { title: "Post Not Found" };
   }
 
+  const description = post.excerpt ?? post.content.slice(0, 160).trim();
+  const url = `${SITE_URL}/blog/${slug}`;
+
   return {
-    title: `${post.title} | James Gilmore`,
-    description: post.excerpt ?? post.content.slice(0, 160).trim(),
+    title: post.title,
+    description,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      url,
+      title: post.title,
+      description,
+      publishedTime: post.created_at,
+      modifiedTime: post.updated_at ?? post.created_at,
+      authors: [SITE_NAME],
+      section: post.category,
+      tags: post.tags ?? undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+    },
   };
 }
 
@@ -42,9 +63,32 @@ export default async function BlogPostPage({ params }: PageProps) {
   const sanitizedHtml = await renderMarkdown(post.content);
   const formattedDate = format(new Date(post.created_at), "MMMM d, yyyy");
   const readingTime = estimateReadingTime(post.content);
+  const url = `${SITE_URL}/blog/${slug}`;
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#article`,
+    headline: post.title,
+    description: post.excerpt ?? undefined,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    datePublished: post.created_at,
+    dateModified: post.updated_at ?? post.created_at,
+    articleSection: post.category,
+    keywords: Array.isArray(post.tags) ? post.tags.join(", ") : undefined,
+    wordCount: post.content.split(/\s+/).length,
+    inLanguage: "en-US",
+    author: { "@type": "Person", "@id": `${SITE_URL}/#person`, name: SITE_NAME, url: SITE_URL },
+    publisher: { "@type": "Person", "@id": `${SITE_URL}/#person`, name: SITE_NAME },
+  };
 
   return (
     <div className="noise-bg min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }}
+      />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         {/* Back link */}
         <div className="animate-fade-up">
@@ -90,6 +134,44 @@ export default async function BlogPostPage({ params }: PageProps) {
             className="prose-custom max-w-2xl w-full"
             dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
           />
+        </div>
+
+        {/* Post-article CTAs */}
+        <div className="mx-auto mt-16 grid max-w-2xl gap-4 sm:grid-cols-2 animate-fade-up animation-delay-400">
+          <Link
+            href="/projects"
+            className="group flex flex-col rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-gold/40 hover:gold-glow"
+          >
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface-light text-gold transition-colors group-hover:border-gold/40">
+              <FolderOpen size={16} />
+            </span>
+            <span className="mt-4 text-sm font-semibold text-text-primary transition-colors group-hover:text-gold">
+              Enjoyed this?
+            </span>
+            <span className="mt-1 text-sm text-text-secondary">
+              See what I have been building.
+            </span>
+            <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.15em] text-gold">
+              View projects <ArrowRight size={12} />
+            </span>
+          </Link>
+          <Link
+            href="/contact"
+            className="group flex flex-col rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:border-gold/40 hover:gold-glow"
+          >
+            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface-light text-gold transition-colors group-hover:border-gold/40">
+              <Mail size={16} />
+            </span>
+            <span className="mt-4 text-sm font-semibold text-text-primary transition-colors group-hover:text-gold">
+              Want to work together?
+            </span>
+            <span className="mt-1 text-sm text-text-secondary">
+              I am always up for a good problem.
+            </span>
+            <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.15em] text-gold">
+              Get in touch <ArrowRight size={12} />
+            </span>
+          </Link>
         </div>
 
         {/* Gold rule after content */}

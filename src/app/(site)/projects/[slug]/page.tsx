@@ -22,15 +22,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const project = await getProjectBySlug(slug);
 
   if (!project) {
-    return { title: "Project Not Found | James Gilmore" };
+    return { title: "Project Not Found" };
   }
 
   const description = project.description?.slice(0, 160).trim()
     ?? "A project by James Gilmore";
 
   return {
-    title: `${project.title} | James Gilmore`,
+    title: project.title,
     description,
+    alternates: { canonical: `/projects/${slug}` },
     openGraph: {
       title: project.title,
       description,

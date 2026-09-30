@@ -6,7 +6,8 @@ import type { Project } from "@/types";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Projects | James Gilmore",
+  title: "Projects",
+  alternates: { canonical: "/projects" },
   description:
     "A collection of projects built by James Gilmore, including data tools, automation platforms, and web applications.",
 };

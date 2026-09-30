@@ -4,7 +4,8 @@ import { format } from "date-fns";
 import { getAllPosts } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "Blog | James Gilmore",
+  title: "Blog",
+  alternates: { canonical: "/blog" },
   description:
     "Reflections on growth, travel, data, and building things by James Gilmore.",
 };

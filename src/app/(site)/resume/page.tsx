@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Download } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Resume | James Gilmore",
+  title: "Resume",
+  alternates: { canonical: "/resume" },
   description:
     "Professional resume for James Gilmore - Client Services Manager specializing in data analysis, automation, and financial institution consulting.",
 };

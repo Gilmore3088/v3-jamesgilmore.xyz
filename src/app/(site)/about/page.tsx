@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About | James Gilmore",
+  title: "About",
+  alternates: { canonical: "/about" },
   description:
     "Building systems, exploring ideas, and taking advantage of the most creative technological moment in history.",
 };
