@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>James Gilmore — option D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Caveat:wght@500;700&display=swap">
+<style>
+/* A page with a pulse. Cream ground, sticker colors, a tilted polaroid, handwritten notes in the margins, and copy written like James talks. */
+:root{--bg:#FFF8EC;--ink:#1C1A1F;--muted:#6B6570;--paper:#FFFFFF;--coral:#FF6B4A;--teal:#12A5B3;--mustard:#F7BE34;--lilac:#B79BE8;--mint:#9BE0B8;--line:#E9DFCB;
+--display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;--sans:"DM Sans",system-ui,sans-serif;--hand:"Caveat","Comic Sans MS",cursive;color-scheme:light}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+a:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+/* nav */
+nav.top{display:flex;justify-content:space-between;align-items:center;padding-block:1.3rem;gap:1rem;flex-wrap:wrap}
+nav.top .name{font-family:var(--display);font-weight:800;font-size:1.35rem;text-decoration:none;letter-spacing:-.02em}
+nav.top .name span{display:inline-block;width:.6em;height:.6em;background:var(--coral);border-radius:50%;margin-left:.15em;vertical-align:baseline}
+nav.top ul{display:flex;gap:.3rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+nav.top li a{text-decoration:none;font-weight:700;font-size:.92rem;padding:.4rem .8rem;border-radius:999px;color:var(--muted)}
+nav.top li a:hover{background:var(--paper);color:var(--ink)}
+nav.top li a[aria-current]{background:var(--ink);color:var(--bg)}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:2.5rem;align-items:center;padding-block:2.5rem 3rem;position:relative}
+.eyebrow{font-family:var(--hand);font-size:1.6rem;color:var(--coral);transform:rotate(-2deg);display:inline-block;margin-bottom:.4rem}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,6.6vw,5.4rem);line-height:.95;letter-spacing:-.04em;margin:0 0 1.2rem;text-wrap:balance}
+h1 .hl{position:relative;display:inline-block;white-space:nowrap}
+h1 .hl::after{content:"";position:absolute;left:-.05em;right:-.05em;bottom:.08em;height:.32em;background:var(--mustard);z-index:-1;border-radius:4px;transform:rotate(-1deg)}
+.lede{font-size:clamp(1.1rem,1.6vw,1.35rem);max-width:40ch;margin:0 0 1.6rem;color:var(--ink)}
+.btns{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}
+.btn{display:inline-block;text-decoration:none;font-weight:700;padding:.85rem 1.3rem;border-radius:999px;background:var(--ink);color:var(--bg);border:2px solid var(--ink);transition:transform .15s}
+.btn:hover{transform:translateY(-2px) rotate(-1deg)}
+.btn.o{background:transparent;color:var(--ink)}
+.polaroid{position:relative;justify-self:center;width:min(100%,340px);background:var(--paper);padding:14px 14px 56px;box-shadow:0 20px 40px -20px rgba(28,26,31,.4),0 2px 0 rgba(0,0,0,.05);transform:rotate(3deg);transition:transform .3s}
+.polaroid:hover{transform:rotate(0deg) scale(1.02)}
+.polaroid img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover}
+.polaroid .cap{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:var(--hand);font-size:1.5rem;color:var(--ink)}
+.sticker{position:absolute;font-family:var(--display);font-weight:800;font-size:.8rem;letter-spacing:.02em;padding:.45rem .8rem;border-radius:999px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);text-transform:uppercase;white-space:nowrap}
+.s1{top:-14px;left:-26px;background:var(--coral);color:#fff;transform:rotate(-8deg)}
+.s2{right:-22px;top:38%;background:var(--teal);color:#fff;transform:rotate(7deg)}
+.s3{bottom:-10px;left:14px;background:var(--mustard);transform:rotate(-4deg)}
+/* marquee-ish tape */
+.tapewrap{overflow:hidden;padding-block:.6rem;margin-block:.6rem 2rem}
+.tape{background:var(--ink);color:var(--bg);font-family:var(--display);font-weight:600;font-size:1.05rem;overflow:hidden;white-space:nowrap;padding-block:.7rem;transform:rotate(-1.2deg) scale(1.02)}
+.tape div{display:inline-block;animation:slide 40s linear infinite}
+.tape span{margin-inline:1.4rem}.tape span::after{content:"✦";color:var(--mustard);margin-left:2.8rem}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.tape div{animation:none}.btn:hover,.polaroid:hover{transform:none}}
+/* sections */
+section{padding-block:2.6rem}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,4vw,2.9rem);letter-spacing:-.03em;line-height:1;margin:0 0 1.4rem}
+h2 .note{font-family:var(--hand);font-weight:500;font-size:1.3rem;color:var(--muted);letter-spacing:0;margin-left:.6rem;display:inline-block;transform:rotate(-2deg)}
+/* short version */
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.fact{background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:1.2rem 1.3rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;box-shadow:5px 5px 0 var(--c,var(--mustard));min-width:0}
+.fact .ic{width:44px;height:44px;border-radius:12px;background:var(--c,var(--mustard));display:grid;place-items:center;flex:none}
+.fact .ic svg{width:24px;height:24px;stroke:var(--ink);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.fact b{font-family:var(--display);font-weight:800;font-size:1.15rem;letter-spacing:-.02em;display:block;margin-bottom:.15rem}
+.fact p{margin:0;color:var(--muted);font-size:.98rem}
+/* currently */
+.now{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.now div{border-radius:18px;padding:1.2rem;min-width:0;border:2px solid var(--ink)}
+.now b{display:block;font-family:var(--hand);font-size:1.4rem;line-height:1;margin-bottom:.5rem}
+.now span{font-weight:500}
+.now small{display:block;color:rgba(0,0,0,.55);margin-top:.5rem;font-size:.85rem}
+.now .a{background:var(--coral);color:#fff}.now .a small{color:rgba(255,255,255,.8)}
+.now .b{background:var(--mint)}.now .c{background:var(--lilac)}.now .d{background:var(--mustard)}
+/* made */
+.made{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.made a{text-decoration:none;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:1.3rem;display:grid;gap:.5rem;align-content:start;min-width:0;transition:transform .15s,box-shadow .15s}
+.made a:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ink)}
+.made .tag{font-family:var(--display);font-weight:800;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .6rem;border-radius:999px;justify-self:start;background:var(--c,var(--mustard))}
+.made h3{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em;margin:0;line-height:1.1}
+.made p{margin:0;color:var(--muted);font-size:.97rem}
+/* believe */
+.believe{background:var(--ink);color:var(--bg);border-radius:26px;padding:clamp(1.6rem,4vw,3rem);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2rem;align-items:center}
+.believe h2{margin-bottom:.4rem}
+.believe .sub{font-family:var(--hand);font-size:1.5rem;color:var(--mustard);margin:0}
+.believe ol{margin:0;padding:0;list-style:none;display:grid;gap:.9rem;counter-reset:b}
+.believe li{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,1.8vw,1.35rem);line-height:1.25;display:grid;grid-template-columns:2.2rem 1fr;gap:.6rem;align-items:baseline}
+.believe li::before{counter-increment:b;content:counter(b,decimal-leading-zero);font-family:var(--hand);color:var(--coral);font-size:1.4rem}
+/* ask me */
+.chips{display:flex;flex-wrap:wrap;gap:.6rem}
+.chips span{border:2px solid var(--ink);border-radius:999px;padding:.5rem 1rem;font-weight:700;background:var(--paper);font-size:.95rem;transition:transform .15s}
+.chips span:hover{transform:rotate(-2deg) scale(1.04);background:var(--mustard)}
+/* writing */
+.posts{display:grid;gap:0;border-top:2px solid var(--ink)}
+.post{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:baseline;padding:1rem 0;border-bottom:2px solid var(--ink);text-decoration:none}
+.post b{font-family:var(--display);font-weight:800;font-size:1.25rem;letter-spacing:-.02em}
+.post small{display:block;color:var(--muted)}
+.post time{font-family:var(--hand);font-size:1.25rem;color:var(--coral);white-space:nowrap}
+/* hello */
+.hello{position:relative;text-align:center;padding-block:3rem 2rem}
+.hello h2{font-size:clamp(2.4rem,6vw,4.4rem)}
+.hello p{max-width:44ch;margin:0 auto 1.4rem;color:var(--muted);font-size:1.1rem}
+.hello .hand{font-family:var(--hand);font-size:1.5rem;color:var(--teal);transform:rotate(-3deg);display:inline-block;margin-bottom:.2rem}
+footer{padding-block:2rem 2.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem 1rem;color:var(--muted);font-size:.9rem;border-top:2px dashed var(--line)}
+footer a{color:var(--ink);font-weight:700;text-decoration:none}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}.polaroid{justify-self:start;width:min(100%,300px);margin-top:1.5rem;margin-inline:1.2rem}
+  .facts,.believe{grid-template-columns:1fr}.now{grid-template-columns:repeat(2,minmax(0,1fr))}.made{grid-template-columns:1fr}
+}
+@media (max-width:480px){.now{grid-template-columns:1fr}.post{grid-template-columns:1fr;gap:.2rem}.s2{right:-8px}}
+.dx{position:fixed;left:12px;bottom:12px;z-index:50;display:flex;gap:4px;background:#1C1A1F;padding:6px;border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.25);font-family:var(--sans)}
+.dx a{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#bbb;background:#37343b;text-decoration:none}
+.dx a[aria-current]{background:#fff;color:#000}.dx a.i{width:auto;padding:0 10px;border-radius:999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top"><a class="name" href="#">James Gilmore<span></span></a><ul><li><a href="#" aria-current="page">Home</a></li><li><a href="#">About</a></li><li><a href="#">Stuff I made</a></li><li><a href="#">Writing</a></li><li><a href="#">Resume</a></li><li><a href="#">Say hi</a></li></ul></nav>
+
+  <header class="hero">
+    <div>
+      <span class="eyebrow">hey, that's me →</span>
+      <h1>I'm James. I run far, plan trips like heists, and <span class="hl">build stuff</span> that didn't exist yesterday.</h1>
+      <p class="lede">Seattle-based. Fintech by day, where I make bank data behave. Every other hour goes to the next idea, the next run, or the next trip spreadsheet.</p>
+      <div class="btns"><a class="btn" href="#">Stuff I've made</a><a class="btn o" href="#">Say hi</a></div>
+    </div>
+    <figure class="polaroid" style="margin:0">
+      <img src="profile.jpg" alt="James Gilmore in Venice" width="400" height="400">
+      <span class="cap">Venice. Zero regrets.</span>
+      <span class="sticker s1">Seattle, WA</span>
+      <span class="sticker s2">Long runs</span>
+      <span class="sticker s3">UCF alum</span>
+    </figure>
+  </header>
+</div>
+
+<div class="tapewrap"><div class="tape" aria-hidden="true"><div><span>Runner</span><span>Trip planner</span><span>Toastmaster</span><span>Fintech nerd</span><span>Idea hoarder</span><span>History reader</span><span>Builder of things</span><span>Runner</span><span>Trip planner</span><span>Toastmaster</span><span>Fintech nerd</span><span>Idea hoarder</span><span>History reader</span><span>Builder of things</span></div></div></div>
+
+<div class="wrap">
+  <section>
+    <h2>The short version<span class="note">(the long one is on the About page)</span></h2>
+    <div class="facts">
+      <div class="fact" style="--c:var(--coral)"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 17l4-8 3 5 2-3 4 6"/><path d="M3 21h18"/></svg></span><div><b>I run long distances.</b><p>The kind where you pack snacks and think about your life choices around mile 18.</p></div></div>
+      <div class="fact" style="--c:var(--mustard)"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 5.5-5-2.7-5 2.7 1-5.5-4-4 5.5-.5z"/></svg></span><div><b>I built a student section brand called The Knightmare.</b><p>UCF Athletics, years ago. It is still the loudest thing I have ever made.</p></div></div>
+      <div class="fact" style="--c:var(--teal)"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v6M16 4v6"/></svg></span><div><b>I plan trips in spreadsheets.</b><p>Color-coded. With a "detours" column, because the best parts are never on the plan.</p></div></div>
+      <div class="fact" style="--c:var(--lilac)"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span><div><b>I help 60+ banks grow.</b><p>Data, analytics, product strategy. If a task gets done by hand three times, I automate it.</p></div></div>
+      <div class="fact" style="--c:var(--mint)"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><div><b>I ran a Toastmasters club as president.</b><p>Now I'm the treasurer, which is a lot quieter and involves more spreadsheets.</p></div></div>
+      <div class="fact" style="--c:var(--mustard)"><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.6 1 1.5 1 2.5h6c0-1 .3-1.9 1-2.5A6 6 0 0 0 12 3z"/></svg></span><div><b>I have an MBA in entrepreneurship.</b><p>A formal way of saying I cannot stop starting things. Some become products. Some stay experiments.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Currently<span class="note">updated whenever I remember</span></h2>
+    <div class="now">
+      <div class="a"><b>Training for</b><span>The next long one. Distance first, speed never.</span><small>Sample. This box pulls from your admin panel.</small></div>
+      <div class="b"><b>Building</b><span>Notebooks that turn a 20-hour reporting cycle into a coffee break.</span><small>Sample.</small></div>
+      <div class="c"><b>Reading</b><span>Something about how incentives quietly run the world.</span><small>Sample.</small></div>
+      <div class="d"><b>Plotting</b><span>The next trip. The spreadsheet already has nine tabs.</span><small>Sample.</small></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Stuff I've made<span class="note">some useful, some just fun</span></h2>
+    <div class="made">
+      <a href="#" style="--c:var(--mint)"><span class="tag">Automation</span><h3>The 20-hour month, deleted</h3><p>A pile of Jupyter notebooks that do my monthly client analysis while I go for a run.</p></a>
+      <a href="#" style="--c:var(--coral)"><span class="tag">Hype</span><h3>The Knightmare</h3><p>A student section brand for UCF football. Shirts, chants, a $50k ticket program, and a lot of noise.</p></a>
+      <a href="#" style="--c:var(--lilac)"><span class="tag">This site</span><h3>jamesgilmore.xyz</h3><p>Built it myself with Next.js and Supabase so I can post from my phone without deploying anything.</p></a>
+    </div>
+    <p style="margin:1.2rem 0 0"><a class="btn o" href="#">All the stuff →</a></p>
+  </section>
+
+  <section>
+    <div class="believe">
+      <div><h2>Things I believe</h2><p class="sub">strongly, but open to arguments over coffee</p></div>
+      <ol>
+        <li>If you do it by hand three times, automate it.</li>
+        <li>Numbers by themselves don't matter. Decisions do.</li>
+        <li>The barrier to building is gone. The only constraint left is imagination and the nerve to try.</li>
+        <li>Every good trip needs a plan and a reason to abandon it.</li>
+        <li>What a time to be alive.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ask me about<span class="note">I will not be brief</span></h2>
+    <div class="chips"><span>Marathon fueling</span><span>Three-week trips in a spreadsheet</span><span>Venice</span><span>The Knightmare</span><span>Rolling out software to 50 banks</span><span>Jupyter notebooks</span><span>Negotiating sponsorship deals</span><span>Toastmasters</span><span>Why history explains everything</span><span>Seattle running routes</span></div>
+  </section>
+
+  <section>
+    <h2>Writing<span class="note">occasionally</span></h2>
+    <div class="posts">
+      <a class="post" href="#"><div><b>The barrier to building software just collapsed</b><small>Sample post. The constraint now is imagination and the nerve to try.</small></div><time>Sep '26</time></a>
+      <a class="post" href="#"><div><b>What 60 banks taught me about renewals</b><small>Sample post. The relationship is won after the sale.</small></div><time>Aug '26</time></a>
+      <a class="post" href="#"><div><b>Planning a trip like a project</b><small>Sample post. Nine tabs, one detours column.</small></div><time>Jul '26</time></a>
+    </div>
+  </section>
+
+  <section class="hello">
+    <span class="hand">go on, say something</span>
+    <h2>Send me a note.</h2>
+    <p>Trip ideas, running routes, half-baked business plans, or a bank that needs its data to behave. All welcome.</p>
+    <div class="btns" style="justify-content:center"><a class="btn" href="#">Email me</a><a class="btn o" href="#">LinkedIn</a><a class="btn o" href="#">GitHub</a></div>
+  </section>
+
+  <footer><span>© 2026 James Gilmore · Seattle</span><span>Made with too much coffee and a spreadsheet</span></footer>
+</div>
+<nav class="dx" aria-label="Options"><a class="i" href="./">Index</a><a href="d-personality.html" aria-current="page">D</a><a href="a-warm.html">A</a><a href="b-photo.html">B</a><a href="c-classic.html">C</a></nav>
+</body>
+</html>
