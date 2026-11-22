@@ -20,8 +20,8 @@ export default function PlacesPage() {
     <>
       <PageHead label="Places" title={placesPage.title} lede={placesPage.lede} />
       <Container>
-        <div className="panel mb-6 p-3 sm:p-6">
-          <WorldMap trips={trips} />
+        <div className="mb-6">
+          <WorldMap />
         </div>
         <nav aria-label="Trips" className="mb-16 flex flex-wrap items-center gap-2 lg:mb-24">
           <span className="mr-2 text-[0.95rem] text-muted">{placesPage.mapNote}</span>

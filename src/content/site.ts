@@ -97,7 +97,11 @@ export type SiteContent = {
   photos: Photo[];
   /** Trips in the order they appear on Places. */
   trips: Trip[];
-  placesPage: { title: string; lede: string; mapNote: string };
+  /** Places still on the list. Hollow pins on the map. */
+  wishlist: { name: string; pins: [number, number][]; note?: string }[];
+  /** Countries to shade on the map, by English name as Natural Earth spells them. */
+  visitedCountries: string[];
+  placesPage: { title: string; lede: string; mapNote: string; beenLabel: string; wishLabel: string; panelHint: string };
   projects: Project[];
   projectsPage: {
     title: string;
@@ -234,7 +238,6 @@ export const site: SiteContent = {
     { src: "world-cup-seattle", alt: "James and Nikoly in the stands at a 2026 World Cup match in Seattle.", caption: "World Cup 2026, Seattle", orientation: "landscape", trip: "home" },
     { src: "chicago-bridge", alt: "James and Nikoly on the Michigan Avenue bridge in Chicago.", caption: "Chicago", orientation: "landscape", trip: "chicago" },
     { src: "chicago-lakefront", alt: "The Chicago lakefront trail with the skyline ahead.", caption: "Chicago, the lakefront trail", orientation: "portrait", trip: "chicago" },
-    { src: "garden", alt: "Arugula growing in a raised garden bed.", caption: "The garden, arugula winning", orientation: "portrait", trip: "home" },
   ],
 
   projects: [
@@ -304,7 +307,7 @@ export const site: SiteContent = {
   },
 
   trips: [
-    { id: "home", name: "Seattle", note: "Home. The Sound, the Cascades, and the garden.", pins: [[47.61, -122.33]] },
+    { id: "home", name: "Seattle", note: "Home. The Sound and the Cascades.", pins: [[47.61, -122.33]] },
     { id: "maui", name: "Maui", pins: [[20.8, -156.33]] },
     { id: "chile", name: "Chile", note: "Patagonia, the Atacama, and Santiago in between.", pins: [[-51.0, -73.0], [-23.45, -68.1], [-33.45, -70.67]] },
     { id: "brazil", name: "Brazil", note: "Ilhabela and Florianópolis.", pins: [[-23.78, -45.36], [-27.59, -48.55]] },
@@ -314,10 +317,15 @@ export const site: SiteContent = {
     { id: "china", name: "China", note: "The Great Wall at its quiet end, then Shanghai.", pins: [[40.67, 117.25], [31.23, 121.47]] },
     { id: "philippines", name: "Coron, Philippines", pins: [[11.99, 120.2]] },
   ],
+  wishlist: [],
+  visitedCountries: ["United States of America", "Chile", "China", "Italy", "Philippines", "Brazil"],
   placesPage: {
     title: "Out in the world.",
-    lede: "Trips with Nikoly, mostly, and a few from closer to home. Pick a pin, or scroll. Click any photo to see it larger.",
+    lede: "Trips with Nikoly, mostly, and a few from closer to home. Pick a pin to see the trip, or scroll. Click any photo to see it larger.",
     mapNote: "Pins jump to that trip's photos.",
+    beenLabel: "Been",
+    wishLabel: "Want to go",
+    panelHint: "Pick a pin on the map.",
   },
 
   about: {

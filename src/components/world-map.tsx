@@ -1,52 +1,57 @@
 import { geoNaturalEarth1, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import type { Topology, GeometryCollection } from "topojson-specification";
+import type { Feature, Geometry } from "geojson";
+import countries110 from "world-atlas/countries-110m.json";
 import land110 from "world-atlas/land-110m.json";
-import type { Trip } from "@/content/site";
+import PlacesMap, { type MapPin, type MapTrip } from "@/components/places-map";
+import { site } from "@/content/site";
 
-const W = 1000;
-const H = 520;
+export const MAP_W = 1000;
+export const MAP_H = 520;
 
-/** World map with a pin per trip. Drawn at build time; pins link to the trip's photos. */
-export default function WorldMap({ trips }: { trips: Trip[] }) {
-  const topo = land110 as unknown as Topology<{ land: GeometryCollection }>;
-  const land = feature(topo, topo.objects.land);
+/**
+ * Projects the world and every pin at build time and hands plain numbers to the
+ * interactive client map. Nothing geographic ships to the browser except SVG paths.
+ */
+export default function WorldMap() {
+  const landTopo = land110 as unknown as Topology<{ land: GeometryCollection }>;
+  const countriesTopo = countries110 as unknown as Topology<{ countries: GeometryCollection<{ name: string }> }>;
+  const land = feature(landTopo, landTopo.objects.land);
+  const countries = feature(countriesTopo, countriesTopo.objects.countries) as unknown as { features: Feature<Geometry, { name: string }>[] };
+
   const projection = geoNaturalEarth1().fitExtent(
     [
       [8, 8],
-      [W - 8, H - 8],
+      [MAP_W - 8, MAP_H - 8],
     ],
     land
   );
   const path = geoPath(projection);
-  const d = path(land) ?? "";
+  const landPath = path(land) ?? "";
 
-  const pinned = trips.filter((t) => t.pins && t.pins.length > 0);
+  const visited = new Set(site.visitedCountries);
+  const visitedPaths = countries.features.filter((f) => visited.has(f.properties.name)).map((f) => path(f) ?? "").filter(Boolean);
 
-  return (
-    <figure className="m-0">
-      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="World map with a pin for each trip" className="h-auto w-full">
-        <path d={d} fill="var(--color-surface-2)" stroke="var(--color-line)" strokeWidth="0.6" />
-        {pinned.map((t) =>
-          t.pins!.map(([lat, lng], i) => {
-            const pt = projection([lng, lat]);
-            if (!pt) return null;
-            const [x, y] = pt;
-            const first = i === 0;
-            return (
-              <a key={`${t.id}-${i}`} href={`#${t.id}`} aria-label={`${t.name}: jump to photos`} className="group outline-none">
-                <circle cx={x} cy={y} r="14" fill="transparent" />
-                <circle cx={x} cy={y} r="5" fill="var(--color-accent)" stroke="var(--color-bg)" strokeWidth="2" className="transition-transform group-hover:scale-125 group-focus-visible:scale-125" style={{ transformOrigin: `${x}px ${y}px` }} />
-                {first && (
-                  <text x={x + 10} y={y + 4} fontSize="14" fontWeight="600" fill="var(--color-ink)" className="hidden sm:block group-hover:fill-[var(--color-accent)]" style={{ paintOrder: "stroke", stroke: "var(--color-bg)", strokeWidth: 4, strokeLinejoin: "round" }}>
-                    {t.name}
-                  </text>
-                )}
-              </a>
-            );
-          })
-        )}
-      </svg>
-    </figure>
+  const trips: MapTrip[] = site.trips
+    .filter((t) => site.photos.some((p) => p.trip === t.id))
+    .map((t) => ({
+      id: t.id,
+      name: t.name,
+      note: t.note ?? null,
+      photos: site.photos.filter((p) => p.trip === t.id).map((p) => ({ src: p.src, alt: p.alt, caption: p.caption })),
+      pins: (t.pins ?? [])
+        .map(([lat, lng]) => projection([lng, lat]))
+        .filter((pt): pt is [number, number] => Boolean(pt))
+        .map(([x, y]) => ({ x, y })),
+    }));
+
+  const wishes: MapPin[] = site.wishlist.flatMap((w) =>
+    w.pins
+      .map(([lat, lng]) => projection([lng, lat]))
+      .filter((pt): pt is [number, number] => Boolean(pt))
+      .map(([x, y]) => ({ x, y, name: w.name, note: w.note ?? null }))
   );
+
+  return <PlacesMap width={MAP_W} height={MAP_H} landPath={landPath} visitedPaths={visitedPaths} trips={trips} wishes={wishes} labels={site.placesPage} />;
 }
