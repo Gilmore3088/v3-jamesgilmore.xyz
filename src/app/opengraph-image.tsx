@@ -40,12 +40,12 @@ export default async function OGImage() {
           fontFamily,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 22, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5f655f" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 20, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5f655f" }}>
           <span>{site.name}</span>
           <span>{site.home.eyebrow}</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", flexDirection: "column", marginBottom: 36 }}><div style={{ width: 1040, height: 2, background: "#1a1e1c" }} /><div style={{ width: 1040, height: 1, background: "#1a1e1c", marginTop: 3 }} /></div>
+          <div style={{ width: 1040, height: 1, background: "#1a1e1c", marginBottom: 40 }} />
           <div style={{ fontSize: 66, lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: 1000 }}>{plain(site.home.headline)}</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#5f655f" }}>

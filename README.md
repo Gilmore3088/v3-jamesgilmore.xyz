@@ -15,7 +15,7 @@ Rules the pages follow:
 - A project's `url: null` hides every "visit the site" link for that project.
 - `projects[].caseStudy` is an empty array until there is a real write-up. Add
   `{ heading, body: [paragraphs] }` entries and they render on the project page.
-- `about.photo: null` removes the portrait and the layout adjusts.
+- `about.photo` is `null` by default. Set `{ src, alt, caption }` to show a portrait; the layout adjusts.
 
 Adding a project means adding one object to `projects`. Its page, sitemap entry, and card appear automatically.
 

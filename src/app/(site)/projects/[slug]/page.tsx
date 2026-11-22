@@ -63,7 +63,7 @@ export default async function ProjectPage({ params }: PageProps) {
     <Container>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }} />
 
-      <p className="pt-7">
+      <p className="pt-6">
         <Link href="/projects" className="arrow-link arrow-back">
           <Arrow className="rotate-180" /> All projects
         </Link>
@@ -71,12 +71,9 @@ export default async function ProjectPage({ params }: PageProps) {
 
       <header className="rise grid gap-8 pb-12 pt-8 sm:pt-10 lg:grid-cols-12 lg:gap-8 lg:pb-16">
         <div className="min-w-0 lg:col-span-9">
-          <p className="label m-0 flex items-baseline gap-3">
-            <span className="numeral text-[1.5rem]" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-            <span>Project</span>
-          </p>
-          <h1 className="display m-0 mt-5 text-[3.1rem] sm:text-7xl lg:text-[6rem]">{project.name}</h1>
-          <p className="deck m-0 mt-7 max-w-[34ch] text-[1.45rem] italic leading-[1.3] text-ink-soft sm:text-[1.9rem]">{project.kicker}</p>
+          <p className="label m-0">Project</p>
+          <h1 className="display m-0 mt-4 text-[2.8rem] sm:text-6xl lg:text-[4.5rem]">{project.name}</h1>
+          <p className="deck m-0 mt-6 max-w-[36ch] text-[1.3rem] leading-[1.4] text-ink-soft sm:text-[1.6rem]">{project.kicker}</p>
         </div>
         <dl className="m-0 grid min-w-0 content-start gap-5 text-sm lg:col-span-3 lg:col-start-10 lg:mt-3">
           <div>
@@ -96,7 +93,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </dl>
       </header>
 
-      <div className="max-w-[54rem] border-t-2 border-ink">
+      <div className="max-w-[54rem] border-t border-ink">
         <Section label="The problem" paragraphs={project.problem} />
         <Section label="Why I care" paragraphs={project.why} />
         <Section label="Where it is today" paragraphs={project.today} />
@@ -116,9 +113,9 @@ export default async function ProjectPage({ params }: PageProps) {
       </div>
 
       {next && next.slug !== project.slug && (
-        <nav aria-label="Next project" className="mt-20 border-t-2 border-ink pt-7">
+        <nav aria-label="Next project" className="mt-20 border-t border-ink pt-7">
           <p className="label m-0">Next project</p>
-          <Link href={`/projects/${next.slug}`} className="card mt-4 inline-flex items-baseline gap-4 serif text-[2.2rem] leading-tight tracking-[-0.02em] no-underline sm:text-[3rem]">
+          <Link href={`/projects/${next.slug}`} className="card mt-3 inline-flex items-baseline gap-4 serif text-[1.8rem] leading-tight tracking-[-0.015em] no-underline sm:text-[2.2rem]">
             <span className="card-title">{next.name}</span> <Arrow className="text-evergreen" />
           </Link>
         </nav>

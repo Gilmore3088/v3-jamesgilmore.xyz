@@ -49,21 +49,16 @@ export type SiteContent = {
   email: string | null;
   home: {
     eyebrow: string;
-    /** Wrap one phrase in *asterisks* to set it in italic evergreen. */
+    /** Optional: wrap one phrase in *asterisks* to set it in italic. Plain by default. */
     headline: string;
-    /** Small front-matter list beside the intro. */
-    meta: { label: string; value: string }[];
-    /** Newspaper-style dateline that opens the intro, e.g. "Seattle". */
-    dateline: string;
     intro: string;
-    scrollCue: string;
+    aboutCta: string;
+    contactCta: string;
     projectsLabel: string;
     projectsTitle: string;
-    thinkingLabel: string;
-    thinkingTitle: string;
+    approachLabel: string;
+    approachTitle: string;
     principles: { title: string; body: string }[];
-    aboutTeaser: { label: string; text: string; cta: string };
-    contactTeaser: { label: string; text: string; cta: string };
   };
   projects: Project[];
   projectsPage: {
@@ -75,13 +70,10 @@ export type SiteContent = {
     title: string;
     lede: string;
     paragraphs: string[];
-    /** Set large, between the paragraphs. */
-    pullQuote: string;
     /** The one line about place and life outside work. */
     lifeLine: string;
+    /** Optional portrait. `null` hides it and the layout adjusts. */
     photo: { src: string; alt: string; caption: string } | null;
-    asideLabel: string;
-    aside: string[];
   };
   contact: {
     title: string;
@@ -92,10 +84,7 @@ export type SiteContent = {
     formNote: string;
   };
   footer: {
-    pagesLabel: string;
-    elsewhereLabel: string;
-    colophonLabel: string;
-    colophon: string;
+    line: string;
   };
 };
 
@@ -122,21 +111,15 @@ export const site: SiteContent = {
 
   home: {
     eyebrow: "Seattle, Washington",
-    headline: "I help banks make sense of complex data, and I build tools that *make the work easier.*",
-    meta: [
-      { label: "Based in", value: "Seattle, Washington" },
-      { label: "Work", value: "Banking analytics, implementations, automation" },
-      { label: "Building", value: "Fee Insight, The AI Banking Institute" },
-      { label: "Before that", value: "Sports and collegiate athletics" },
-    ],
-    dateline: "Seattle",
+    headline: "I help banks make sense of complex data, and I build tools that make the work easier.",
     intro:
       "I work in banking technology: analytics, client implementations, and the kind of automation that gives people their afternoons back. On my own time I build tools I wish already existed, and I think a lot about how AI can improve real workflows without making them harder to trust.",
-    scrollCue: "Two things I'm building",
-    projectsLabel: "Now building",
-    projectsTitle: "Two projects, one idea: make the work easier to check.",
-    thinkingLabel: "How I think",
-    thinkingTitle: "A few things I keep coming back to.",
+    aboutCta: "More about me",
+    contactCta: "Get in touch",
+    projectsLabel: "Projects",
+    projectsTitle: "Two things I'm building.",
+    approachLabel: "Approach",
+    approachTitle: "How I work.",
     principles: [
       {
         title: "Start from the workflow.",
@@ -151,16 +134,6 @@ export const site: SiteContent = {
         body: "Most of what I'm proud of started as a narrow fix for a problem I kept running into. Scope can grow later, if it earns it.",
       },
     ],
-    aboutTeaser: {
-      label: "Background",
-      text: "I didn't start in banking. I started in college athletics, where the data was messier and the deadline was Saturday.",
-      cta: "The longer version",
-    },
-    contactTeaser: {
-      label: "Say hello",
-      text: "If you work in banking technology, think about data for a living, or are building something useful, I'd like to hear from you.",
-      cta: "Get in touch",
-    },
   },
 
   projects: [
@@ -226,18 +199,11 @@ export const site: SiteContent = {
       "Along the way I picked up an MBA in entrepreneurship, which is a formal way of saying I can't stop starting things. Lately those things have been Fee Insight and The AI Banking Institute, both of which started as questions I couldn't find a good answer to.",
       "I'm optimistic about AI and allergic to demos. The interesting question isn't whether a model can do something impressive. It's whether a person inside a bank can use it on a real task and show their work afterward. That's the bar I try to build to.",
     ],
-    pullQuote: "The data usually exists. What's missing is someone willing to make it legible.",
     lifeLine:
       "I live in Seattle. When I'm not at a desk I'm usually on a long run, somewhere outdoors, or planning the next trip in more detail than it needs.",
-    /** Set to null to hide the portrait. */
-    photo: { src: "/profile.jpg", alt: "James Gilmore", caption: "Venice" },
-    asideLabel: "Also",
-    aside: [
-      "University of Central Florida alum",
-      "MBA in entrepreneurship",
-      "Toastmasters club treasurer, past president",
-      "Chair of the UCF Seattle alumni chapter",
-    ],
+    // The only photo in the repo is a travel snapshot with another person in it.
+    // Example: { src: "/profile.jpg", alt: "James Gilmore", caption: "Venice" }
+    photo: null,
   },
 
   contact: {
@@ -250,10 +216,7 @@ export const site: SiteContent = {
   },
 
   footer: {
-    pagesLabel: "Pages",
-    elsewhereLabel: "Elsewhere",
-    colophonLabel: "Colophon",
-    colophon: "Set in Newsreader and Inter. Built with Next.js. No tracking beyond basic page analytics.",
+    line: "Seattle, Washington",
   },
 };
 
