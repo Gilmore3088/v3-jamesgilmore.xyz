@@ -11,6 +11,8 @@ export type MapTrip = {
   when: string | null;
   photos: { src: string; alt: string; caption: string }[];
   pins: { x: number; y: number }[];
+  /** False when the label would collide with another; it then shows on hover or selection. */
+  showLabel: boolean;
 };
 export type MapPin = { x: number; y: number; name: string; note: string | null };
 
@@ -58,7 +60,15 @@ export default function PlacesMap({ width, height, landPath, visitedPaths, trips
                   {active && <circle cx={p.x} cy={p.y} r="11" fill="var(--color-accent)" fillOpacity="0.25" />}
                   <circle cx={p.x} cy={p.y} r={active ? 6.5 : 5} fill={t.photos.length > 0 ? "var(--color-accent)" : "var(--color-accent-deep)"} stroke="var(--color-bg)" strokeWidth="2" />
                   {i === 0 && (
-                    <text x={p.x + 10} y={p.y + 4} fontSize="14" fontWeight="600" fill={active ? "var(--color-accent)" : "var(--color-ink)"} className="hidden select-none sm:block" style={{ paintOrder: "stroke", stroke: "var(--color-bg)", strokeWidth: 4, strokeLinejoin: "round" }}>
+                    <text
+                      x={p.x + 10}
+                      y={p.y + 4}
+                      fontSize="14"
+                      fontWeight="600"
+                      fill={active ? "var(--color-accent)" : "var(--color-ink)"}
+                      className={`select-none ${t.showLabel || active ? "hidden sm:block" : "hidden sm:group-hover:block sm:group-focus-visible:block"}`}
+                      style={{ paintOrder: "stroke", stroke: "var(--color-bg)", strokeWidth: 4, strokeLinejoin: "round" }}
+                    >
                       {t.name}
                     </text>
                   )}

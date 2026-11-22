@@ -33,17 +33,34 @@ export default function WorldMap() {
   const visited = new Set(site.visitedCountries);
   const visitedPaths = countries.features.filter((f) => visited.has(f.properties.name)).map((f) => path(f) ?? "").filter(Boolean);
 
-  const trips: MapTrip[] = site.trips.map((t) => ({
+  // Labels are placed in trip order; one that would overlap an earlier label is hidden until hover.
+  const taken: { x1: number; y1: number; x2: number; y2: number }[] = [];
+  const overlaps = (b: { x1: number; y1: number; x2: number; y2: number }) => taken.some((o) => b.x1 < o.x2 && b.x2 > o.x1 && b.y1 < o.y2 && b.y2 > o.y1);
+
+  const trips: MapTrip[] = site.trips.map((t) => {
+    const pins = (t.pins ?? [])
+      .map(([lat, lng]) => projection([lng, lat]))
+      .filter((pt): pt is [number, number] => Boolean(pt))
+      .map(([x, y]) => ({ x, y }));
+    let showLabel = false;
+    if (pins.length > 0) {
+      const { x, y } = pins[0];
+      const box = { x1: x - 8, y1: y - 10, x2: x + 12 + t.name.length * 7.6, y2: y + 8 };
+      if (!overlaps(box)) {
+        taken.push(box);
+        showLabel = true;
+      }
+    }
+    return {
       id: t.id,
       name: t.name,
       note: t.note ?? null,
       when: t.when ?? null,
       photos: site.photos.filter((p) => p.trip === t.id).map((p) => ({ src: p.src, alt: p.alt, caption: p.caption })),
-      pins: (t.pins ?? [])
-        .map(([lat, lng]) => projection([lng, lat]))
-        .filter((pt): pt is [number, number] => Boolean(pt))
-        .map(([x, y]) => ({ x, y })),
-    }));
+      pins,
+      showLabel,
+    };
+  });
 
   const wishes: MapPin[] = site.wishlist.flatMap((w) =>
     w.pins
