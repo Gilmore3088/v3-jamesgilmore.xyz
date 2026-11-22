@@ -35,6 +35,15 @@ export type Project = {
   caseStudy: { heading: string; body: string[] }[];
 };
 
+export type Photo = {
+  /** File in /public/photos */
+  src: string;
+  alt: string;
+  /** Short, true, and specific. Leave out what you don't know. */
+  caption: string;
+  orientation: "landscape" | "portrait" | "square";
+};
+
 export type SiteContent = {
   name: string;
   url: string;
@@ -56,14 +65,23 @@ export type SiteContent = {
     intro: string;
     aboutCta: string;
     contactCta: string;
-    backgroundLabel: string;
-    backgroundTitle: string;
+    /** Three wide photos shown right under the opening. Use `src` values from `photos`. */
+    band: string[];
+    traitsLabel: string;
+    traitsTitle: string;
+    traits: { title: string; body: string }[];
+    questionsLabel: string;
+    questionsTitle: string;
+    questions: { question: string; body: string; href: string; cta: string }[];
+    placesLabel: string;
+    placesTitle: string;
+    placesNote: string;
     projectsLabel: string;
     projectsTitle: string;
-    approachLabel: string;
-    approachTitle: string;
-    principles: { title: string; body: string }[];
+    projectsNote: string;
   };
+  /** Every photo on the site. Home shows a selection; About shows the rest. */
+  photos: Photo[];
   projects: Project[];
   projectsPage: {
     title: string;
@@ -76,9 +94,14 @@ export type SiteContent = {
     paragraphs: string[];
     /** The one line about place and life outside work. */
     lifeLine: string;
-    /** Portrait used on Home and About. `null` hides it and the layouts adjust. */
+    /** Portrait used on Home. `null` hides it and the layout adjusts. */
     photo: { src: string; alt: string; caption: string } | null;
-    /** Career in chapters, oldest first. Shown on Home and About. */
+    /** Wide photo at the top of About. A `src` from `photos`. */
+    heroPhoto: string;
+    doLabel: string;
+    /** Short "I ..." lines. Keep them true and small. */
+    iDo: string[];
+    /** Career in chapters, oldest first. Shown compact on About. */
     path: { period: string; title: string; detail: string }[];
   };
   contact: {
@@ -117,32 +140,78 @@ export const site: SiteContent = {
 
   home: {
     eyebrow: "Seattle, Washington",
-    headline: "I help banks make sense of complex data, and I build tools that make the work easier.",
+    headline: "Curious by default. I learn by building, and I build to make things work better.",
     intro:
-      "I work in banking technology: analytics, client implementations, and the kind of automation that gives people their afternoons back. On my own time I build tools I wish already existed, and I think a lot about how AI can improve real workflows without making them harder to trust.",
+      "I'm James. I live in Seattle with my wife, I travel whenever we can manage it, and I spend most of my working life solving problems for banks: making sense of their data and building tools that make the work easier. This is the personal site. The person comes first here, and the work comes second.",
     aboutCta: "More about me",
-    contactCta: "Get in touch",
-    backgroundLabel: "Background",
-    backgroundTitle: "Where I've been.",
-    projectsLabel: "Projects",
-    projectsTitle: "Two things I'm building.",
-    approachLabel: "Approach",
-    approachTitle: "How I work.",
-    principles: [
+    contactCta: "Say hello",
+    band: ["rainier-window", "patagonia-camp", "shanghai"],
+    traitsLabel: "What I'm like",
+    traitsTitle: "Three things that are true of me.",
+    traits: [
       {
-        title: "Start from the workflow.",
-        body: "A tool is only useful if it fits how people already work. I would rather fix one real task well than demo ten.",
+        title: "I'm curious.",
+        body: "I want to know how things actually work, and I'll keep pulling the thread until I do. Most of what I've learned started as a question I couldn't let go of.",
       },
       {
-        title: "Make it checkable.",
-        body: "In banking, trust comes from showing your sources. If a reviewer can't trace a number back to where it came from, it isn't finished.",
+        title: "I learn by building.",
+        body: "Reading about something gets me halfway. Making a small, working version gets me the rest of the way, and usually shows me what the real question was.",
       },
       {
-        title: "Build the smaller thing.",
-        body: "Most of what I'm proud of started as a narrow fix for a problem I kept running into. Scope can grow later, if it earns it.",
+        title: "I'm there to improve the outcome.",
+        body: "Whatever the problem, the goal is the same: leave the people involved with something that works better than it did before, and that they can trust.",
       },
     ],
+    questionsLabel: "Questions I'm chasing",
+    questionsTitle: "A few things I keep turning over.",
+    questions: [
+      {
+        question: "How can AI improve a real workflow without making it harder to trust?",
+        body: "Most demos skip the hard part, which is the person who has to review the result. I'm trying to build things a compliance officer can actually check.",
+        href: "/projects/ai-banking-institute",
+        cta: "What that turned into",
+      },
+      {
+        question: "Why is public information so hard to actually use?",
+        body: "Bank fees are published by law and still nearly impossible to compare. Fee Insight is my attempt to fix one corner of that.",
+        href: "/projects/fee-insight",
+        cta: "What that turned into",
+      },
+      {
+        question: "Where should we go next?",
+        body: "A trip is a problem worth over-planning. I keep a spreadsheet, and the best days are always the ones that ignore it.",
+        href: "/about",
+        cta: "Where we've been",
+      },
+    ],
+    placesLabel: "Places",
+    placesTitle: "Out in the world.",
+    placesNote: "A few from the road. More on the About page.",
+    projectsLabel: "Work, briefly",
+    projectsTitle: "Two things I'm building.",
+    projectsNote: "The work gets its own pages. The short version is here.",
   },
+
+  photos: [
+    { src: "venice-us", alt: "James and his wife in front of a terracotta building on a Venice canal.", caption: "Venice, with my wife", orientation: "portrait" },
+    { src: "venice-canal", alt: "Boats on the Grand Canal in Venice on a clear afternoon.", caption: "Venice, the Grand Canal", orientation: "landscape" },
+    { src: "great-wall-us", alt: "James and his wife sitting on the Great Wall of China with the wall winding over the hills behind them.", caption: "The Great Wall", orientation: "portrait" },
+    { src: "great-wall", alt: "A rough, unrestored stretch of the Great Wall climbing a ridge.", caption: "The Great Wall, the quiet stretch", orientation: "square" },
+    { src: "shanghai", alt: "The Shanghai skyline lit up at night across the river, with the moon above.", caption: "Shanghai", orientation: "landscape" },
+    { src: "patagonia-camp", alt: "Rows of yellow tents below jagged granite peaks in Patagonia.", caption: "Patagonia, camp night", orientation: "landscape" },
+    { src: "patagonia-bridge", alt: "A narrow suspension bridge leading across a ravine toward a glacier in fog.", caption: "Patagonia, the bridge to the glacier", orientation: "landscape" },
+    { src: "atacama", alt: "James and his wife at a salt lagoon in the Atacama Desert, flamingos in the water behind them.", caption: "Atacama Desert", orientation: "portrait" },
+    { src: "santiago", alt: "James and his wife in a park in Santiago with the city skyline behind.", caption: "Santiago", orientation: "portrait" },
+    { src: "boat-bow", alt: "James sitting alone on the blue bow of a boat, looking out at islands on the horizon.", caption: "Island hopping", orientation: "portrait" },
+    { src: "fishing-boat", alt: "A small blue and white fishing boat anchored off a sandy beach.", caption: "A beach, a boat", orientation: "landscape" },
+    { src: "rainier-window", alt: "Mount Rainier above the Cascades, seen past an airplane wing.", caption: "Mount Rainier from the window seat", orientation: "portrait" },
+    { src: "mountain-pass", alt: "A forested valley and a mountain highway in the Cascades.", caption: "The Cascades", orientation: "portrait" },
+    { src: "puget-sound-ferry", alt: "A Washington State ferry crossing Puget Sound at sunset, framed by trees.", caption: "Puget Sound, a ferry at sunset", orientation: "portrait" },
+    { src: "world-cup-seattle", alt: "James and his wife in the stands at a 2026 World Cup match in Seattle.", caption: "World Cup 2026, Seattle", orientation: "landscape" },
+    { src: "chicago-bridge", alt: "James and his wife on the Michigan Avenue bridge in Chicago.", caption: "Chicago", orientation: "landscape" },
+    { src: "chicago-lakefront", alt: "The Chicago lakefront trail with the skyline ahead.", caption: "Chicago, the lakefront trail", orientation: "portrait" },
+    { src: "garden", alt: "Arugula growing in a raised garden bed.", caption: "The garden, arugula winning", orientation: "portrait" },
+  ],
 
   projects: [
     {
@@ -209,7 +278,7 @@ export const site: SiteContent = {
 
   about: {
     title: "I got into banking by way of a football stadium.",
-    lede: "The short version: sports, then consulting, then banking technology, then building my own tools. The pattern took me a while to notice.",
+    lede: "Seattle, by way of Florida. Sports, then consulting, then banking technology, then building my own tools. The pattern took me a while to notice.",
     paragraphs: [
       "My first real job was in collegiate athletics, on the external operations side at the University of Central Florida. I helped build a student section brand called The Knightmare, worked on ticket sales, and built dashboards to track how the department was doing.",
       "From there I spent a few years consulting for university and professional sports business units: sponsorship valuations, negotiations, RFPs, and dashboards for executives who needed an answer by Friday. It was my first lesson in a pattern I keep seeing. The data usually exists. What's missing is someone willing to make it legible.",
@@ -219,7 +288,18 @@ export const site: SiteContent = {
     ],
     lifeLine:
       "I live in Seattle. When I'm not at a desk I'm usually on a long run, somewhere outdoors, or planning the next trip in more detail than it needs.",
-    photo: { src: "/profile.jpg", alt: "James Gilmore and his wife in Venice", caption: "Venice, with my wife" },
+    photo: { src: "/photos/venice-us.jpg", alt: "James Gilmore and his wife in Venice", caption: "Venice, with my wife" },
+    heroPhoto: "great-wall-us",
+    doLabel: "Things I do",
+    iDo: [
+      "I run long distances.",
+      "I plan trips in more detail than they need.",
+      "I read history.",
+      "I grow things, with mixed results.",
+      "I watch a lot of sports, and I used to work in them.",
+      "I show up to Toastmasters.",
+      "I build small tools for problems that annoy me.",
+    ],
     path: [
       {
         period: "2011–2016",

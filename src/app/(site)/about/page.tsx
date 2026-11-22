@@ -3,7 +3,8 @@ import Link from "next/link";
 import Arrow from "@/components/arrow";
 import Container from "@/components/container";
 import PathList from "@/components/path-list";
-import Portrait from "@/components/portrait";
+import Photo, { getPhoto } from "@/components/photo";
+import PhotoGrid from "@/components/photo-grid";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -15,21 +16,32 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   const { about } = site;
+  const hero = getPhoto(about.heroPhoto);
+  const gallery = site.photos.filter((p) => p.src !== about.heroPhoto);
 
   return (
     <Container>
-      <header className="rise grid gap-6 pb-12 pt-12 sm:pt-20 lg:grid-cols-12 lg:gap-8 lg:pb-16">
+      <header className="rise grid gap-6 pb-10 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-12">
         <div className="min-w-0 lg:col-span-10">
           <p className="label m-0">About</p>
-          <h1 className="display m-0 mt-4 max-w-[18ch] text-[2.6rem] xs:text-[3rem] sm:text-[3.8rem] lg:text-[4.5rem]">{about.title}</h1>
+          <h1 className="display m-0 mt-4 max-w-[18ch] text-[2.5rem] xs:text-[2.9rem] sm:text-[3.6rem] lg:text-[4.4rem]">{about.title}</h1>
         </div>
-        <p className="deck m-0 max-w-[40ch] text-[1.3rem] leading-[1.45] text-ink-soft lg:col-span-7 lg:col-start-6 sm:text-[1.5rem]">{about.lede}</p>
+        <p className="deck m-0 max-w-[44ch] text-[1.25rem] leading-[1.45] text-ink-soft lg:col-span-7 lg:col-start-6 sm:text-[1.4rem]">{about.lede}</p>
       </header>
 
-      <div className="grid gap-12 border-t border-ink pt-9 lg:grid-cols-12 lg:gap-8 lg:pt-10">
+      {hero && <Photo photo={hero} aspect="aspect-[4/5] sm:aspect-[16/9]" sizes="(min-width: 1280px) 80rem, 100vw" priority className="rise rise-1" />}
+
+      <div className="mt-14 grid gap-12 border-t border-ink pt-9 lg:mt-20 lg:grid-cols-12 lg:gap-8 lg:pt-10">
         <aside className="min-w-0 lg:col-span-4">
-          <Portrait className="max-w-[16rem] lg:max-w-[20rem]" sizes="(min-width: 1024px) 20rem, 16rem" priority caption />
-          <div className={about.photo ? "mt-10" : ""}>
+          <p className="label m-0">{about.doLabel}</p>
+          <ul className="m-0 mt-3 list-none border-t border-line p-0">
+            {about.iDo.map((line) => (
+              <li key={line} className="border-b border-line py-3 serif text-[1.15rem] leading-snug text-ink">
+                {line}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-10">
             <p className="label m-0 mb-3">In chapters</p>
             <PathList compact />
           </div>
@@ -53,6 +65,16 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+
+      <section aria-labelledby="places-heading" className="mt-20 border-t border-ink pt-7 lg:mt-28">
+        <p className="label m-0">Places</p>
+        <h2 id="places-heading" className="display m-0 mt-4 text-[1.9rem] sm:text-[2.3rem]">
+          Out in the world.
+        </h2>
+        <div className="mt-10">
+          <PhotoGrid photos={gallery} />
+        </div>
+      </section>
     </Container>
   );
 }

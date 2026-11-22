@@ -7,7 +7,7 @@ export default function Portrait({ className = "", sizes, priority = false, capt
   if (!photo) return null;
   return (
     <figure className={`m-0 ${className}`}>
-      <div className="relative aspect-square w-full overflow-hidden border border-line bg-paper-2">
+      <div className="relative aspect-[3/4] w-full overflow-hidden border border-line bg-paper-2">
         <Image src={photo.src} alt={photo.alt} fill sizes={sizes} priority={priority} className="object-cover" />
       </div>
       {caption && <figcaption className="mt-3 text-xs text-muted">{photo.caption}</figcaption>}
