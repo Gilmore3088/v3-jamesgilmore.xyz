@@ -82,33 +82,24 @@ export default function HomePage() {
         </section>
       </Container>
 
-      {/* Traits */}
-      <Container>
-        <section aria-labelledby="traits-heading" className="mt-24 grid gap-10 lg:mt-32 lg:grid-cols-12 lg:gap-8">
-          <div className="min-w-0 lg:col-span-4">
-            <p className="label m-0">{home.traitsLabel}</p>
-            <h2 id="traits-heading" className="title m-0 mt-4 max-w-[16ch] text-[2.4rem] sm:text-[3rem]">
-              {home.traitsTitle}
-            </h2>
-          </div>
-          <ul className="m-0 grid list-none gap-10 p-0 lg:col-span-8">
-            {home.traits.map((t) => (
-              <li key={t.title} className="min-w-0 max-w-[62ch]">
-                <h3 className="title m-0 text-[1.7rem] sm:text-[2rem]">{t.title}</h3>
-                <p className="body-text m-0 mt-3 text-[1.2rem] text-ink-soft">{t.body}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </Container>
-
       {/* Mosaic */}
       <Container>
-        <section aria-label="Places" className="mt-24 lg:mt-32">
-          <Mosaic photos={band} />
+        <section aria-labelledby="places-heading" className="mt-24 lg:mt-32">
+          <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
+            <div>
+              <p className="label m-0">{home.placesLabel}</p>
+              <h2 id="places-heading" className="title m-0 mt-3 text-[2.4rem] sm:text-[3rem]">
+                {home.placesTitle}
+              </h2>
+            </div>
+            <p className="body-text m-0 max-w-[40ch] text-[1.05rem] text-muted">{home.placesNote}</p>
+          </div>
+          <div className="mt-8">
+            <Mosaic photos={band} />
+          </div>
           <p className="mt-8">
-            <Link href="/about" className="arrow-link">
-              More places, and the story <Arrow />
+            <Link href="/places" className="arrow-link">
+              All the places, by trip <Arrow />
             </Link>
           </p>
         </section>

@@ -57,6 +57,30 @@ export default function ProjectsPage() {
             </li>
           ))}
         </ol>
+        {projectsPage.experiments.length > 0 && (
+          <section aria-labelledby="experiments-heading" className="mt-24 lg:mt-32">
+            <p className="label m-0">{projectsPage.experimentsLabel}</p>
+            <h2 id="experiments-heading" className="title m-0 mt-3 text-[2.4rem] sm:text-[3rem]">
+              {projectsPage.experimentsNote}
+            </h2>
+            <ul className="m-0 mt-8 grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
+              {projectsPage.experiments.map((x) => (
+                <li key={x.name} className="panel p-6">
+                  <h3 className="m-0 text-[1.3rem] font-bold">
+                    {x.url ? (
+                      <a href={x.url} className="link" target="_blank" rel="noopener noreferrer">
+                        {x.name}
+                      </a>
+                    ) : (
+                      x.name
+                    )}
+                  </h3>
+                  <p className="body-text m-0 mt-2 text-[1.02rem] text-muted">{x.summary}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </Container>
     </>
   );

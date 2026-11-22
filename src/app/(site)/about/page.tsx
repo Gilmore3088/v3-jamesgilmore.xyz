@@ -4,7 +4,6 @@ import Arrow from "@/components/arrow";
 import Container from "@/components/container";
 import DoList from "@/components/do-list";
 import Hero from "@/components/hero";
-import Mosaic from "@/components/mosaic";
 import PathList from "@/components/path-list";
 import Photo, { getPhoto } from "@/components/photo";
 import { site } from "@/content/site";
@@ -20,8 +19,6 @@ export default function AboutPage() {
   const { about } = site;
   const hero = getPhoto(about.heroPhoto);
   const pair = ["venice-us", "atacama"].map(getPhoto).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const used = new Set([about.heroPhoto, ...pair.map((p) => p.src)]);
-  const gallery = site.photos.filter((p) => !used.has(p.src));
 
   return (
     <>
@@ -80,24 +77,18 @@ export default function AboutPage() {
         </section>
       </Container>
 
-      {/* Gallery */}
       <Container>
-        <section aria-labelledby="places-heading" className="mt-24 lg:mt-32">
-          <h2 id="places-heading" className="title m-0 text-[2.4rem] sm:text-[3rem]">
-            Out in the world.
-          </h2>
-          <div className="mt-8">
-            <Mosaic photos={gallery} />
-          </div>
-          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-4">
-            <Link href="/projects" className="arrow-link">
-              What I&apos;m building <Arrow />
-            </Link>
-            <Link href="/contact" className="arrow-link">
-              Get in touch <Arrow />
-            </Link>
-          </div>
-        </section>
+        <div className="mt-20 flex flex-wrap gap-x-8 gap-y-4 lg:mt-28">
+          <Link href="/places" className="arrow-link">
+            The places, by trip <Arrow />
+          </Link>
+          <Link href="/projects" className="arrow-link">
+            What I&apos;m building <Arrow />
+          </Link>
+          <Link href="/contact" className="arrow-link">
+            Get in touch <Arrow />
+          </Link>
+        </div>
       </Container>
     </>
   );

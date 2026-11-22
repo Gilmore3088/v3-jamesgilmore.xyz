@@ -42,6 +42,15 @@ export type Photo = {
   /** Short, true, and specific. Leave out what you don't know. */
   caption: string;
   orientation: "landscape" | "portrait" | "square";
+  /** Which trip this belongs to; matches a `trips[].id`. */
+  trip: string;
+};
+
+export type Trip = {
+  id: string;
+  name: string;
+  /** Optional one-liner under the trip name. */
+  note?: string;
 };
 
 export type SiteContent = {
@@ -72,9 +81,6 @@ export type SiteContent = {
     /** What's going on right now. Update this whenever; it's the most alive part of the page. */
     latelyLabel: string;
     lately: { label: string; text: string }[];
-    traitsLabel: string;
-    traitsTitle: string;
-    traits: { title: string; body: string }[];
     questionsLabel: string;
     questionsTitle: string;
     questions: { question: string; body: string; href: string; cta: string }[];
@@ -85,13 +91,20 @@ export type SiteContent = {
     projectsTitle: string;
     projectsNote: string;
   };
-  /** Every photo on the site. Home shows a selection; About shows the rest. */
+  /** Every photo on the site. Home shows `home.band`; Places shows them all, grouped by trip. */
   photos: Photo[];
+  /** Trips in the order they appear on Places. */
+  trips: Trip[];
+  placesPage: { title: string; lede: string };
   projects: Project[];
   projectsPage: {
     title: string;
     lede: string;
     caseStudyNote: string;
+    /** Smaller things. Rendered only when the list has entries. */
+    experimentsLabel: string;
+    experimentsNote: string;
+    experiments: { name: string; summary: string; url?: string | null }[];
   };
   about: {
     title: string;
@@ -133,6 +146,7 @@ export const site: SiteContent = {
 
   nav: [
     { label: "About", href: "/about" },
+    { label: "Places", href: "/places" },
     { label: "Projects", href: "/projects" },
     { label: "Contact", href: "/contact" },
   ],
@@ -167,22 +181,6 @@ export const site: SiteContent = {
         text: "Traveling with my wife, and churning credit cards to pay for it. The points game is a puzzle I enjoy more than I should.",
       },
     ],
-    traitsLabel: "What I'm like",
-    traitsTitle: "Three things that are true of me.",
-    traits: [
-      {
-        title: "I'm curious.",
-        body: "I want to know how things actually work, and I'll keep pulling the thread until I do. Most of what I've learned started as a question I couldn't let go of.",
-      },
-      {
-        title: "I learn by building.",
-        body: "Reading about something gets me halfway. Making a small, working version gets me the rest of the way, and usually shows me what the real question was.",
-      },
-      {
-        title: "I'm there to improve the outcome.",
-        body: "Whatever the problem, the goal is the same: leave the people involved with something that works better than it did before, and that they can trust.",
-      },
-    ],
     questionsLabel: "Questions I'm chasing",
     questionsTitle: "A few things I keep turning over.",
     questions: [
@@ -201,40 +199,40 @@ export const site: SiteContent = {
       {
         question: "Where should we go next, and how do we get there on points?",
         body: "A trip is a problem worth over-planning. I keep a spreadsheet for the route and another for the credit cards, and the best days are always the ones that ignore both.",
-        href: "/about",
+        href: "/places",
         cta: "Where we've been",
       },
     ],
     placesLabel: "Places",
     placesTitle: "Out in the world.",
-    placesNote: "A few from the road. More on the About page.",
+    placesNote: "A few from the road. The rest are on the Places page, grouped by trip.",
     projectsLabel: "Work, briefly",
     projectsTitle: "Two things I'm building.",
     projectsNote: "The work gets its own pages. The short version is here.",
   },
 
   photos: [
-    { src: "kayak-sunset", alt: "James paddling a kayak toward the setting sun off Maui, mountains along the shore.", caption: "Maui, sunset paddle", orientation: "square" },
-    { src: "kayak-whale", alt: "A humpback whale surfacing beside a tandem kayak off Maui, with James and his wife watching from the boat.", caption: "Maui, a whale closer than planned", orientation: "square" },
-    { src: "rafting", alt: "James and three friends mid-rapid in a yellow raft, paddles up, everyone grinning.", caption: "Whitewater, with friends", orientation: "landscape" },
-    { src: "venice-us", alt: "James and his wife in front of a terracotta building on a Venice canal.", caption: "Venice, with my wife", orientation: "portrait" },
-    { src: "venice-canal", alt: "Boats on the Grand Canal in Venice on a clear afternoon.", caption: "Venice, the Grand Canal", orientation: "landscape" },
-    { src: "great-wall-us", alt: "James and his wife sitting on the Great Wall of China with the wall winding over the hills behind them.", caption: "The Great Wall", orientation: "portrait" },
-    { src: "great-wall", alt: "A rough, unrestored stretch of the Great Wall climbing a ridge.", caption: "The Great Wall, the quiet stretch", orientation: "square" },
-    { src: "shanghai", alt: "The Shanghai skyline lit up at night across the river, with the moon above.", caption: "Shanghai", orientation: "landscape" },
-    { src: "patagonia-camp", alt: "Rows of yellow tents below jagged granite peaks in Patagonia.", caption: "Patagonia, camp night", orientation: "landscape" },
-    { src: "patagonia-bridge", alt: "A narrow suspension bridge leading across a ravine toward a glacier in fog.", caption: "Patagonia, the bridge to the glacier", orientation: "landscape" },
-    { src: "atacama", alt: "James and his wife at a salt lagoon in the Atacama Desert, flamingos in the water behind them.", caption: "Atacama Desert", orientation: "portrait" },
-    { src: "santiago", alt: "James and his wife in a park in Santiago with the city skyline behind.", caption: "Santiago", orientation: "portrait" },
-    { src: "boat-bow", alt: "James sitting alone on the blue bow of a boat off Coron in the Philippines, islands on the horizon.", caption: "Coron, Philippines", orientation: "portrait" },
-    { src: "fishing-boat", alt: "A small blue and white fishing boat anchored off a beach in Brazil.", caption: "Brazil", orientation: "landscape" },
-    { src: "rainier-window", alt: "Mount Rainier above the Cascades, seen past an airplane wing.", caption: "Mount Rainier from the window seat", orientation: "portrait" },
-    { src: "mountain-pass", alt: "A forested valley and a mountain highway in the Cascades.", caption: "The Cascades", orientation: "portrait" },
-    { src: "puget-sound-ferry", alt: "A Washington State ferry crossing Puget Sound at sunset, framed by trees.", caption: "Puget Sound, a ferry at sunset", orientation: "portrait" },
-    { src: "world-cup-seattle", alt: "James and his wife in the stands at a 2026 World Cup match in Seattle.", caption: "World Cup 2026, Seattle", orientation: "landscape" },
-    { src: "chicago-bridge", alt: "James and his wife on the Michigan Avenue bridge in Chicago.", caption: "Chicago", orientation: "landscape" },
-    { src: "chicago-lakefront", alt: "The Chicago lakefront trail with the skyline ahead.", caption: "Chicago, the lakefront trail", orientation: "portrait" },
-    { src: "garden", alt: "Arugula growing in a raised garden bed.", caption: "The garden, arugula winning", orientation: "portrait" },
+    { src: "kayak-sunset", alt: "James paddling a kayak toward the setting sun off Maui, mountains along the shore.", caption: "Maui, sunset paddle", orientation: "square", trip: "maui" },
+    { src: "kayak-whale", alt: "A humpback whale surfacing beside a tandem kayak off Maui, with James and his wife watching from the boat.", caption: "Maui, a whale closer than planned", orientation: "square", trip: "maui" },
+    { src: "rafting", alt: "James and three friends mid-rapid in a yellow raft on the Nantahala River, paddles up, everyone grinning.", caption: "Nantahala River, with friends", orientation: "landscape", trip: "nantahala" },
+    { src: "venice-us", alt: "James and his wife in front of a terracotta building on a Venice canal.", caption: "Venice, with my wife", orientation: "portrait", trip: "italy" },
+    { src: "venice-canal", alt: "Boats on the Grand Canal in Venice on a clear afternoon.", caption: "Venice, the Grand Canal", orientation: "landscape", trip: "italy" },
+    { src: "great-wall-us", alt: "James and his wife sitting on the Great Wall of China with the wall winding over the hills behind them.", caption: "The Great Wall", orientation: "portrait", trip: "china" },
+    { src: "great-wall", alt: "A rough, unrestored stretch of the Great Wall climbing a ridge.", caption: "The Great Wall, the quiet stretch", orientation: "square", trip: "china" },
+    { src: "shanghai", alt: "The Shanghai skyline lit up at night across the river, with the moon above.", caption: "Shanghai", orientation: "landscape", trip: "china" },
+    { src: "patagonia-camp", alt: "Rows of yellow tents below jagged granite peaks in Patagonia.", caption: "Patagonia, camp night", orientation: "landscape", trip: "chile" },
+    { src: "patagonia-bridge", alt: "A narrow suspension bridge leading across a ravine toward a glacier in fog.", caption: "Patagonia, the bridge to the glacier", orientation: "landscape", trip: "chile" },
+    { src: "atacama", alt: "James and his wife at a salt lagoon in the Atacama Desert, flamingos in the water behind them.", caption: "Atacama Desert", orientation: "portrait", trip: "chile" },
+    { src: "santiago", alt: "James and his wife in a park in Santiago with the city skyline behind.", caption: "Santiago", orientation: "portrait", trip: "chile" },
+    { src: "boat-bow", alt: "James sitting alone on the blue bow of a boat off Coron in the Philippines, islands on the horizon.", caption: "Coron, Philippines", orientation: "portrait", trip: "philippines" },
+    { src: "fishing-boat", alt: "A small blue and white fishing boat anchored off a beach in Brazil.", caption: "Brazil", orientation: "landscape", trip: "brazil" },
+    { src: "rainier-window", alt: "Mount Rainier above the Cascades, seen past an airplane wing.", caption: "Mount Rainier from the window seat", orientation: "portrait", trip: "home" },
+    { src: "mountain-pass", alt: "A forested valley and a mountain highway in the Cascades.", caption: "The Cascades", orientation: "portrait", trip: "home" },
+    { src: "puget-sound-ferry", alt: "A Washington State ferry crossing Puget Sound at sunset, framed by trees.", caption: "Puget Sound, a ferry at sunset", orientation: "portrait", trip: "home" },
+    { src: "world-cup-seattle", alt: "James and his wife in the stands at a 2026 World Cup match in Seattle.", caption: "World Cup 2026, Seattle", orientation: "landscape", trip: "home" },
+    { src: "chicago-bridge", alt: "James and his wife on the Michigan Avenue bridge in Chicago.", caption: "Chicago", orientation: "landscape", trip: "chicago" },
+    { src: "chicago-lakefront", alt: "The Chicago lakefront trail with the skyline ahead.", caption: "Chicago, the lakefront trail", orientation: "portrait", trip: "chicago" },
+    { src: "garden", alt: "Arugula growing in a raised garden bed.", caption: "The garden, arugula winning", orientation: "portrait", trip: "home" },
   ],
 
   projects: [
@@ -256,7 +254,7 @@ export const site: SiteContent = {
         "Finding out what one bank charges, let alone how that compares to the bank down the street, takes far more effort than it should. That gap hurts the institutions trying to set fair prices as much as it hurts the people paying them.",
       ],
       why: [
-        "I spent years helping banks look at their own numbers and kept running into the same problem: the fee data existed, but nobody had made it legible.",
+        "I spent years helping banks look at their own numbers, and fee comparisons were always the slow, manual part: someone opening twenty PDFs and retyping what they found.",
         "Fee Insight is my attempt to do that carefully. Every fee is read from the institution's own schedule and traced to a saved copy of it. The index reports what is published without recommending a price, and it stays independent of the institutions it covers.",
       ],
       today: [
@@ -296,28 +294,47 @@ export const site: SiteContent = {
 
   projectsPage: {
     title: "Projects",
-    lede: "Two things I'm building. Both started as questions I couldn't find a good answer to, and both are about making banking information easier to find, compare, and trust.",
+    lede: "Two things I'm building. Both are about making banking information easier to find, compare, and trust.",
     caseStudyNote: "A longer write-up is on the way. For now, the project's own site is the best place to see it.",
+    experimentsLabel: "Smaller things",
+    experimentsNote: "Tools and experiments that solved one problem and stopped there.",
+    experiments: [],
+  },
+
+  trips: [
+    { id: "maui", name: "Maui" },
+    { id: "chile", name: "Chile", note: "Patagonia, the Atacama, and Santiago in between." },
+    { id: "china", name: "China", note: "The Great Wall at its quiet end, then Shanghai." },
+    { id: "italy", name: "Venice" },
+    { id: "philippines", name: "Coron, Philippines" },
+    { id: "brazil", name: "Brazil" },
+    { id: "nantahala", name: "Nantahala River" },
+    { id: "chicago", name: "Chicago" },
+    { id: "home", name: "Home", note: "Seattle, the Sound, the Cascades, and the garden." },
+  ],
+  placesPage: {
+    title: "Out in the world.",
+    lede: "Trips with my wife, mostly, and a few from closer to home. Click any photo to see it larger.",
   },
 
   about: {
     title: "Seattle, by way of Florida and a football stadium.",
     lede: "Sports, then consulting, then banking technology, then building my own tools. The pattern took me a while to notice.",
     paragraphs: [
-      "My first real job was in collegiate athletics, on the external operations side at the University of Central Florida. I helped build a student section brand called The Knightmare, worked on ticket sales, and built dashboards to track how the department was doing.",
-      "From there I spent a few years consulting for university and professional sports business units: sponsorship valuations, negotiations, RFPs, and dashboards for executives who needed an answer by Friday. It was my first lesson in a pattern I keep seeing. The data usually exists. What's missing is someone willing to make it legible.",
-      "Banking technology came next. I've spent the years since working with banks and credit unions on software implementations, analytics, and client work, and automating the parts of that work that used to be done by hand. The scale is different from athletics. The problem is the same.",
-      "Along the way I picked up an MBA in entrepreneurship, which is a formal way of saying I can't stop starting things. Lately those things have been Fee Insight and The AI Banking Institute, both of which started as questions I couldn't find a good answer to.",
-      "I'm optimistic about AI and allergic to demos. The interesting question isn't whether a model can do something impressive. It's whether a person inside a bank can use it on a real task and show their work afterward. That's the bar I try to build to.",
+      "My first real job was in the athletics department at the University of Central Florida, on the side of the operation that sells tickets and fills the stadium. The student section had no identity, so a few of us built one and called it The Knightmare. I spent game days figuring out why some sections filled and others didn't, turned student guest tickets into a revenue line the department hadn't had before, and built the dashboards that told us, week by week, whether any of it was working.",
+      "That was the lesson I kept relearning afterward: the numbers were always there. Somebody had to make them readable, and then somebody had to act on them.",
+      "I took that into a few years of consulting for university and professional sports business units: sponsorship valuations, negotiations, RFPs, and dashboards for executives who needed an answer by Friday. Then banking technology, where I've spent the years since working with banks and credit unions on software implementations, analytics, and the automation that replaces work done by hand. The scale is different from athletics. The problem is the same.",
+      "Along the way I picked up an MBA in entrepreneurship. The two things I've built on my own time, Fee Insight and The AI Banking Institute, each began as a problem I ran into at work and couldn't stop thinking about.",
+      "On AI, I'm optimistic and allergic to demos. The interesting question isn't whether a model can do something impressive. It's whether a person inside a bank can use it on a real task and show their work afterward. That's the bar I try to build to.",
     ],
     lifeLine:
-      "I live in Seattle. When I'm not at a desk I'm usually in a kayak, on a long run, or planning the next trip in more detail than it needs.",
+      "I live in Seattle with my wife. When I'm not at a desk I'm in a kayak, on a long run, or at the airport.",
     photo: { src: "/photos/venice-us.jpg", alt: "James Gilmore and his wife in Venice", caption: "Venice, with my wife" },
     heroPhoto: "great-wall-us",
     doLabel: "Things I do",
     iDo: [
       { text: "Kayak, as often as I can", note: "Puget Sound at home. Maui when we're lucky.", icon: "water" },
-      { text: "Travel on points", note: "Churning credit cards pays for most of it.", icon: "plane" },
+      { text: "Travel on points", note: "Churning credit cards pays for most of it. The planning is half the fun.", icon: "plane" },
       { text: "Run long distances", note: "Distance first, speed never.", icon: "run" },
       { text: "Grow things", note: "Mixed results. The arugula is winning.", icon: "leaf" },
       { text: "Read history", note: "It explains more than it should.", icon: "book" },
@@ -342,22 +359,22 @@ export const site: SiteContent = {
         detail: "Strategy, software training, and negotiation support for university and athletics business units.",
       },
       {
-        period: "2019–present",
+        period: "2019–now",
         title: "Banking technology",
-        detail: "Software implementations, analytics, and automation for banks and credit unions. Now building the processes, data pipelines, and partnerships behind the client success team at Velocity, a CSI company.",
+        detail: "Software implementations, analytics, and automation for banks and credit unions. Today: the processes, data pipelines, and partnerships behind the client success team at Velocity, a CSI company. The consulting overlapped with the first two years.",
       },
       {
-        period: "Now",
-        title: "Independent builder",
-        detail: "Fee Insight and The AI Banking Institute, built on my own time.",
+        period: "On the side",
+        title: "Fee Insight and The AI Banking Institute",
+        detail: "Two tools built on my own time, both live.",
       },
     ],
   },
 
   contact: {
     title: "Say hello.",
-    lede: "If you work in banking technology, think about data for a living, or are building something useful, I'd like to hear from you.",
-    body: "I'm not selling anything here and I'm not looking for a job. I just like talking with people who care about the same problems. The best way to reach me is through one of the links below.",
+    lede: "Banking technology, data, a trip you're planning, a kayak route, or something you're building. If it's interesting, I'd like to hear about it.",
+    body: "I'm not selling anything here and I'm not looking for a job. I just like talking with people who are curious about the same things. The best way to reach me is through one of the links below.",
     linksLabel: "Find me",
     emailLabel: "Email",
     formNote: "There's no contact form on purpose. A short message through any of these gets read.",

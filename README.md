@@ -14,7 +14,8 @@ Rules the pages follow:
 - `email: null` hides the email entry on Contact. Set it to a real address to show it.
 - A project's `url: null` hides every "visit the site" link for that project.
 - A project's `image` is a real screenshot in `public/projects/`. Set it to `null` for a text-only entry.
-- Photos live in `public/photos/` and are listed in `photos` with a true caption. Home shows `home.band` plus six more; About shows them all.
+- Photos live in `public/photos/` and are listed in `photos` with a true caption and a `trip` id. Home shows `home.band`; Places shows them all, grouped by `trips`.
+- `projectsPage.experiments` is empty; add `{ name, summary, url }` entries and a "Smaller things" section appears on Projects.
 - `projects[].caseStudy` is an empty array until there is a real write-up. Add
   `{ heading, body: [paragraphs] }` entries and they render on the project page.
 - `about.photo` is `null` by default. Set `{ src, alt, caption }` to show a portrait; the layout adjusts.
@@ -36,7 +37,7 @@ pnpm check   # lint + typecheck + production build
 
 ## Layout
 
-- `src/app/(site)/` — the public pages: home, about, projects, projects/[slug], contact
+- `src/app/(site)/` — the public pages: home, about, places, projects, projects/[slug], contact
 - `src/components/` — navigation, footer, project card, small shared pieces
 - `src/app/globals.css` — design tokens (paper, ink, evergreen) and the handful of custom classes
 - `src/app/opengraph-image.tsx` — the sharing card, generated from the content file
