@@ -35,6 +35,7 @@ export default function PlacesPage() {
           {groups.map(({ trip, photos }) => (
             <section key={trip.id} id={trip.id} aria-labelledby={`trip-${trip.id}`} className="grid gap-8 lg:grid-cols-12 lg:gap-8">
               <div className="min-w-0 lg:col-span-3">
+                {trip.when && <p className="label m-0 mb-1">{trip.when}</p>}
                 <h2 id={`trip-${trip.id}`} className="title m-0 text-[2.2rem] sm:text-[2.6rem]">
                   {trip.name}
                 </h2>

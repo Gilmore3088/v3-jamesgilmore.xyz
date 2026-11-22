@@ -51,6 +51,8 @@ export type Trip = {
   name: string;
   /** Optional one-liner under the trip name. */
   note?: string;
+  /** Year or range, if known. */
+  when?: string;
   /** Map pins as [latitude, longitude]. A trip with none is listed but not pinned. */
   pins?: [number, number][];
 };
@@ -310,15 +312,20 @@ export const site: SiteContent = {
     { id: "home", name: "Seattle", note: "Home. The Sound and the Cascades.", pins: [[47.61, -122.33]] },
     { id: "maui", name: "Maui", pins: [[20.8, -156.33]] },
     { id: "chile", name: "Chile", note: "Patagonia, the Atacama, and Santiago in between.", pins: [[-51.0, -73.0], [-23.45, -68.1], [-33.45, -70.67]] },
-    { id: "brazil", name: "Brazil", note: "Ilhabela and Florianópolis.", pins: [[-23.78, -45.36], [-27.59, -48.55]] },
+    { id: "brazil", name: "Brazil", note: "Ilhabela, Florianópolis, and São Paulo.", pins: [[-23.78, -45.36], [-27.59, -48.55], [-23.55, -46.69]] },
     { id: "chicago", name: "Chicago", pins: [[41.88, -87.63]] },
     { id: "nantahala", name: "Nantahala River", note: "North Carolina.", pins: [[35.33, -83.6]] },
-    { id: "italy", name: "Venice", pins: [[45.44, 12.33]] },
-    { id: "china", name: "China", note: "The Great Wall at its quiet end, then Shanghai.", pins: [[40.67, 117.25], [31.23, 121.47]] },
+    { id: "italy", name: "Italy", note: "Rome in 2017, then Venice and Milan.", pins: [[45.44, 12.33], [41.9, 12.5], [45.47, 9.18]] },
+    { id: "croatia", name: "Croatia", note: "Dubrovnik and Hvar.", when: "2017", pins: [[42.64, 18.11], [43.17, 16.43]] },
+    { id: "spain", name: "Córdoba, Spain", when: "2018", pins: [[37.88, -4.78]] },
+    { id: "portugal", name: "Lisbon", when: "2019", pins: [[38.71, -9.13]] },
+    { id: "morocco", name: "Marrakech", when: "2023", pins: [[31.63, -7.99]] },
+    { id: "northeast", name: "New York and Philadelphia", when: "2025", pins: [[40.76, -73.98], [39.97, -75.13]] },
+    { id: "china", name: "China", note: "Beijing, the Great Wall at its quiet end, then Shanghai.", when: "2019", pins: [[40.67, 117.25], [31.23, 121.47]] },
     { id: "philippines", name: "Coron, Philippines", pins: [[11.99, 120.2]] },
   ],
-  wishlist: [],
-  visitedCountries: ["United States of America", "Chile", "China", "Italy", "Philippines", "Brazil"],
+  wishlist: [{ name: "Samarkand, Uzbekistan", pins: [[39.65, 66.98]], note: "The Registan. A dream, not a plan yet." }],
+  visitedCountries: ["United States of America", "Chile", "China", "Italy", "Philippines", "Brazil", "Croatia", "Spain", "Portugal", "Morocco"],
   placesPage: {
     title: "Out in the world.",
     lede: "Trips with Nikoly, mostly, and a few from closer to home. Pick a pin to see the trip, or scroll. Click any photo to see it larger.",

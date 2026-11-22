@@ -8,6 +8,7 @@ export type MapTrip = {
   id: string;
   name: string;
   note: string | null;
+  when: string | null;
   photos: { src: string; alt: string; caption: string }[];
   pins: { x: number; y: number }[];
 };
@@ -55,7 +56,7 @@ export default function PlacesMap({ width, height, landPath, visitedPaths, trips
                 <g key={`${t.id}-${i}`} role="button" tabIndex={0} aria-label={`${t.name}: show trip`} aria-pressed={active} className="group cursor-pointer outline-none" onClick={() => { setSelected(t.id); setWish(null); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelected(t.id); setWish(null); } }}>
                   <circle cx={p.x} cy={p.y} r="14" fill="transparent" />
                   {active && <circle cx={p.x} cy={p.y} r="11" fill="var(--color-accent)" fillOpacity="0.25" />}
-                  <circle cx={p.x} cy={p.y} r={active ? 6.5 : 5} fill="var(--color-accent)" stroke="var(--color-bg)" strokeWidth="2" className="transition-[r] group-hover:r-[6.5] group-focus-visible:r-[6.5]" />
+                  <circle cx={p.x} cy={p.y} r={active ? 6.5 : 5} fill={t.photos.length > 0 ? "var(--color-accent)" : "var(--color-accent-deep)"} stroke="var(--color-bg)" strokeWidth="2" />
                   {i === 0 && (
                     <text x={p.x + 10} y={p.y + 4} fontSize="14" fontWeight="600" fill={active ? "var(--color-accent)" : "var(--color-ink)"} className="hidden select-none sm:block" style={{ paintOrder: "stroke", stroke: "var(--color-bg)", strokeWidth: 4, strokeLinejoin: "round" }}>
                       {t.name}
@@ -77,20 +78,27 @@ export default function PlacesMap({ width, height, landPath, visitedPaths, trips
       <aside aria-live="polite" className="panel min-h-[14rem] p-6 lg:col-span-4">
         {trip ? (
           <div>
-            <h3 className="title m-0 text-[1.8rem]">{trip.name}</h3>
+            {trip.when && <p className="label m-0">{trip.when}</p>}
+            <h3 className="title m-0 mt-1 text-[1.8rem]">{trip.name}</h3>
             {trip.note && <p className="body-text m-0 mt-2 text-[1.02rem] text-muted">{trip.note}</p>}
-            <ul className="m-0 mt-5 grid list-none grid-cols-3 gap-2 p-0">
-              {trip.photos.slice(0, 6).map((p) => (
-                <li key={p.src} className="relative aspect-square overflow-hidden rounded-lg bg-surface-2">
-                  <Image src={`/photos/${p.src}.jpg`} alt={p.alt} fill sizes="12vw" className="object-cover" />
-                </li>
-              ))}
-            </ul>
-            <p className="m-0 mt-5">
-              <a href={`#${trip.id}`} className="arrow-link">
-                {trip.photos.length === 1 ? "See the photo" : `See all ${trip.photos.length} photos`} <Arrow />
-              </a>
-            </p>
+            {trip.photos.length > 0 ? (
+              <>
+                <ul className="m-0 mt-5 grid list-none grid-cols-3 gap-2 p-0">
+                  {trip.photos.slice(0, 6).map((p) => (
+                    <li key={p.src} className="relative aspect-square overflow-hidden rounded-lg bg-surface-2">
+                      <Image src={`/photos/${p.src}.jpg`} alt={p.alt} fill sizes="12vw" className="object-cover" />
+                    </li>
+                  ))}
+                </ul>
+                <p className="m-0 mt-5">
+                  <a href={`#${trip.id}`} className="arrow-link">
+                    {trip.photos.length === 1 ? "See the photo" : `See all ${trip.photos.length} photos`} <Arrow />
+                  </a>
+                </p>
+              </>
+            ) : (
+              <p className="body-text m-0 mt-5 text-[1rem] text-muted">No photos up yet.</p>
+            )}
           </div>
         ) : wish ? (
           <div>

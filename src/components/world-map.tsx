@@ -33,12 +33,11 @@ export default function WorldMap() {
   const visited = new Set(site.visitedCountries);
   const visitedPaths = countries.features.filter((f) => visited.has(f.properties.name)).map((f) => path(f) ?? "").filter(Boolean);
 
-  const trips: MapTrip[] = site.trips
-    .filter((t) => site.photos.some((p) => p.trip === t.id))
-    .map((t) => ({
+  const trips: MapTrip[] = site.trips.map((t) => ({
       id: t.id,
       name: t.name,
       note: t.note ?? null,
+      when: t.when ?? null,
       photos: site.photos.filter((p) => p.trip === t.id).map((p) => ({ src: p.src, alt: p.alt, caption: p.caption })),
       pins: (t.pins ?? [])
         .map(([lat, lng]) => projection([lng, lat]))
