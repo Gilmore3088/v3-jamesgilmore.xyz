@@ -26,6 +26,8 @@ export type Project = {
   status: string;
   /** Public site. Omit or set null until it exists. */
   url: string | null;
+  /** A real screenshot in /public. `null` renders the text-only layout. */
+  image: { src: string; alt: string; caption: string } | null;
   problem: string[];
   why: string[];
   today: string[];
@@ -145,6 +147,11 @@ export const site: SiteContent = {
         "A public index of what U.S. banks and credit unions charge, read from each institution's own fee schedule, plus a workspace for the teams who need to compare them.",
       status: "Live",
       url: "https://feeinsight.com",
+      image: {
+        src: "/projects/fee-insight.png",
+        alt: "The Fee Insight home page, with the Bank Fee Index showing the U.S. median monthly maintenance fee against one institution's.",
+        caption: "feeinsight.com, November 2026",
+      },
       problem: [
         "Fee information is public in theory and scattered in practice. Every institution publishes a schedule, but they live in PDFs and account disclosures that use different names for the same thing.",
         "Finding out what one bank charges, let alone how that compares to the bank down the street, takes far more effort than it should. That gap hurts the institutions trying to set fair prices as much as it hurts the people paying them.",
@@ -167,6 +174,11 @@ export const site: SiteContent = {
         "Education and governance resources that help community banks and credit unions turn AI interest into work a reviewer can check.",
       status: "Live",
       url: "https://www.aibankinginstitute.com",
+      image: {
+        src: "/projects/ai-banking-institute.png",
+        alt: "The AI Banking Institute home page, asking whether a team is ready to use AI safely, next to a practice exercise from the Foundation course.",
+        caption: "aibankinginstitute.com, November 2026",
+      },
       problem: [
         "AI arrived at smaller institutions before most of them had a plan for it. At banking conferences AI was everywhere, but many community bank and credit union teams still had no practical answer for which use cases to start with, what controls to put around them, or who owns the result.",
         "Generic demos don't help a compliance officer sign off on anything. What these teams need is a way to start small and leave a record someone can review.",

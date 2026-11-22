@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Arrow from "@/components/arrow";
 import Container from "@/components/container";
+import ProjectImage from "@/components/project-image";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -27,7 +28,7 @@ export default function ProjectsPage() {
       </header>
 
       <ol className="m-0 list-none p-0">
-        {projects.map((project) => (
+        {projects.map((project, i) => (
           <li key={project.slug} className="grid gap-8 border-t border-ink py-10 lg:grid-cols-12 lg:gap-8 lg:py-14">
             <div className="min-w-0 lg:col-span-4">
               <p className="label m-0">{project.status}</p>
@@ -49,7 +50,9 @@ export default function ProjectsPage() {
               </div>
             </div>
 
-            <div className="grid gap-8 sm:grid-cols-2 lg:col-span-7 lg:col-start-6">
+            <div className="grid min-w-0 gap-8 lg:col-span-7 lg:col-start-6">
+              <ProjectImage project={project} sizes="(min-width: 1024px) 55vw, 90vw" priority={i === 0} />
+              <div className="grid gap-8 sm:grid-cols-2">
               <div className="min-w-0">
                 <h3 className="label m-0">The problem</h3>
                 {project.problem.map((para) => (
@@ -65,6 +68,7 @@ export default function ProjectsPage() {
                     {para}
                   </p>
                 ))}
+              </div>
               </div>
             </div>
           </li>

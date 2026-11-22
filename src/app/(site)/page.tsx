@@ -41,7 +41,7 @@ export default function HomePage() {
 
       {/* Opening */}
       <Container>
-        <section className="grid gap-10 pb-20 pt-12 sm:pt-20 lg:grid-cols-12 lg:gap-8 lg:pb-28 lg:pt-28">
+        <section className="grid gap-10 pb-16 pt-12 sm:pt-20 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-24">
           <div className="rise min-w-0 lg:col-span-11">
             <p className="label m-0">
               {site.name} <span aria-hidden="true" className="mx-2 text-line-strong">/</span> {home.eyebrow}

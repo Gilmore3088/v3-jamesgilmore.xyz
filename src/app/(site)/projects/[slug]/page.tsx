@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Arrow from "@/components/arrow";
 import Container from "@/components/container";
+import ProjectImage from "@/components/project-image";
 import { getProject, site } from "@/content/site";
 import { jsonLd } from "@/lib/site";
 
@@ -69,7 +70,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </Link>
       </p>
 
-      <header className="rise grid gap-8 pb-12 pt-8 sm:pt-10 lg:grid-cols-12 lg:gap-8 lg:pb-16">
+      <header className="rise grid gap-8 pb-10 pt-8 sm:pt-10 lg:grid-cols-12 lg:gap-8 lg:pb-12">
         <div className="min-w-0 lg:col-span-9">
           <p className="label m-0">Project</p>
           <h1 className="display m-0 mt-4 text-[2.8rem] sm:text-6xl lg:text-[4.5rem]">{project.name}</h1>
@@ -92,6 +93,12 @@ export default async function ProjectPage({ params }: PageProps) {
           )}
         </dl>
       </header>
+
+      {project.image && (
+        <div className="mb-14 lg:mb-20">
+          <ProjectImage project={project} aspect="aspect-[16/10] sm:aspect-[2/1]" sizes="(min-width: 1280px) 80rem, 100vw" priority withCaption />
+        </div>
+      )}
 
       <div className="max-w-[54rem] border-t border-ink">
         <Section label="The problem" paragraphs={project.problem} />
