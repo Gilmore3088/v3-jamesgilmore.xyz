@@ -211,8 +211,8 @@ export const site: SiteContent = {
   },
 
   photos: [
-    { src: "kayak-sunset", alt: "James paddling a kayak toward the setting sun, mountains along the shore.", caption: "On the water, sunset", orientation: "square" },
-    { src: "kayak-whale", alt: "A humpback whale surfacing beside a tandem kayak, with James and his wife watching from the boat.", caption: "A whale, closer than planned", orientation: "square" },
+    { src: "kayak-sunset", alt: "James paddling a kayak toward the setting sun off Maui, mountains along the shore.", caption: "Maui, sunset paddle", orientation: "square" },
+    { src: "kayak-whale", alt: "A humpback whale surfacing beside a tandem kayak off Maui, with James and his wife watching from the boat.", caption: "Maui, a whale closer than planned", orientation: "square" },
     { src: "rafting", alt: "James and three friends mid-rapid in a yellow raft, paddles up, everyone grinning.", caption: "Whitewater, with friends", orientation: "landscape" },
     { src: "venice-us", alt: "James and his wife in front of a terracotta building on a Venice canal.", caption: "Venice, with my wife", orientation: "portrait" },
     { src: "venice-canal", alt: "Boats on the Grand Canal in Venice on a clear afternoon.", caption: "Venice, the Grand Canal", orientation: "landscape" },
