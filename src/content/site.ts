@@ -307,7 +307,7 @@ export const site: SiteContent = {
     { id: "home", name: "Seattle", note: "Home. The Sound, the Cascades, and the garden.", pins: [[47.61, -122.33]] },
     { id: "maui", name: "Maui", pins: [[20.8, -156.33]] },
     { id: "chile", name: "Chile", note: "Patagonia, the Atacama, and Santiago in between.", pins: [[-51.0, -73.0], [-23.45, -68.1], [-33.45, -70.67]] },
-    { id: "brazil", name: "Ilhabela, Brazil", pins: [[-23.78, -45.36]] },
+    { id: "brazil", name: "Brazil", note: "Ilhabela and Florianópolis.", pins: [[-23.78, -45.36], [-27.59, -48.55]] },
     { id: "chicago", name: "Chicago", pins: [[41.88, -87.63]] },
     { id: "nantahala", name: "Nantahala River", note: "North Carolina.", pins: [[35.33, -83.6]] },
     { id: "italy", name: "Venice", pins: [[45.44, 12.33]] },
