@@ -1,15 +1,14 @@
-export const SITE_URL = "https://jamesgilmore.xyz";
-export const SITE_NAME = "James Gilmore";
-export const SITE_DESCRIPTION =
-  "I run far, plan trips like heists, and build stuff that didn't exist yesterday. Seattle-based, fintech by day.";
+import { site } from "@/content/site";
 
-export const SOCIAL = {
-  github: "https://github.com/Gilmore3088",
-  linkedin: "https://www.linkedin.com/in/JamesLGilmore",
-  email: "JLGilmore2@gmail.com",
-} as const;
+export const SITE_URL = site.url;
+export const SITE_NAME = site.name;
 
 /** Serialize JSON-LD safely for a <script> tag (prevents `</script>` injection). */
 export function jsonLd(data: unknown): string {
   return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
+/** Absolute URL for a site path. */
+export function absoluteUrl(path: string): string {
+  return new URL(path, SITE_URL).toString();
 }

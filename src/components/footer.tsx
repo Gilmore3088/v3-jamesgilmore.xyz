@@ -1,30 +1,68 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail } from "lucide-react";
-import { SOCIAL } from "@/lib/site";
-import { profile } from "@/content/profile";
-
-const SOCIAL_LINKS = [
-  { href: SOCIAL.github, label: "GitHub", icon: Github },
-  { href: SOCIAL.linkedin, label: "LinkedIn", icon: Linkedin },
-  { href: `mailto:${SOCIAL.email}`, label: "Email", icon: Mail },
-] as const;
+import Container from "@/components/container";
+import { site } from "@/content/site";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+
   return (
-    <footer className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-      <hr className="hr-gold" />
-      <div className="flex flex-wrap items-center justify-between gap-4 py-8 text-sm text-muted">
-        <p className="m-0">© {year} James Gilmore · <span className="tracking-wider">{profile.coordinates}</span></p>
-        <p className="hand m-0 text-lg">{profile.footerLine}</p>
-        <div className="flex items-center gap-3">
-          {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
-            <Link key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-muted transition-colors hover:border-gold hover:text-gold">
-              <Icon size={16} />
-            </Link>
-          ))}
+    <footer className="mt-28 lg:mt-36">
+      <Container>
+        <div className="double-rule" aria-hidden="true" />
+        <div className="grid gap-10 pb-10 pt-8 sm:grid-cols-12 sm:gap-8">
+          <div className="sm:col-span-4">
+            <p className="m-0 serif text-2xl leading-none tracking-[-0.015em]">{site.name}</p>
+            <p className="m-0 mt-2 text-sm text-muted">{site.role}.</p>
+            <p className="m-0 mt-1 text-sm text-muted">{site.location}</p>
+          </div>
+
+          <div className="sm:col-span-2">
+            <p className="label m-0">{site.footer.pagesLabel}</p>
+            <ul className="m-0 mt-3 list-none space-y-1.5 p-0 text-sm">
+              <li>
+                <Link href="/" className="link">
+                  Home
+                </Link>
+              </li>
+              {site.nav.map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} className="link">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="sm:col-span-2">
+            <p className="label m-0">{site.footer.elsewhereLabel}</p>
+            <ul className="m-0 mt-3 list-none space-y-1.5 p-0 text-sm">
+              {site.links.map(({ href, label }) => (
+                <li key={href}>
+                  <a href={href} className="link" rel="me noopener noreferrer" target="_blank">
+                    {label}
+                  </a>
+                </li>
+              ))}
+              {site.email && (
+                <li>
+                  <a href={`mailto:${site.email}`} className="link">
+                    Email
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
+
+          <div className="sm:col-span-4">
+            <p className="label m-0">{site.footer.colophonLabel}</p>
+            <p className="m-0 mt-3 max-w-[34ch] text-sm leading-relaxed text-muted">{site.footer.colophon}</p>
+            <p className="m-0 mt-3 text-sm text-muted">
+              © {year} {site.name}
+            </p>
+          </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

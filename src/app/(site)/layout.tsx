@@ -1,20 +1,20 @@
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
-import ScrollToTop from "@/components/scroll-to-top";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="flex min-h-dvh flex-col">
       <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-gold focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-bg"
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-paper"
       >
-        Skip to main content
+        Skip to content
       </a>
       <Navigation />
-      <main id="main-content" className="min-h-screen">{children}</main>
+      <main id="main" className="flex-1">
+        {children}
+      </main>
       <Footer />
-      <ScrollToTop />
-    </>
+    </div>
   );
 }

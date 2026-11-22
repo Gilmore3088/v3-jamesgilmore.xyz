@@ -1,19 +1,23 @@
 # jamesgilmore.xyz
 
-Personal website for James Gilmore. Next.js 16, Tailwind 4, Supabase.
+Personal website for James Gilmore. Next.js 16, TypeScript, Tailwind 4. Fully static, no database.
 
-## Editing the words
+## Editing the site
 
-Everything on the site that is "James talking" lives in one file:
+Everything the site says lives in one file:
 
-- `src/content/profile.ts` — headline, photo caption, stickers, the scrolling tape,
-  "the short version" cards, "things I believe", "ask me about", and the sign-off.
+- `src/content/site.ts` — name, description, navigation, public links, email, the home page copy,
+  both projects, the About story, the Contact page, and the footer line.
 
-Change the text, save, and redeploy. Nothing else needs to change.
+Rules the pages follow:
 
-The four **Currently** boxes on the home page are editable without a deploy at
-`/admin/now` once `supabase/migrations/005_now_items.sql` has been applied.
-Projects and posts are managed in the admin panel as before.
+- `email: null` hides the email entry on Contact. Set it to a real address to show it.
+- A project's `url: null` hides every "visit the site" link for that project.
+- `projects[].caseStudy` is an empty array until there is a real write-up. Add
+  `{ heading, body: [paragraphs] }` entries and they render on the project page.
+- `about.photo: null` removes the portrait and the layout adjusts.
+
+Adding a project means adding one object to `projects`. Its page, sitemap entry, and card appear automatically.
 
 ## Running locally
 
@@ -22,9 +26,17 @@ pnpm install
 pnpm dev
 ```
 
-Put your Supabase URL and anon key in `.env.local` first (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
+## Checks
 
-## Design explorations
+```bash
+pnpm check   # lint + typecheck + production build
+```
 
-`design-explorations/` holds the static mockups used to choose this direction.
-They are not part of the app.
+## Layout
+
+- `src/app/(site)/` — the public pages: home, about, projects, projects/[slug], contact
+- `src/components/` — navigation, footer, project card, small shared pieces
+- `src/app/globals.css` — design tokens (paper, ink, evergreen) and the handful of custom classes
+- `src/app/opengraph-image.tsx` — the sharing card, generated from the content file
+
+`design-explorations/` and `plans/` are history from earlier passes and are not part of the app.

@@ -1,173 +1,252 @@
 @import "tailwindcss";
 
 /*
-  Design tokens. Warm charcoal ground, parchment text, aged gold, and a small
-  set of muted "expedition map" accents. Editorial, calm, a little bit of
-  exploration in the details.
+  Design tokens. Warm off-white paper, deep ink, one muted evergreen accent.
+  Oversized serif display type, a quiet sans for labels, hairline and double rules.
 */
-@theme inline {
-  --color-bg: #15130F;
-  --color-paper: #1F1B15;        /* raised surface */
-  --color-paper-2: #2A2519;      /* higher surface */
-  --color-ink: #EFE6D3;          /* primary text (parchment) */
-  --color-muted: #A69C86;
-  --color-line: #3B3427;
-  --color-gold: #C9A96A;
-  --color-gold-light: #E0C48C;
-  --color-gold-dark: #9C7F49;
+@theme {
+  --color-paper: #f4efe6;
+  --color-paper-2: #ebe5d8;
+  --color-ink: #1a1e1c;
+  --color-ink-soft: #3b423f;
+  --color-muted: #5f655f;
+  --color-line: #d9d2c4;
+  --color-line-strong: #b4ac9b;
+  --color-evergreen: #2f5b48;
+  --color-evergreen-deep: #22463a;
 
-  /* map accents: oxide, verdigris, gold, dusk, moss */
-  --color-coral: #C2724F;
-  --color-teal: #5E9B93;
-  --color-mustard: #C9A96A;
-  --color-lilac: #9A8DB8;
-  --color-mint: #7FA07A;
-
-  /* legacy names used by the admin panel */
-  --color-background: #15130F;
-  --color-surface: #1F1B15;
-  --color-surface-light: #2A2519;
-  --color-surface-lighter: #35301F;
-  --color-text-primary: #EFE6D3;
-  --color-text-secondary: #C9BFA9;
-  --color-text-muted: #A69C86;
-  --color-border: #3B3427;
-  --color-border-light: #4D4535;
-
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
-  --font-hand: var(--font-playfair), Georgia, serif;
+  --breakpoint-xs: 26rem;
 }
 
-html { scroll-behavior: smooth; }
+/* Font variables come from next/font on <html>, so they must stay inline. */
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: var(--font-newsreader), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-paper);
+}
 
 body {
-  background: var(--color-bg);
+  background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "calt";
 }
 
-::selection { background: rgb(201 169 106 / 0.35); color: var(--color-ink); }
-
-:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; border-radius: 4px; }
-
-[id] { scroll-margin-top: 6rem; }
-
-/* faint paper grain */
-.noise-bg { position: relative; }
-.noise-bg::before {
-  content: "";
-  position: fixed; inset: 0; z-index: -1; opacity: 0.035; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+::selection {
+  background: rgb(47 91 72 / 0.18);
 }
 
-/* ---------- utilities ---------- */
-
-.text-gold-gradient {
-  background: linear-gradient(135deg, #E0C48C 0%, #C9A96A 45%, #9C7F49 100%);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+:focus-visible {
+  outline: 2px solid var(--color-evergreen);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
-.hr-gold {
-  border: none; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-gold) 50%, transparent);
-  opacity: .45;
+[id] {
+  scroll-margin-top: 5rem;
 }
 
-/* eyebrow label: small caps, gold, letterspaced */
-.eyebrow {
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-gold);
+/* ---------- type ---------- */
+
+/* oversized display serif */
+.display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+  text-wrap: balance;
+  font-variation-settings: "opsz" 72;
 }
 
-/* card: raised surface, hairline border, optional accent rule on the left (set --c) */
-.card {
-  background: var(--color-paper);
-  border: 1px solid var(--color-line);
-  border-radius: 14px;
+.serif {
+  font-family: var(--font-serif);
+}
+
+/* running serif text with oldstyle figures */
+.serif-text {
+  font-family: var(--font-serif);
+  font-variant-numeric: oldstyle-nums;
+  font-variation-settings: "opsz" 18;
+}
+
+/* deck / standfirst: larger serif, slightly tighter */
+.deck {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 24;
+  letter-spacing: -0.008em;
+  text-wrap: pretty;
+}
+
+/* small letterspaced label */
+.label {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* the italic evergreen phrase inside a headline */
+.em-accent {
+  font-style: italic;
+  color: var(--color-evergreen);
+}
+
+/* big folio numerals */
+.numeral {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-variant-numeric: lining-nums;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  color: var(--color-evergreen);
+  font-variation-settings: "opsz" 72;
+}
+
+/* drop cap on the first paragraph */
+.dropcap::first-letter {
+  float: left;
+  font-family: var(--font-serif);
+  font-size: 3.9em;
+  line-height: 0.78;
+  padding-top: 0.08em;
+  padding-right: 0.12em;
+  color: var(--color-evergreen);
+  font-variation-settings: "opsz" 72;
+}
+
+/* pull quote */
+.pullquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  border-top: 2px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-line);
+  padding: 1.25rem 0 1.35rem;
+  text-wrap: pretty;
+}
+
+/* ---------- rules ---------- */
+
+/* newspaper double rule: thick over thin */
+.double-rule {
   position: relative;
+  border-top: 2px solid var(--color-ink);
 }
-.card-accent { border-left: 3px solid var(--c, var(--color-gold)); }
-.card-lift { transition: transform 0.2s ease, border-color 0.2s ease; }
-.card-lift:hover { transform: translateY(-2px); border-color: rgb(201 169 106 / 0.5); }
-
-/* highlighted phrase: gold, italic, serif */
-.hl { font-style: italic; color: var(--color-gold); }
-
-/* aside: italic serif, muted gold */
-.hand { font-family: var(--font-display); font-style: italic; font-weight: 400; color: var(--color-gold); }
-
-/* small tag */
-.sticker {
-  display: inline-block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-  padding: 0.35rem 0.7rem; border-radius: 999px; border: 1px solid rgb(201 169 106 / 0.5); color: var(--color-gold);
-  background: rgb(21 19 15 / 0.85); white-space: nowrap;
-}
-
-/* buttons */
-.btn {
-  display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.95rem;
-  padding: 0.8rem 1.3rem; border-radius: 10px; background: var(--color-gold); color: #15130F; border: 1px solid var(--color-gold);
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-.btn:hover { background: var(--color-gold-light); transform: translateY(-1px); }
-.btn-outline { background: transparent; color: var(--color-gold); }
-.btn-outline:hover { background: rgb(201 169 106 / 0.08); }
-.btn-coral { background: var(--color-gold); }
-
-/* map graticule behind the hero: drawn on a masked layer so content stays crisp */
-.graticule { position: relative; }
-.graticule::before {
+.double-rule::after {
   content: "";
-  position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background-image:
-    linear-gradient(rgb(201 169 106 / 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(201 169 106 / 0.08) 1px, transparent 1px);
-  background-size: 96px 96px;
-  mask-image: radial-gradient(ellipse at 70% 40%, black 30%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse at 70% 40%, black 30%, transparent 75%);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 3px;
+  border-top: 1px solid var(--color-ink);
 }
 
-/* photo frame */
-.frame {
-  border: 1px solid rgb(201 169 106 / 0.6);
-  padding: 8px;
-  background: var(--color-paper);
-  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8);
+.rule {
+  border: 0;
+  border-top: 1px solid var(--color-line);
 }
 
-/* fade-in */
-@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-.animate-fade-up { animation: fadeUp 0.6s ease-out both; }
-.animation-delay-100 { animation-delay: 0.1s; }
-.animation-delay-200 { animation-delay: 0.2s; }
-.animation-delay-300 { animation-delay: 0.3s; }
-.animation-delay-400 { animation-delay: 0.4s; }
-.animation-delay-500 { animation-delay: 0.5s; }
-.animation-delay-600 { animation-delay: 0.6s; }
+/* ---------- links ---------- */
+
+.link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--color-line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
+}
+.link:hover {
+  color: var(--color-evergreen);
+  text-decoration-color: currentColor;
+}
+
+/* small-caps text + arrow; arrow nudges on hover */
+.arrow-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55em;
+  color: var(--color-evergreen);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.arrow-link .arrow {
+  transition: transform 180ms ease;
+}
+.arrow-link:hover {
+  color: var(--color-evergreen-deep);
+}
+.arrow-link:hover .arrow,
+.card:hover .arrow {
+  transform: translateX(0.3em);
+}
+.arrow-link.arrow-back:hover .arrow {
+  transform: translateX(-0.3em);
+}
+
+/* ---------- cards ---------- */
+
+.card {
+  color: inherit;
+  text-decoration: none;
+}
+.card .card-title {
+  transition: color 160ms ease;
+}
+.card:hover .card-title {
+  color: var(--color-evergreen);
+}
+
+/* ---------- motion ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 700ms cubic-bezier(0.2, 0.6, 0.2, 1) both;
+}
+.rise-1 { animation-delay: 90ms; }
+.rise-2 { animation-delay: 180ms; }
+.rise-3 { animation-delay: 270ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .animate-fade-up { animation: none; opacity: 1; transform: none; }
-  .btn:hover, .card-lift:hover { transform: none; }
-  *, ::before, ::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  html {
+    scroll-behavior: auto;
+  }
+  .rise {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
-
-/* ---------- long-form text ---------- */
-.prose-custom { color: #D9CFB9; line-height: 1.85; font-size: 1.06rem; }
-.prose-custom h2 { color: var(--color-ink); font-family: var(--font-display); font-weight: 600; font-size: 1.8rem; margin: 2.8rem 0 0.9rem; letter-spacing: -0.01em; }
-.prose-custom h3 { color: var(--color-ink); font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; margin: 2rem 0 0.6rem; }
-.prose-custom p { margin-bottom: 1.4rem; }
-.prose-custom strong { color: var(--color-ink); font-weight: 600; }
-.prose-custom a { color: var(--color-gold); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgb(201 169 106 / 0.4); }
-.prose-custom a:hover { text-decoration-color: var(--color-gold); }
-.prose-custom ul, .prose-custom ol { margin-bottom: 1.4rem; padding-left: 1.4rem; }
-.prose-custom li { margin-bottom: 0.4rem; }
-.prose-custom blockquote { border-left: 2px solid var(--color-gold); padding-left: 1.25rem; margin: 2rem 0; color: var(--color-muted); font-style: italic; font-family: var(--font-display); font-size: 1.2rem; }
-.prose-custom code { background: var(--color-paper-2); border-radius: 5px; padding: 0.1rem 0.35rem; font-size: 0.92em; }
-.prose-custom pre { background: #0F0E0B; border: 1px solid var(--color-line); border-radius: 12px; padding: 1rem 1.2rem; overflow-x: auto; margin-bottom: 1.4rem; }
-.prose-custom pre code { background: transparent; padding: 0; }
-.prose-custom img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--color-line); }
-.prose-custom hr { border: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold) 50%, transparent); opacity: .45; margin: 2.5rem 0; }

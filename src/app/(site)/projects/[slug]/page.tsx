@@ -1,135 +1,128 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { format } from "date-fns";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
-import { getProjectBySlug, getAllProjectSlugs } from "@/lib/data";
-import { renderMarkdown, estimateReadingTime } from "@/lib/markdown";
+import Arrow from "@/components/arrow";
+import Container from "@/components/container";
+import { getProject, site } from "@/content/site";
+import { jsonLd } from "@/lib/site";
 
-export const revalidate = 60;
+type PageProps = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  const slugs = await getAllProjectSlugs();
-  return slugs.map((s) => ({ slug: s.slug }));
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return site.projects.map((p) => ({ slug: p.slug }));
 }
-
-type PageProps = {
-  params: Promise<{ slug: string }>;
-};
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug);
-
-  if (!project) {
-    return { title: "Project Not Found" };
-  }
-
-  const description = project.description?.slice(0, 160).trim()
-    ?? "A project by James Gilmore";
-
+  const project = getProject(slug);
+  if (!project) return { title: "Not found" };
   return {
-    title: project.title,
-    description,
-    alternates: { canonical: `/projects/${slug}` },
-    openGraph: {
-      title: project.title,
-      description,
-      type: "article",
-      url: `https://jamesgilmore.xyz/projects/${slug}`,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: project.title,
-      description,
-    },
+    title: project.name,
+    description: project.summary,
+    alternates: { canonical: `/projects/${project.slug}` },
+    openGraph: { title: `${project.name} · ${site.name}`, description: project.summary, url: `/projects/${project.slug}` },
   };
 }
 
-const STATUS_LABELS: Record<string, { label: string }> = {
-  completed: { label: "Shipped" },
-  in_progress: { label: "Building" },
-  archived: { label: "Retired" },
-};
+function Section({ label, paragraphs, muted = false, children }: { label: string; paragraphs: string[]; muted?: boolean; children?: React.ReactNode }) {
+  return (
+    <section className="grid gap-4 border-t border-line py-9 sm:grid-cols-[11rem_1fr] sm:gap-8 lg:py-11">
+      <h2 className="label m-0 pt-2">{label}</h2>
+      <div className="min-w-0">
+        {paragraphs.map((para, i) => (
+          <p key={para} className={`m-0 serif-text text-[1.2rem] leading-[1.58] ${muted ? "text-muted" : "text-ink-soft"} ${i === 0 ? "" : "mt-5"}`}>
+            {para}
+          </p>
+        ))}
+        {children}
+      </div>
+    </section>
+  );
+}
 
-export default async function ProjectDetailPage({ params }: PageProps) {
+export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+  const project = getProject(slug);
+  if (!project) notFound();
 
-  if (!project) {
-    notFound();
-  }
+  const index = site.projects.findIndex((p) => p.slug === project.slug);
+  const next = site.projects[(index + 1) % site.projects.length];
 
-  const statusInfo = STATUS_LABELS[project.status] ?? STATUS_LABELS.completed;
-  const formattedDate = format(new Date(project.created_at), "MMMM d, yyyy");
-  const hasCaseStudy = project.content && project.content.trim().length > 0;
-
-  let sanitizedHtml = "";
-  let readingTime = 0;
-  if (hasCaseStudy) {
-    sanitizedHtml = await renderMarkdown(project.content!);
-    readingTime = estimateReadingTime(project.content!);
-  }
-
-  const jsonLd = {
+  const structuredData = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    name: project.title,
-    description: project.description,
-    author: {
-      "@type": "Person",
-      name: "James Gilmore",
-      url: "https://jamesgilmore.xyz",
-    },
-    dateCreated: project.created_at,
-    dateModified: project.updated_at,
-    url: `https://jamesgilmore.xyz/projects/${slug}`,
-    ...(project.category && { genre: project.category }),
-    ...(project.technologies?.length && { keywords: project.technologies.join(", ") }),
+    name: project.name,
+    description: project.summary,
+    url: project.url ?? `${site.url}/projects/${project.slug}`,
+    creator: { "@type": "Person", "@id": `${site.url}/#person`, name: site.name, url: site.url },
   };
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
+    <Container>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }} />
 
-      <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-bold text-muted hover:text-ink">
-        <ArrowLeft size={14} /> All the stuff
-      </Link>
+      <p className="pt-7">
+        <Link href="/projects" className="arrow-link arrow-back">
+          <Arrow className="rotate-180" /> All projects
+        </Link>
+      </p>
 
-      <header className="mt-8 animate-fade-up">
-        <div className="flex flex-wrap items-center gap-2">
-          {project.category && <span className="rounded-full eyebrow rounded-full border border-gold/40 px-3 py-1">{project.category}</span>}
-          <span className="sticker">{statusInfo.label}</span>
-          <time dateTime={project.created_at} className="hand text-lg">{formattedDate}</time>
-          {hasCaseStudy && <span className="text-sm font-bold text-muted">{readingTime} min read</span>}
+      <header className="rise grid gap-8 pb-12 pt-8 sm:pt-10 lg:grid-cols-12 lg:gap-8 lg:pb-16">
+        <div className="min-w-0 lg:col-span-9">
+          <p className="label m-0 flex items-baseline gap-3">
+            <span className="numeral text-[1.5rem]" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <span>Project</span>
+          </p>
+          <h1 className="display m-0 mt-5 text-[3.1rem] sm:text-7xl lg:text-[6rem]">{project.name}</h1>
+          <p className="deck m-0 mt-7 max-w-[34ch] text-[1.45rem] italic leading-[1.3] text-ink-soft sm:text-[1.9rem]">{project.kicker}</p>
         </div>
-        <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">{project.title}</h1>
-        {project.description && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{project.description}</p>}
+        <dl className="m-0 grid min-w-0 content-start gap-5 text-sm lg:col-span-3 lg:col-start-10 lg:mt-3">
+          <div>
+            <dt className="label">Status</dt>
+            <dd className="m-0 mt-1 serif-text text-base">{project.status}</dd>
+          </div>
+          {project.url && (
+            <div>
+              <dt className="label">Site</dt>
+              <dd className="m-0 mt-1 serif-text text-base">
+                <a href={project.url} className="link break-all" target="_blank" rel="noopener noreferrer">
+                  {project.url.replace(/^https?:\/\/(www\.)?/, "")}
+                </a>
+              </dd>
+            </div>
+          )}
+        </dl>
       </header>
 
-      <div className="mt-6 flex flex-wrap items-center gap-3 animate-fade-up animation-delay-100">
-        {project.technologies?.map((tech) => (
-          <span key={tech} className="rounded-full border border-line bg-paper px-3 py-1 text-sm text-muted">{tech}</span>
-        ))}
-        {project.project_url && (
-          <Link href={project.project_url} target="_blank" rel="noopener noreferrer" className="btn !py-2 !px-4 text-sm"><ExternalLink size={14} /> Visit</Link>
-        )}
-        {project.github_url && (
-          <Link href={project.github_url} target="_blank" rel="noopener noreferrer" className="btn btn-outline !py-2 !px-4 text-sm"><Github size={14} /> Source</Link>
+      <div className="max-w-[54rem] border-t-2 border-ink">
+        <Section label="The problem" paragraphs={project.problem} />
+        <Section label="Why I care" paragraphs={project.why} />
+        <Section label="Where it is today" paragraphs={project.today} />
+        {project.caseStudy.length > 0 ? (
+          project.caseStudy.map((s) => <Section key={s.heading} label={s.heading} paragraphs={s.body} />)
+        ) : (
+          <Section label="Notes" paragraphs={[site.projectsPage.caseStudyNote]} muted>
+            {project.url && (
+              <p className="mt-6">
+                <a href={project.url} className="arrow-link" target="_blank" rel="noopener noreferrer">
+                  Visit {project.name} <Arrow className="-rotate-45" />
+                </a>
+              </p>
+            )}
+          </Section>
         )}
       </div>
 
-      <hr className="hr-gold my-10" />
-
-      {hasCaseStudy ? (
-        <article className="prose-custom mx-auto max-w-2xl animate-fade-up animation-delay-200" dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
-      ) : (
-        <p className="hand py-8 text-center text-2xl">The full story is still being written.</p>
+      {next && next.slug !== project.slug && (
+        <nav aria-label="Next project" className="mt-20 border-t-2 border-ink pt-7">
+          <p className="label m-0">Next project</p>
+          <Link href={`/projects/${next.slug}`} className="card mt-4 inline-flex items-baseline gap-4 serif text-[2.2rem] leading-tight tracking-[-0.02em] no-underline sm:text-[3rem]">
+            <span className="card-title">{next.name}</span> <Arrow className="text-evergreen" />
+          </Link>
+        </nav>
       )}
-
-      <hr className="hr-gold my-10" />
-
-      <Link href="/projects" className="btn btn-outline"><ArrowLeft size={16} /> All the stuff</Link>
-    </div>
+    </Container>
   );
 }

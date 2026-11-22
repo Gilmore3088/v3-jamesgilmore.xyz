@@ -1,25 +1,22 @@
 import Link from "next/link";
-import type { Project } from "@/types";
-import type { Accent } from "@/content/profile";
-import { ACCENT_VAR } from "@/components/sticker";
+import Arrow from "@/components/arrow";
+import type { Project } from "@/content/site";
 
-const ACCENTS: Accent[] = ["mustard", "teal", "coral", "lilac", "mint"];
-const STATUS: Record<string, string> = { in_progress: "Building", archived: "Retired" };
-
-export default function ProjectCard({ project, index = 0 }: { project: Project; index?: number }) {
-  const { title, slug, description, technologies, status, category } = project;
-  const accent = ACCENTS[index % ACCENTS.length];
-  const statusLabel = STATUS[status];
-
+export default function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <Link href={`/projects/${slug}`} className="card card-accent card-lift group grid min-w-0 content-start gap-2.5 p-6 no-underline" style={{ ["--c" as string]: ACCENT_VAR[accent] }}>
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="eyebrow">{category ?? "Project"}</span>
-        {statusLabel && <span className="sticker">{statusLabel}</span>}
+    <Link href={`/projects/${project.slug}`} className="card group grid min-w-0 content-start gap-5 border-t border-ink pt-5">
+      <div className="flex items-end justify-between gap-4">
+        <span className="numeral text-[3.25rem] sm:text-[3.75rem]" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+        <span className="label pb-1">{project.status}</span>
       </div>
-      <h3 className="m-0 font-display text-xl font-semibold leading-tight tracking-tight transition-colors group-hover:text-gold">{title}</h3>
-      <p className="m-0 line-clamp-3 text-[15px] leading-relaxed text-muted">{description}</p>
-      {technologies?.length > 0 && <p className="m-0 mt-1 text-xs text-muted/80">{technologies.join(" · ")}</p>}
+      <div>
+        <h3 className="card-title m-0 serif text-[2rem] leading-[1.02] tracking-[-0.02em] sm:text-[2.35rem]">{project.name}</h3>
+        <p className="m-0 mt-3 serif-text text-[1.15rem] italic leading-snug text-ink-soft">{project.kicker}</p>
+      </div>
+      <p className="m-0 max-w-[46ch] text-[0.95rem] leading-relaxed text-muted">{project.summary}</p>
+      <span className="arrow-link mt-1">
+        Read on <Arrow />
+      </span>
     </Link>
   );
 }

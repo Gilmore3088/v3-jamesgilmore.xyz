@@ -1,28 +1,17 @@
 import type { MetadataRoute } from "next";
-import { getAllSlugs, getAllProjectSlugs } from "@/lib/data";
+import { site } from "@/content/site";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogSlugs = await getAllSlugs();
-  const projectSlugs = await getAllProjectSlugs();
-
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: "https://jamesgilmore.xyz", priority: 1 },
-    { url: "https://jamesgilmore.xyz/projects", priority: 0.9 },
-    { url: "https://jamesgilmore.xyz/blog", priority: 0.8 },
-    { url: "https://jamesgilmore.xyz/about", priority: 0.7 },
-    { url: "https://jamesgilmore.xyz/contact", priority: 0.6 },
-    { url: "https://jamesgilmore.xyz/resume", priority: 0.5 },
+export default function sitemap(): MetadataRoute.Sitemap {
+  const pages: MetadataRoute.Sitemap = [
+    { url: site.url, priority: 1, changeFrequency: "monthly" },
+    { url: `${site.url}/projects`, priority: 0.9, changeFrequency: "monthly" },
+    { url: `${site.url}/about`, priority: 0.8, changeFrequency: "yearly" },
+    { url: `${site.url}/contact`, priority: 0.6, changeFrequency: "yearly" },
   ];
-
-  const projectPages: MetadataRoute.Sitemap = projectSlugs.map((s) => ({
-    url: `https://jamesgilmore.xyz/projects/${s.slug}`,
+  const projects: MetadataRoute.Sitemap = site.projects.map((p) => ({
+    url: `${site.url}/projects/${p.slug}`,
     priority: 0.8,
+    changeFrequency: "monthly",
   }));
-
-  const blogPages: MetadataRoute.Sitemap = blogSlugs.map((s) => ({
-    url: `https://jamesgilmore.xyz/blog/${s.slug}`,
-    priority: 0.7,
-  }));
-
-  return [...staticPages, ...projectPages, ...blogPages];
+  return [...pages, ...projects];
 }

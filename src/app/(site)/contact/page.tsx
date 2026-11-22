@@ -1,51 +1,65 @@
 import type { Metadata } from "next";
-import { MapPin } from "lucide-react";
-import ContactForm from "@/components/contact-form";
-import { SOCIAL } from "@/lib/site";
-import { profile } from "@/content/profile";
+import Arrow from "@/components/arrow";
+import Container from "@/components/container";
+import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Say hi",
-  description: "Send James Gilmore a note about data, automation, running, travel, or an idea worth building.",
+  title: "Contact",
+  description: site.contact.lede,
   alternates: { canonical: "/contact" },
+  openGraph: { title: `Contact · ${site.name}`, description: site.contact.lede, url: "/contact" },
 };
 
-const CONTACT_LINKS = [
-  { label: "Email", value: SOCIAL.email, href: `mailto:${SOCIAL.email}` },
-  { label: "LinkedIn", value: "linkedin.com/in/JamesLGilmore", href: SOCIAL.linkedin },
-  { label: "GitHub", value: "github.com/Gilmore3088", href: SOCIAL.github },
-];
-
 export default function ContactPage() {
+  const { contact, links, email } = site;
+  const hasAnyLink = links.length > 0 || Boolean(email);
+
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-      <header className="animate-fade-up">
-        <p className="hand m-0 text-2xl">{profile.hello.hand}</p>
-        <h1 className="mt-2 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-gold-gradient sm:text-6xl">{profile.hello.title}</h1>
-        <p className="mt-4 max-w-xl text-lg text-muted">{profile.hello.text}</p>
+    <Container>
+      <header className="rise grid gap-8 pb-12 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-16 lg:pt-20">
+        <div className="min-w-0 lg:col-span-5">
+          <p className="label m-0">Contact</p>
+          <h1 className="display m-0 mt-5 text-[3.5rem] sm:text-7xl lg:text-[6rem]">{contact.title}</h1>
+        </div>
+        <p className="deck m-0 max-w-[40ch] text-[1.35rem] leading-[1.4] text-ink lg:col-span-6 lg:col-start-7 lg:mt-3 sm:text-[1.6rem]">
+          {contact.lede}
+        </p>
       </header>
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-5">
-        <div className="relative lg:col-span-3 animate-fade-up animation-delay-100">
-          <ContactForm />
+      <div className="grid gap-12 border-t-2 border-ink pt-9 lg:grid-cols-12 lg:gap-8 lg:pt-11">
+        <div className="min-w-0 max-w-[40rem] lg:col-span-6">
+          <p className="m-0 serif-text text-[1.22rem] leading-[1.6] text-ink-soft">{contact.body}</p>
+          <p className="m-0 mt-8 border-t border-line pt-5 text-[0.95rem] leading-relaxed text-muted">{contact.formNote}</p>
         </div>
 
-        <aside className="lg:col-span-2 animate-fade-up animation-delay-200">
-          <div className="card p-6">
-            <p className="hand m-0 text-xl">or find me here</p>
-            <p className="mt-3 flex items-center gap-2 text-sm text-muted"><MapPin size={15} className="text-gold" aria-hidden="true" /> Seattle, WA</p>
-            <div className="mt-4 grid gap-3">
-              {CONTACT_LINKS.map((link) => (
-                <div key={link.label}>
-                  <p className="m-0 eyebrow">{link.label}</p>
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="font-semibold text-gold underline decoration-gold/40 underline-offset-4 hover:decoration-gold">{link.value}</a>
-                </div>
+        {hasAnyLink && (
+          <div className="min-w-0 lg:col-span-5 lg:col-start-8">
+            <p className="label m-0">{contact.linksLabel}</p>
+            <ul className="m-0 mt-4 list-none border-t border-ink p-0">
+              {email && (
+                <li className="border-b border-line">
+                  <a href={`mailto:${email}`} className="card group flex items-baseline justify-between gap-6 py-5">
+                    <span className="card-title serif text-[1.75rem] leading-none tracking-[-0.015em]">{contact.emailLabel}</span>
+                    <span className="flex items-baseline gap-2 text-right text-sm text-muted">
+                      <span className="break-all">{email}</span> <Arrow className="text-evergreen" />
+                    </span>
+                  </a>
+                </li>
+              )}
+              {links.map((l) => (
+                <li key={l.href} className="border-b border-line">
+                  <a href={l.href} target="_blank" rel="me noopener noreferrer" className="card group flex items-baseline justify-between gap-6 py-5">
+                    <span className="card-title serif text-[1.75rem] leading-none tracking-[-0.015em]">{l.label}</span>
+                    <span className="flex items-baseline gap-2 text-right text-sm text-muted">
+                      <span className="break-all">{l.handle ?? l.href}</span> <Arrow className="-rotate-45 text-evergreen" />
+                    </span>
+                  </a>
+                </li>
               ))}
-            </div>
-            <p className="m-0 mt-5 text-sm text-muted">I usually reply within a couple of days. If it&apos;s urgent, email wins.</p>
+            </ul>
           </div>
-        </aside>
+        )}
       </div>
-    </div>
+    </Container>
   );
 }

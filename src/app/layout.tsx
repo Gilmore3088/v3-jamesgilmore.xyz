@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { site } from "@/content/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,46 +11,37 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const playfair = Playfair_Display({
+const newsreader = Newsreader({
   subsets: ["latin"],
   display: "swap",
   style: ["normal", "italic"],
-  variable: "--font-playfair",
+  axes: ["opsz"],
+  variable: "--font-newsreader",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(site.url),
   title: {
-    default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`,
+    default: site.title,
+    template: `%s · ${site.name}`,
   },
-  description: SITE_DESCRIPTION,
-  applicationName: SITE_NAME,
-  authors: [{ name: SITE_NAME, url: SITE_URL }],
-  creator: SITE_NAME,
-  keywords: [
-    "James Gilmore",
-    "Seattle",
-    "running",
-    "history",
-    "travel",
-    "fintech",
-    "data analysis",
-    "automation",
-    "building things",
-  ],
+  description: site.description,
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: SITE_URL,
-    siteName: SITE_NAME,
-    title: SITE_NAME,
-    description: SITE_DESCRIPTION,
+    url: site.url,
+    siteName: site.name,
+    title: site.title,
+    description: site.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: SITE_NAME,
-    description: SITE_DESCRIPTION,
+    title: site.title,
+    description: site.description,
   },
   robots: {
     index: true,
@@ -60,24 +51,21 @@ export const metadata: Metadata = {
       follow: true,
       "max-image-preview": "large",
       "max-snippet": -1,
-      "max-video-preview": -1,
     },
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#15130F",
-  colorScheme: "dark",
+  themeColor: "#f4efe6",
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-bg text-ink noise-bg`}>
+    <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
+      <body className="min-h-dvh bg-paper font-sans text-ink antialiased">
         {children}
         <Analytics />
         <SpeedInsights />

@@ -1,24 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
-import { Home, RotateCcw } from "lucide-react";
+import Arrow from "@/components/arrow";
+import Container from "@/components/container";
 
-export default function SiteError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
+export default function ErrorPage({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
-      <p className="hand -rotate-2 text-2xl">well, that broke</p>
-      <h1 className="mt-3 font-display text-5xl font-semibold leading-tight tracking-tight text-gold-gradient sm:text-7xl">Well, that broke.</h1>
-      <p className="mt-6 max-w-xl text-lg text-muted">An unexpected error interrupted this page. Try loading it again, or head back home.</p>
-      {error.digest && <p className="mt-2 text-sm text-muted">Reference: <code>{error.digest}</code></p>}
-      <div className="mt-8 flex flex-wrap gap-3">
-        <button type="button" onClick={reset} className="btn"><RotateCcw size={16} /> Try again</button>
-        <Link href="/" className="btn btn-outline"><Home size={16} /> Go home</Link>
-      </div>
-    </div>
+    <Container>
+      <section className="pb-16 pt-16 sm:pt-28">
+        <p className="label m-0">Something went wrong</p>
+        <h1 className="display m-0 mt-5 max-w-[14ch] text-[2.75rem] sm:text-6xl">This page didn&apos;t load properly.</h1>
+        <p className="deck m-0 mt-7 max-w-[40ch] text-[1.3rem] leading-[1.4] text-ink-soft">
+          Trying again usually fixes it. If it keeps happening, the home page still works.
+        </p>
+        <div className="mt-9 flex flex-wrap items-center gap-x-10 gap-y-4">
+          <button type="button" onClick={reset} className="arrow-link cursor-pointer border-0 bg-transparent p-0">
+            Try again <Arrow />
+          </button>
+          <Link href="/" className="arrow-link">
+            Home <Arrow />
+          </Link>
+        </div>
+      </section>
+    </Container>
   );
 }
