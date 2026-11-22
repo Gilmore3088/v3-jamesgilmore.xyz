@@ -11,10 +11,10 @@ Everything the site says lives in one file:
 
 Rules the pages follow:
 
-- `email: null` hides the email entry on Contact. Set it to a real address to show it.
+- `email` shows on Contact and in the footer. Set it to `null` to hide it.
 - A project's `url: null` hides every "visit the site" link for that project.
 - A project's `image` is a real screenshot in `public/projects/`. Set it to `null` for a text-only entry.
-- Photos live in `public/photos/` and are listed in `photos` with a true caption and a `trip` id. Home shows `home.band`; Places shows them all, grouped by `trips`.
+- Photos live in `public/photos/` and are listed in `photos` with a true caption and a `trip` id. Home shows `home.band`; Places draws a world map from `trips[].pins` and lists every photo by trip.
 - `projectsPage.experiments` is empty; add `{ name, summary, url }` entries and a "Smaller things" section appears on Projects.
 - `projects[].caseStudy` is an empty array until there is a real write-up. Add
   `{ heading, body: [paragraphs] }` entries and they render on the project page.

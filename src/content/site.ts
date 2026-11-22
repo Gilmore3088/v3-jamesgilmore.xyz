@@ -51,6 +51,8 @@ export type Trip = {
   name: string;
   /** Optional one-liner under the trip name. */
   note?: string;
+  /** Map pins as [latitude, longitude]. A trip with none is listed but not pinned. */
+  pins?: [number, number][];
 };
 
 export type SiteContent = {
@@ -95,7 +97,7 @@ export type SiteContent = {
   photos: Photo[];
   /** Trips in the order they appear on Places. */
   trips: Trip[];
-  placesPage: { title: string; lede: string };
+  placesPage: { title: string; lede: string; mapNote: string };
   projects: Project[];
   projectsPage: {
     title: string;
@@ -155,13 +157,13 @@ export const site: SiteContent = {
     { label: "GitHub", href: "https://github.com/Gilmore3088", handle: "github.com/Gilmore3088" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/JamesLGilmore", handle: "linkedin.com/in/JamesLGilmore" },
   ],
-  email: null,
+  email: "JLGilmore2@gmail.com",
 
   home: {
     eyebrow: "Seattle, Washington",
     headline: "Curious, out on the water, usually planning the next trip.",
     intro:
-      "I'm James. I live in Seattle with my wife, I kayak whenever the water lets me, and we travel whenever the points allow. Most of my working life goes to solving problems for banks: making sense of their data and building tools that make the work easier. This is the personal site. The person comes first here, and the work comes second.",
+      "I'm James. I live in Seattle with my wife, Nikoly. I kayak whenever the water lets me, and we travel whenever the points allow. Most of my working life goes to solving problems for banks: making sense of their data and building tools that make the work easier. This is the personal site. The person comes first here, and the work comes second.",
     aboutCta: "More about me",
     contactCta: "Say hello",
     heroPhoto: "kayak-sunset",
@@ -178,7 +180,7 @@ export const site: SiteContent = {
       },
       {
         label: "On the move",
-        text: "Traveling with my wife, and churning credit cards to pay for it. The points game is a puzzle I enjoy more than I should.",
+        text: "Traveling with Nikoly, and churning credit cards to pay for it. The points game is a puzzle I enjoy more than I should.",
       },
     ],
     questionsLabel: "Questions I'm chasing",
@@ -213,24 +215,24 @@ export const site: SiteContent = {
 
   photos: [
     { src: "kayak-sunset", alt: "James paddling a kayak toward the setting sun off Maui, mountains along the shore.", caption: "Maui, sunset paddle", orientation: "square", trip: "maui" },
-    { src: "kayak-whale", alt: "A humpback whale surfacing beside a tandem kayak off Maui, with James and his wife watching from the boat.", caption: "Maui, a whale closer than planned", orientation: "square", trip: "maui" },
+    { src: "kayak-whale", alt: "A humpback whale surfacing beside a tandem kayak off Maui, with James and Nikoly watching from the boat.", caption: "Maui, a whale closer than planned", orientation: "square", trip: "maui" },
     { src: "rafting", alt: "James and three friends mid-rapid in a yellow raft on the Nantahala River, paddles up, everyone grinning.", caption: "Nantahala River, with friends", orientation: "landscape", trip: "nantahala" },
-    { src: "venice-us", alt: "James and his wife in front of a terracotta building on a Venice canal.", caption: "Venice, with my wife", orientation: "portrait", trip: "italy" },
+    { src: "venice-us", alt: "James and Nikoly in front of a terracotta building on a Venice canal.", caption: "Venice, with Nikoly", orientation: "portrait", trip: "italy" },
     { src: "venice-canal", alt: "Boats on the Grand Canal in Venice on a clear afternoon.", caption: "Venice, the Grand Canal", orientation: "landscape", trip: "italy" },
-    { src: "great-wall-us", alt: "James and his wife sitting on the Great Wall of China with the wall winding over the hills behind them.", caption: "The Great Wall", orientation: "portrait", trip: "china" },
+    { src: "great-wall-us", alt: "James and Nikoly sitting on the Great Wall of China with the wall winding over the hills behind them.", caption: "The Great Wall", orientation: "portrait", trip: "china" },
     { src: "great-wall", alt: "A rough, unrestored stretch of the Great Wall climbing a ridge.", caption: "The Great Wall, the quiet stretch", orientation: "square", trip: "china" },
     { src: "shanghai", alt: "The Shanghai skyline lit up at night across the river, with the moon above.", caption: "Shanghai", orientation: "landscape", trip: "china" },
     { src: "patagonia-camp", alt: "Rows of yellow tents below jagged granite peaks in Patagonia.", caption: "Patagonia, camp night", orientation: "landscape", trip: "chile" },
     { src: "patagonia-bridge", alt: "A narrow suspension bridge leading across a ravine toward a glacier in fog.", caption: "Patagonia, the bridge to the glacier", orientation: "landscape", trip: "chile" },
-    { src: "atacama", alt: "James and his wife at a salt lagoon in the Atacama Desert, flamingos in the water behind them.", caption: "Atacama Desert", orientation: "portrait", trip: "chile" },
-    { src: "santiago", alt: "James and his wife in a park in Santiago with the city skyline behind.", caption: "Santiago", orientation: "portrait", trip: "chile" },
+    { src: "atacama", alt: "James and Nikoly at a salt lagoon in the Atacama Desert, flamingos in the water behind them.", caption: "Atacama Desert", orientation: "portrait", trip: "chile" },
+    { src: "santiago", alt: "James and Nikoly in a park in Santiago with the city skyline behind.", caption: "Santiago", orientation: "portrait", trip: "chile" },
     { src: "boat-bow", alt: "James sitting alone on the blue bow of a boat off Coron in the Philippines, islands on the horizon.", caption: "Coron, Philippines", orientation: "portrait", trip: "philippines" },
     { src: "fishing-boat", alt: "A small blue and white fishing boat anchored off a beach in Brazil.", caption: "Brazil", orientation: "landscape", trip: "brazil" },
     { src: "rainier-window", alt: "Mount Rainier above the Cascades, seen past an airplane wing.", caption: "Mount Rainier from the window seat", orientation: "portrait", trip: "home" },
     { src: "mountain-pass", alt: "A forested valley and a mountain highway in the Cascades.", caption: "The Cascades", orientation: "portrait", trip: "home" },
     { src: "puget-sound-ferry", alt: "A Washington State ferry crossing Puget Sound at sunset, framed by trees.", caption: "Puget Sound, a ferry at sunset", orientation: "portrait", trip: "home" },
-    { src: "world-cup-seattle", alt: "James and his wife in the stands at a 2026 World Cup match in Seattle.", caption: "World Cup 2026, Seattle", orientation: "landscape", trip: "home" },
-    { src: "chicago-bridge", alt: "James and his wife on the Michigan Avenue bridge in Chicago.", caption: "Chicago", orientation: "landscape", trip: "chicago" },
+    { src: "world-cup-seattle", alt: "James and Nikoly in the stands at a 2026 World Cup match in Seattle.", caption: "World Cup 2026, Seattle", orientation: "landscape", trip: "home" },
+    { src: "chicago-bridge", alt: "James and Nikoly on the Michigan Avenue bridge in Chicago.", caption: "Chicago", orientation: "landscape", trip: "chicago" },
     { src: "chicago-lakefront", alt: "The Chicago lakefront trail with the skyline ahead.", caption: "Chicago, the lakefront trail", orientation: "portrait", trip: "chicago" },
     { src: "garden", alt: "Arugula growing in a raised garden bed.", caption: "The garden, arugula winning", orientation: "portrait", trip: "home" },
   ],
@@ -302,19 +304,20 @@ export const site: SiteContent = {
   },
 
   trips: [
-    { id: "maui", name: "Maui" },
-    { id: "chile", name: "Chile", note: "Patagonia, the Atacama, and Santiago in between." },
-    { id: "china", name: "China", note: "The Great Wall at its quiet end, then Shanghai." },
-    { id: "italy", name: "Venice" },
-    { id: "philippines", name: "Coron, Philippines" },
+    { id: "home", name: "Seattle", note: "Home. The Sound, the Cascades, and the garden.", pins: [[47.61, -122.33]] },
+    { id: "maui", name: "Maui", pins: [[20.8, -156.33]] },
+    { id: "chile", name: "Chile", note: "Patagonia, the Atacama, and Santiago in between.", pins: [[-51.0, -73.0], [-23.45, -68.1], [-33.45, -70.67]] },
     { id: "brazil", name: "Brazil" },
-    { id: "nantahala", name: "Nantahala River" },
-    { id: "chicago", name: "Chicago" },
-    { id: "home", name: "Home", note: "Seattle, the Sound, the Cascades, and the garden." },
+    { id: "chicago", name: "Chicago", pins: [[41.88, -87.63]] },
+    { id: "nantahala", name: "Nantahala River", note: "North Carolina.", pins: [[35.33, -83.6]] },
+    { id: "italy", name: "Venice", pins: [[45.44, 12.33]] },
+    { id: "china", name: "China", note: "The Great Wall at its quiet end, then Shanghai.", pins: [[40.67, 117.25], [31.23, 121.47]] },
+    { id: "philippines", name: "Coron, Philippines", pins: [[11.99, 120.2]] },
   ],
   placesPage: {
     title: "Out in the world.",
-    lede: "Trips with my wife, mostly, and a few from closer to home. Click any photo to see it larger.",
+    lede: "Trips with Nikoly, mostly, and a few from closer to home. Pick a pin, or scroll. Click any photo to see it larger.",
+    mapNote: "Pins jump to that trip's photos.",
   },
 
   about: {
@@ -328,8 +331,8 @@ export const site: SiteContent = {
       "On AI, I'm optimistic and allergic to demos. The interesting question isn't whether a model can do something impressive. It's whether a person inside a bank can use it on a real task and show their work afterward. That's the bar I try to build to.",
     ],
     lifeLine:
-      "I live in Seattle with my wife. When I'm not at a desk I'm in a kayak, on a long run, or at the airport.",
-    photo: { src: "/photos/venice-us.jpg", alt: "James Gilmore and his wife in Venice", caption: "Venice, with my wife" },
+      "I live in Seattle with Nikoly. When I'm not at a desk I'm in a kayak, on a long run, or at the airport.",
+    photo: { src: "/photos/venice-us.jpg", alt: "James and Nikoly in Venice", caption: "Venice, with Nikoly" },
     heroPhoto: "great-wall-us",
     doLabel: "Things I do",
     iDo: [

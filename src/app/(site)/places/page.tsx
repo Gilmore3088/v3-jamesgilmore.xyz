@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/container";
 import LightboxGallery from "@/components/lightbox-gallery";
 import PageHead from "@/components/page-head";
+import WorldMap from "@/components/world-map";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -19,9 +20,13 @@ export default function PlacesPage() {
     <>
       <PageHead label="Places" title={placesPage.title} lede={placesPage.lede} />
       <Container>
-        <nav aria-label="Trips" className="mb-14 flex flex-wrap gap-2">
+        <div className="panel mb-6 p-3 sm:p-6">
+          <WorldMap trips={trips} />
+        </div>
+        <nav aria-label="Trips" className="mb-16 flex flex-wrap items-center gap-2 lg:mb-24">
+          <span className="mr-2 text-[0.95rem] text-muted">{placesPage.mapNote}</span>
           {groups.map(({ trip }) => (
-            <a key={trip.id} href={`#${trip.id}`} className="panel px-4 py-2 text-[1rem] font-semibold text-ink-soft no-underline hover:text-accent">
+            <a key={trip.id} href={`#${trip.id}`} className="panel px-3.5 py-1.5 text-[0.95rem] font-semibold text-ink-soft no-underline hover:text-accent">
               {trip.name}
             </a>
           ))}
