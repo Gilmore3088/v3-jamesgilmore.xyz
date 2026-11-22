@@ -1,52 +1,49 @@
 @import "tailwindcss";
 
 /*
-  Design tokens. Warm off-white paper, deep ink, one muted evergreen accent.
-  Oversized serif display type, a quiet sans for labels, hairline and double rules.
+  Dark ground, light text, one mint accent. Inter throughout, set big.
+  Token names are semantic: bg, surface, ink (text), muted, line, accent.
 */
 @theme {
-  --color-paper: #f4efe6;
-  --color-paper-2: #ebe5d8;
-  --color-ink: #1a1e1c;
-  --color-ink-soft: #3b423f;
-  --color-muted: #5f655f;
-  --color-line: #d9d2c4;
-  --color-line-strong: #b4ac9b;
-  --color-evergreen: #2f5b48;
-  --color-evergreen-deep: #22463a;
+  --color-bg: #101413;
+  --color-surface: #182019;
+  --color-surface-2: #1f2925;
+  --color-ink: #f1efe8;
+  --color-ink-soft: #cfd6d1;
+  --color-muted: #99a39d;
+  --color-line: #2a312e;
+  --color-accent: #7fc8a4;
+  --color-accent-deep: #5fb58d;
 
   --breakpoint-xs: 26rem;
 }
 
-/* Font variables come from next/font on <html>, so they must stay inline. */
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: var(--font-newsreader), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
 }
 
 html {
   scroll-behavior: smooth;
-  background: var(--color-paper);
+  background: var(--color-bg);
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern", "liga", "calt";
 }
 
 ::selection {
-  background: rgb(47 91 72 / 0.18);
+  background: rgb(127 200 164 / 0.3);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-evergreen);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 [id] {
@@ -55,56 +52,42 @@ body {
 
 /* ---------- type ---------- */
 
-/* oversized display serif */
+/* the big one */
 .display {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
   text-wrap: balance;
-  font-variation-settings: "opsz" 72;
 }
 
-.serif {
-  font-family: var(--font-serif);
+/* section and item titles */
+.title {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
 }
 
-/* running text: the quiet sans, a little larger than default */
-.body-text {
-  font-family: var(--font-sans);
-  letter-spacing: -0.005em;
-  text-wrap: pretty;
-}
-
-/* deck / standfirst: serif, larger, slightly tighter */
+/* standfirst under a headline */
 .deck {
-  font-family: var(--font-serif);
-  font-variation-settings: "opsz" 24;
-  letter-spacing: -0.008em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.45;
   text-wrap: pretty;
 }
 
-/* section label: sentence case, evergreen, no tracking */
+/* running text */
+.body-text {
+  letter-spacing: -0.005em;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* section label */
 .label {
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--color-evergreen);
-}
-
-
-/* an italic phrase inside a headline, if one is marked with *asterisks* */
-.em-accent {
-  font-style: italic;
-}
-
-/* ---------- rules ---------- */
-
-.rule {
-  border: 0;
-  border-top: 1px solid var(--color-line);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-accent);
 }
 
 /* ---------- links ---------- */
@@ -112,34 +95,30 @@ body {
 .link {
   color: inherit;
   text-decoration: underline;
-  text-decoration-color: var(--color-line-strong);
-  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-line);
+  text-decoration-thickness: 1.5px;
   text-underline-offset: 0.2em;
   transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 .link:hover {
-  color: var(--color-evergreen);
+  color: var(--color-accent);
   text-decoration-color: currentColor;
 }
 
-/* text + arrow; arrow nudges on hover */
 .arrow-link {
   display: inline-flex;
   align-items: baseline;
   gap: 0.5em;
-  color: var(--color-evergreen);
-  font-family: var(--font-sans);
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
+  color: var(--color-accent);
+  font-size: 1.1rem;
+  font-weight: 600;
   text-decoration: none;
 }
 .arrow-link .arrow {
   transition: transform 180ms ease;
 }
 .arrow-link:hover {
-  color: var(--color-evergreen-deep);
+  color: var(--color-accent-deep);
 }
 .arrow-link:hover .arrow,
 .card:hover .arrow {
@@ -149,7 +128,7 @@ body {
   transform: translateX(-0.3em);
 }
 
-/* ---------- cards ---------- */
+/* ---------- surfaces ---------- */
 
 .card {
   color: inherit;
@@ -159,7 +138,30 @@ body {
   transition: color 160ms ease;
 }
 .card:hover .card-title {
-  color: var(--color-evergreen);
+  color: var(--color-accent);
+}
+
+.panel {
+  background: var(--color-surface);
+  border-radius: 14px;
+}
+
+/* dark scrims so the nav and the headline read over a photo */
+.scrim::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 9rem;
+  background: linear-gradient(to bottom, rgb(16 20 19 / 0.65), rgb(16 20 19 / 0));
+  pointer-events: none;
+  z-index: 1;
+}
+.scrim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(16 20 19 / 0.88) 0%, rgb(16 20 19 / 0.35) 45%, rgb(16 20 19 / 0.05) 75%);
+  pointer-events: none;
 }
 
 /* ---------- motion ---------- */
@@ -179,7 +181,6 @@ body {
 }
 .rise-1 { animation-delay: 90ms; }
 .rise-2 { animation-delay: 180ms; }
-.rise-3 { animation-delay: 270ms; }
 
 @media (prefers-reduced-motion: reduce) {
   html {

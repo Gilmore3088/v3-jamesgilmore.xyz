@@ -4,10 +4,9 @@ import { site } from "@/content/site";
 
 export default function Footer() {
   const year = new Date().getFullYear();
-
   return (
     <footer className="mt-28 border-t border-line lg:mt-36">
-      <Container className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-4 py-10 text-[0.95rem] text-muted">
+      <Container className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-4 py-10 text-[1rem] text-muted">
         <p className="m-0">
           © {year} {site.name} · {site.footer.line}
         </p>

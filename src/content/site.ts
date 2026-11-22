@@ -65,7 +65,9 @@ export type SiteContent = {
     intro: string;
     aboutCta: string;
     contactCta: string;
-    /** Three wide photos shown right under the opening. Use `src` values from `photos`. */
+    /** Full-screen photo behind the opening. A `src` from `photos`. */
+    heroPhoto: string;
+    /** Photos in the mosaic under the opening. `src` values from `photos`. */
     band: string[];
     /** What's going on right now. Update this whenever; it's the most alive part of the page. */
     latelyLabel: string;
@@ -102,8 +104,8 @@ export type SiteContent = {
     /** Wide photo at the top of About. A `src` from `photos`. */
     heroPhoto: string;
     doLabel: string;
-    /** Short "I ..." lines. Keep them true and small. */
-    iDo: string[];
+    /** Short "I ..." lines with a one-line note. Icons: water, plane, run, leaf, book, wrench, mic. */
+    iDo: { text: string; note: string; icon: string }[];
     /** Career in chapters, oldest first. Shown compact on About. */
     path: { period: string; title: string; detail: string }[];
   };
@@ -143,12 +145,13 @@ export const site: SiteContent = {
 
   home: {
     eyebrow: "Seattle, Washington",
-    headline: "Curious by default. I learn by building, and I build to make things work better.",
+    headline: "Curious, out on the water, usually planning the next trip.",
     intro:
       "I'm James. I live in Seattle with my wife, I kayak whenever the water lets me, and we travel whenever the points allow. Most of my working life goes to solving problems for banks: making sense of their data and building tools that make the work easier. This is the personal site. The person comes first here, and the work comes second.",
     aboutCta: "More about me",
     contactCta: "Say hello",
-    band: ["kayak-sunset", "patagonia-camp", "shanghai"],
+    heroPhoto: "kayak-sunset",
+    band: ["great-wall-us", "patagonia-camp", "kayak-whale", "shanghai", "atacama"],
     latelyLabel: "Lately",
     lately: [
       {
@@ -298,8 +301,8 @@ export const site: SiteContent = {
   },
 
   about: {
-    title: "I got into banking by way of a football stadium.",
-    lede: "Seattle, by way of Florida. Sports, then consulting, then banking technology, then building my own tools. The pattern took me a while to notice.",
+    title: "Seattle, by way of Florida and a football stadium.",
+    lede: "Sports, then consulting, then banking technology, then building my own tools. The pattern took me a while to notice.",
     paragraphs: [
       "My first real job was in collegiate athletics, on the external operations side at the University of Central Florida. I helped build a student section brand called The Knightmare, worked on ticket sales, and built dashboards to track how the department was doing.",
       "From there I spent a few years consulting for university and professional sports business units: sponsorship valuations, negotiations, RFPs, and dashboards for executives who needed an answer by Friday. It was my first lesson in a pattern I keep seeing. The data usually exists. What's missing is someone willing to make it legible.",
@@ -313,14 +316,14 @@ export const site: SiteContent = {
     heroPhoto: "great-wall-us",
     doLabel: "Things I do",
     iDo: [
-      "I kayak, as often as I can.",
-      "I run long distances.",
-      "I plan trips in more detail than they need, and I churn credit cards to pay for them.",
-      "I read history.",
-      "I grow things, with mixed results.",
-      "I watch a lot of sports, and I used to work in them.",
-      "I show up to Toastmasters.",
-      "I build small tools for problems that annoy me.",
+      { text: "Kayak, as often as I can", note: "Puget Sound at home. Maui when we're lucky.", icon: "water" },
+      { text: "Travel on points", note: "Churning credit cards pays for most of it.", icon: "plane" },
+      { text: "Run long distances", note: "Distance first, speed never.", icon: "run" },
+      { text: "Grow things", note: "Mixed results. The arugula is winning.", icon: "leaf" },
+      { text: "Read history", note: "It explains more than it should.", icon: "book" },
+      { text: "Show up to Toastmasters", note: "Past president, current treasurer.", icon: "mic" },
+      { text: "Watch a lot of sports", note: "I used to work in them.", icon: "ball" },
+      { text: "Build small tools", note: "For problems that annoy me. Two of them grew up.", icon: "wrench" },
     ],
     path: [
       {

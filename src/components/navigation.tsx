@@ -5,10 +5,10 @@ import { site } from "@/content/site";
 
 export default function Navigation() {
   return (
-    <header className="border-b border-line">
+    <header className="absolute inset-x-0 top-0 z-20">
       <Container>
-        <nav aria-label="Primary" className="flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-2 py-4">
-          <Link href="/" className="serif text-[1.45rem] leading-none tracking-[-0.01em] text-ink no-underline hover:text-evergreen">
+        <nav aria-label="Primary" className="flex min-h-16 flex-wrap items-center justify-between gap-x-6 gap-y-2 py-5">
+          <Link href="/" className="text-[1.15rem] font-bold tracking-[-0.02em] text-ink no-underline hover:text-accent">
             {site.name}
           </Link>
           <NavLinks links={site.nav} />

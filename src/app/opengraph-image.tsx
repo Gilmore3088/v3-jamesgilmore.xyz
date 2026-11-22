@@ -10,7 +10,7 @@ export const contentType = "image/png";
 async function loadSerif(): Promise<ArrayBuffer | null> {
   try {
     // A non-browser user agent makes Google Fonts return TrueType, which the image renderer needs.
-    const css = await fetch("https://fonts.googleapis.com/css2?family=Newsreader:wght@400&display=swap", {
+    const css = await fetch("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap", {
       headers: { "User-Agent": "curl/8" },
     }).then((r) => r.text());
     const url = css.match(/src: url\((https:\/\/fonts\.gstatic\.com[^)]+\.ttf)\)/)?.[1];
@@ -23,7 +23,7 @@ async function loadSerif(): Promise<ArrayBuffer | null> {
 
 export default async function OGImage() {
   const serif = await loadSerif();
-  const fontFamily = serif ? "Newsreader" : "Georgia, serif";
+  const fontFamily = serif ? "Inter" : "Georgia, serif";
 
   return new ImageResponse(
     (
@@ -35,20 +35,20 @@ export default async function OGImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          background: "#f4efe6",
-          color: "#1a1e1c",
+          background: "#101413",
+          color: "#f1efe8",
           fontFamily,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 20, letterSpacing: "0.14em", textTransform: "uppercase", color: "#5f655f" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 22, color: "#7fc8a4", fontWeight: 600 }}>
           <span>{site.name}</span>
           <span>{site.home.eyebrow}</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ width: 1040, height: 1, background: "#1a1e1c", marginBottom: 40 }} />
-          <div style={{ fontSize: 66, lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: 1000 }}>{plain(site.home.headline)}</div>
+          
+          <div style={{ fontSize: 76, lineHeight: 0.98, letterSpacing: "-0.04em", maxWidth: 1040, fontWeight: 800 }}>{plain(site.home.headline)}</div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#5f655f" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#99a39d" }}>
           <span>{site.role}</span>
           <span>{site.url.replace(/^https?:\/\//, "")}</span>
         </div>
@@ -56,7 +56,7 @@ export default async function OGImage() {
     ),
     {
       ...size,
-      fonts: serif ? [{ name: "Newsreader", data: serif, style: "normal", weight: 400 }] : undefined,
+      fonts: serif ? [{ name: "Inter", data: serif, style: "normal", weight: 400 }] : undefined,
     }
   );
 }

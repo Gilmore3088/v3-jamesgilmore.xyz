@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Arrow from "@/components/arrow";
 import Container from "@/components/container";
-import Photo, { getPhoto } from "@/components/photo";
-import PhotoGrid from "@/components/photo-grid";
-import Portrait from "@/components/portrait";
+import Hero from "@/components/hero";
+import Mosaic from "@/components/mosaic";
+import { getPhoto } from "@/components/photo";
 import { site } from "@/content/site";
 import { Emphasis, plain } from "@/lib/emphasis";
 import { jsonLd } from "@/lib/site";
@@ -36,29 +36,24 @@ const structuredData = {
 
 export default function HomePage() {
   const { home, projects } = site;
+  const hero = getPhoto(home.heroPhoto);
   const band = home.band.map(getPhoto).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const shown = new Set([...home.band, site.about.heroPhoto, "venice-us"]);
-  const places = site.photos.filter((p) => !shown.has(p.src)).slice(0, 6);
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }} />
 
-      {/* Opening */}
-      <Container>
-        <section className="grid gap-10 pb-14 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-16 lg:pt-20">
-          <Portrait className="rise w-[11rem] sm:w-[13rem] lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1 lg:w-full" sizes="(min-width: 1024px) 24rem, 10rem" priority caption />
-          <div className="rise min-w-0 lg:col-span-8 lg:row-start-1">
-            <p className="label m-0">
-              {site.name} <span aria-hidden="true" className="mx-2 text-line-strong">/</span> {home.eyebrow}
+      {hero && (
+        <Hero photo={hero} position="70% 45%">
+          <div className="rise max-w-[52rem]">
+            <p className="label m-0 text-ink-soft">
+              {site.name} · {home.eyebrow}
             </p>
-            <h1 className="display m-0 mt-5 max-w-[16ch] text-[2.7rem] xs:text-[3.1rem] sm:text-[3.9rem] md:text-[4.5rem] lg:text-[5.1rem]">
+            <h1 className="display m-0 mt-4 text-[2.9rem] xs:text-[3.3rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem]">
               <Emphasis text={home.headline} />
             </h1>
-          </div>
-          <div className="rise rise-1 min-w-0 lg:col-span-7 lg:row-start-2">
-            <p className="deck m-0 max-w-[52ch] text-[1.35rem] leading-[1.5] text-ink-soft sm:text-[1.55rem]">{home.intro}</p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-10 gap-y-4">
+            <p className="deck m-0 mt-6 max-w-[44ch] text-[1.25rem] text-ink-soft sm:text-[1.45rem]">{home.intro}</p>
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Link href="/about" className="arrow-link">
                 {home.aboutCta} <Arrow />
               </Link>
@@ -67,31 +62,20 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-        </section>
-      </Container>
-
-      {/* Photo band */}
-      {band.length > 0 && (
-        <Container>
-          <div className="grid grid-cols-3 gap-3 sm:gap-6 lg:gap-8">
-            {band.map((p, i) => (
-              <Photo key={p.src} photo={p} aspect="aspect-[4/5] sm:aspect-[4/3]" sizes="(min-width: 1280px) 26rem, 32vw" priority={i === 0} caption={false} />
-            ))}
-          </div>
-        </Container>
+        </Hero>
       )}
 
       {/* Lately */}
       <Container>
-        <section aria-labelledby="lately-heading" className="mt-16 grid gap-8 pt-0 lg:mt-20 lg:grid-cols-12 lg:gap-8">
-          <div className="min-w-0 lg:col-span-4">
-            <h2 id="lately-heading" className="label m-0">{home.latelyLabel}</h2>
-          </div>
-          <dl className="m-0 grid gap-8 sm:grid-cols-3 sm:gap-6 lg:col-span-8">
+        <section aria-labelledby="lately-heading" className="mt-16 lg:mt-24">
+          <h2 id="lately-heading" className="label m-0">
+            {home.latelyLabel}
+          </h2>
+          <dl className="m-0 mt-5 grid gap-3 sm:grid-cols-3">
             {home.lately.map((item) => (
-              <div key={item.label} className="min-w-0">
-                <dt className="label">{item.label}</dt>
-                <dd className="m-0 mt-2 body-text text-[1.2rem] leading-[1.65] text-ink-soft">{item.text}</dd>
+              <div key={item.label} className="panel min-w-0 p-6">
+                <dt className="text-[1.3rem] font-bold leading-tight">{item.label}</dt>
+                <dd className="body-text m-0 mt-3 text-[1.05rem] text-ink-soft">{item.text}</dd>
               </div>
             ))}
           </dl>
@@ -100,39 +84,51 @@ export default function HomePage() {
 
       {/* Traits */}
       <Container>
-        <section aria-labelledby="traits-heading" className="mt-16 grid gap-10 pt-0 lg:mt-20 lg:grid-cols-12 lg:gap-8">
+        <section aria-labelledby="traits-heading" className="mt-24 grid gap-10 lg:mt-32 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <p className="label m-0">{home.traitsLabel}</p>
-            <h2 id="traits-heading" className="display m-0 mt-4 max-w-[18ch] text-[2.3rem] sm:text-[2.9rem]">
+            <h2 id="traits-heading" className="title m-0 mt-4 max-w-[16ch] text-[2.4rem] sm:text-[3rem]">
               {home.traitsTitle}
             </h2>
           </div>
-          <ul className="m-0 grid list-none gap-8 p-0 sm:grid-cols-3 sm:gap-6 lg:col-span-8">
+          <ul className="m-0 grid list-none gap-10 p-0 lg:col-span-8">
             {home.traits.map((t) => (
-              <li key={t.title} className="min-w-0 border-t border-line pt-4">
-                <h3 className="m-0 serif text-[1.6rem] leading-tight tracking-[-0.01em]">{t.title}</h3>
-                <p className="m-0 mt-3 body-text text-[1.2rem] leading-[1.65] text-ink-soft">{t.body}</p>
+              <li key={t.title} className="min-w-0 max-w-[62ch]">
+                <h3 className="title m-0 text-[1.7rem] sm:text-[2rem]">{t.title}</h3>
+                <p className="body-text m-0 mt-3 text-[1.2rem] text-ink-soft">{t.body}</p>
               </li>
             ))}
           </ul>
         </section>
       </Container>
 
+      {/* Mosaic */}
+      <Container>
+        <section aria-label="Places" className="mt-24 lg:mt-32">
+          <Mosaic photos={band} />
+          <p className="mt-8">
+            <Link href="/about" className="arrow-link">
+              More places, and the story <Arrow />
+            </Link>
+          </p>
+        </section>
+      </Container>
+
       {/* Questions */}
       <Container>
-        <section aria-labelledby="questions-heading" className="mt-20 grid gap-10 pt-0 lg:mt-28 lg:grid-cols-12 lg:gap-8">
+        <section aria-labelledby="questions-heading" className="mt-24 grid gap-10 lg:mt-32 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <p className="label m-0">{home.questionsLabel}</p>
-            <h2 id="questions-heading" className="display m-0 mt-4 max-w-[18ch] text-[2.3rem] sm:text-[2.9rem]">
+            <h2 id="questions-heading" className="title m-0 mt-4 max-w-[16ch] text-[2.4rem] sm:text-[3rem]">
               {home.questionsTitle}
             </h2>
           </div>
-          <ol className="m-0 grid list-none p-0 lg:col-span-8">
+          <ol className="m-0 grid list-none gap-3 p-0 lg:col-span-8">
             {home.questions.map((q) => (
-              <li key={q.question} className="grid gap-3 border-t border-line py-7 first:border-t-0 first:pt-0">
-                <h3 className="m-0 max-w-[28ch] serif text-[1.8rem] leading-[1.2] tracking-[-0.01em] sm:text-[2rem]">{q.question}</h3>
-                <p className="m-0 max-w-[58ch] body-text text-[1.2rem] leading-[1.65] text-ink-soft">{q.body}</p>
-                <p className="m-0 mt-1">
+              <li key={q.question} className="panel p-6 sm:p-8">
+                <h3 className="title m-0 max-w-[26ch] text-[1.6rem] sm:text-[1.9rem]">{q.question}</h3>
+                <p className="body-text m-0 mt-3 max-w-[58ch] text-[1.1rem] text-ink-soft">{q.body}</p>
+                <p className="m-0 mt-5">
                   <Link href={q.href} className="arrow-link">
                     {q.cta} <Arrow />
                   </Link>
@@ -143,59 +139,32 @@ export default function HomePage() {
         </section>
       </Container>
 
-      {/* Places */}
-      <Container>
-        <section aria-labelledby="places-heading" className="mt-20 pt-0 lg:mt-28">
-          <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
-            <div className="min-w-0 lg:col-span-4">
-              <p className="label m-0">{home.placesLabel}</p>
-              <h2 id="places-heading" className="display m-0 mt-4 text-[2.3rem] sm:text-[2.9rem]">
-                {home.placesTitle}
-              </h2>
-            </div>
-            <p className="m-0 max-w-[40ch] body-text text-[1.2rem] leading-[1.65] text-muted lg:col-span-5 lg:col-start-5 lg:mt-1">{home.placesNote}</p>
-          </div>
-          <div className="mt-10">
-            <PhotoGrid photos={places} />
-          </div>
-          <p className="mt-8">
-            <Link href="/about" className="arrow-link">
-              More places, and the story <Arrow />
-            </Link>
-          </p>
-        </section>
-      </Container>
-
       {/* Work, briefly */}
       <Container>
-        <section aria-labelledby="work-heading" className="mt-20 grid gap-10 pt-0 lg:mt-28 lg:grid-cols-12 lg:gap-8">
+        <section aria-labelledby="work-heading" className="mt-24 grid gap-10 lg:mt-32 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <p className="label m-0">{home.projectsLabel}</p>
-            <h2 id="work-heading" className="display m-0 mt-4 max-w-[18ch] text-[2.3rem] sm:text-[2.9rem]">
+            <h2 id="work-heading" className="title m-0 mt-4 max-w-[16ch] text-[2.4rem] sm:text-[3rem]">
               {home.projectsTitle}
             </h2>
-            <p className="m-0 mt-4 max-w-[34ch] text-[1.05rem] leading-relaxed text-muted">{home.projectsNote}</p>
+            <p className="body-text m-0 mt-4 max-w-[34ch] text-[1.05rem] text-muted">{home.projectsNote}</p>
             <p className="mt-6">
               <Link href="/projects" className="arrow-link">
                 All projects <Arrow />
               </Link>
             </p>
           </div>
-          <ul className="m-0 grid list-none gap-8 p-0 sm:grid-cols-2 lg:col-span-8">
+          <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 lg:col-span-8">
             {projects.slice(0, 2).map((project) => (
-              <li key={project.slug} className="min-w-0 border-t border-line pt-4">
-                <h3 className="m-0 serif text-[1.7rem] leading-tight tracking-[-0.01em]">
-                  <Link href={`/projects/${project.slug}`} className="no-underline hover:text-evergreen">
-                    {project.name}
-                  </Link>
-                </h3>
-                <p className="m-0 mt-2 body-text text-[1.05rem] leading-snug text-ink-soft">{project.kicker}</p>
-                <p className="m-0 mt-3 max-w-[44ch] text-[1.05rem] leading-relaxed text-muted">{project.summary}</p>
-                <p className="mt-4">
-                  <Link href={`/projects/${project.slug}`} className="arrow-link">
+              <li key={project.slug} className="min-w-0">
+                <Link href={`/projects/${project.slug}`} className="card panel block h-full p-6 sm:p-7">
+                  <h3 className="card-title title m-0 text-[1.6rem]">{project.name}</h3>
+                  <p className="m-0 mt-2 text-[1.1rem] font-medium leading-snug text-ink-soft">{project.kicker}</p>
+                  <p className="body-text m-0 mt-3 text-[1rem] text-muted">{project.summary}</p>
+                  <span className="arrow-link mt-5">
                     Read more <Arrow />
-                  </Link>
-                </p>
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>

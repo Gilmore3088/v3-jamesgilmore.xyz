@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { site } from "@/content/site";
@@ -9,14 +9,6 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
-});
-
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  display: "swap",
-  style: ["normal", "italic"],
-  axes: ["opsz"],
-  variable: "--font-newsreader",
 });
 
 export const metadata: Metadata = {
@@ -56,16 +48,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f4efe6",
-  colorScheme: "light",
+  themeColor: "#101413",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
-      <body className="min-h-dvh bg-paper font-sans text-ink antialiased">
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-dvh bg-bg font-sans text-ink antialiased">
         {children}
         <Analytics />
         <SpeedInsights />

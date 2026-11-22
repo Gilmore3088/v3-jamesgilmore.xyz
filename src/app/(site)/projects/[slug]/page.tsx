@@ -29,11 +29,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 function Section({ label, paragraphs, muted = false, children }: { label: string; paragraphs: string[]; muted?: boolean; children?: React.ReactNode }) {
   return (
-    <section className="grid gap-4 border-t border-line py-9 sm:grid-cols-[11rem_1fr] sm:gap-8 lg:py-11">
-      <h2 className="label m-0 pt-2">{label}</h2>
+    <section className="grid gap-3 py-9 sm:grid-cols-[12rem_1fr] sm:gap-8 lg:py-11">
+      <h2 className="m-0 text-[1.05rem] font-semibold text-muted">{label}</h2>
       <div className="min-w-0">
         {paragraphs.map((para, i) => (
-          <p key={para} className={`m-0 body-text text-[1.25rem] leading-[1.65] ${muted ? "text-muted" : "text-ink-soft"} ${i === 0 ? "" : "mt-5"}`}>
+          <p key={para} className={`body-text m-0 text-[1.2rem] ${muted ? "text-muted" : "text-ink-soft"} ${i === 0 ? "" : "mt-5"}`}>
             {para}
           </p>
         ))}
@@ -64,27 +64,27 @@ export default async function ProjectPage({ params }: PageProps) {
     <Container>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }} />
 
-      <p className="pt-6">
+      <p className="pt-28 sm:pt-32">
         <Link href="/projects" className="arrow-link arrow-back">
           <Arrow className="rotate-180" /> All projects
         </Link>
       </p>
 
-      <header className="rise grid gap-8 pb-10 pt-8 sm:pt-10 lg:grid-cols-12 lg:gap-8 lg:pb-12">
+      <header className="rise grid gap-8 pb-10 pt-6 lg:grid-cols-12 lg:gap-8 lg:pb-12">
         <div className="min-w-0 lg:col-span-9">
           <p className="label m-0">Project</p>
-          <h1 className="display m-0 mt-4 text-[2.8rem] sm:text-6xl lg:text-[4.5rem]">{project.name}</h1>
-          <p className="deck m-0 mt-6 max-w-[36ch] text-[1.3rem] leading-[1.4] text-ink-soft sm:text-[1.7rem]">{project.kicker}</p>
+          <h1 className="display m-0 mt-4 text-[2.9rem] sm:text-[4rem] lg:text-[5rem]">{project.name}</h1>
+          <p className="deck m-0 mt-6 max-w-[36ch] text-[1.35rem] text-ink-soft sm:text-[1.6rem]">{project.kicker}</p>
         </div>
-        <dl className="m-0 grid min-w-0 content-start gap-5 text-sm lg:col-span-3 lg:col-start-10 lg:mt-3">
+        <dl className="m-0 grid min-w-0 content-start gap-5 lg:col-span-3 lg:col-start-10 lg:mt-3">
           <div>
-            <dt className="label">Status</dt>
-            <dd className="m-0 mt-1 body-text text-base">{project.status}</dd>
+            <dt className="text-[0.95rem] font-semibold text-muted">Status</dt>
+            <dd className="m-0 mt-1 text-[1.1rem] font-medium">{project.status}</dd>
           </div>
           {project.url && (
             <div>
-              <dt className="label">Site</dt>
-              <dd className="m-0 mt-1 body-text text-base">
+              <dt className="text-[0.95rem] font-semibold text-muted">Site</dt>
+              <dd className="m-0 mt-1 text-[1.1rem] font-medium">
                 <a href={project.url} className="link break-all" target="_blank" rel="noopener noreferrer">
                   {project.url.replace(/^https?:\/\/(www\.)?/, "")}
                 </a>
@@ -100,7 +100,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </div>
       )}
 
-      <div className="max-w-[54rem]">
+      <div className="max-w-[56rem] divide-y divide-line border-t border-line">
         <Section label="The problem" paragraphs={project.problem} />
         <Section label="Why I care" paragraphs={project.why} />
         <Section label="Where it is today" paragraphs={project.today} />
@@ -120,10 +120,10 @@ export default async function ProjectPage({ params }: PageProps) {
       </div>
 
       {next && next.slug !== project.slug && (
-        <nav aria-label="Next project" className="mt-20 pt-0">
+        <nav aria-label="Next project" className="mt-20">
           <p className="label m-0">Next project</p>
-          <Link href={`/projects/${next.slug}`} className="card mt-3 inline-flex items-baseline gap-4 serif text-[1.8rem] leading-tight tracking-[-0.015em] no-underline sm:text-[2.2rem]">
-            <span className="card-title">{next.name}</span> <Arrow className="text-evergreen" />
+          <Link href={`/projects/${next.slug}`} className="card mt-3 inline-flex items-baseline gap-4 no-underline">
+            <span className="card-title title text-[2rem] sm:text-[2.6rem]">{next.name}</span> <Arrow className="text-accent" />
           </Link>
         </nav>
       )}
