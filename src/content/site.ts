@@ -153,11 +153,11 @@ export const site: SiteContent = {
     lately: [
       {
         label: "At work",
-        text: "Building the processes and partnerships behind the client success team at Velocity / CSI: data pipelines, the internal workflows that keep clients moving, and the outside partners who help.",
+        text: "Building the processes and partnerships behind the client success team at Velocity, a CSI company: data pipelines, the internal workflows that keep clients moving, and the outside partners who help.",
       },
       {
         label: "On the water",
-        text: "Kayaking as much as the Sound allows. It is the one hobby that has never turned into a spreadsheet.",
+        text: "Kayaking as much as the water allows, at home and wherever we travel.",
       },
       {
         label: "On the move",
@@ -341,7 +341,7 @@ export const site: SiteContent = {
       {
         period: "2019–present",
         title: "Banking technology",
-        detail: "Software implementations, analytics, and automation for banks and credit unions. Now building the processes, data pipelines, and partnerships behind the client success team at Velocity / CSI.",
+        detail: "Software implementations, analytics, and automation for banks and credit unions. Now building the processes, data pipelines, and partnerships behind the client success team at Velocity, a CSI company.",
       },
       {
         period: "Now",
