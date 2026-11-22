@@ -67,6 +67,9 @@ export type SiteContent = {
     contactCta: string;
     /** Three wide photos shown right under the opening. Use `src` values from `photos`. */
     band: string[];
+    /** What's going on right now. Update this whenever; it's the most alive part of the page. */
+    latelyLabel: string;
+    lately: { label: string; text: string }[];
     traitsLabel: string;
     traitsTitle: string;
     traits: { title: string; body: string }[];
@@ -142,10 +145,25 @@ export const site: SiteContent = {
     eyebrow: "Seattle, Washington",
     headline: "Curious by default. I learn by building, and I build to make things work better.",
     intro:
-      "I'm James. I live in Seattle with my wife, I travel whenever we can manage it, and I spend most of my working life solving problems for banks: making sense of their data and building tools that make the work easier. This is the personal site. The person comes first here, and the work comes second.",
+      "I'm James. I live in Seattle with my wife, I kayak whenever the water lets me, and we travel whenever the points allow. Most of my working life goes to solving problems for banks: making sense of their data and building tools that make the work easier. This is the personal site. The person comes first here, and the work comes second.",
     aboutCta: "More about me",
     contactCta: "Say hello",
     band: ["rainier-window", "patagonia-camp", "shanghai"],
+    latelyLabel: "Lately",
+    lately: [
+      {
+        label: "At work",
+        text: "Building the processes and partnerships behind the client success team at Velocity / CSI: data pipelines, the internal workflows that keep clients moving, and the outside partners who help.",
+      },
+      {
+        label: "On the water",
+        text: "Kayaking as much as the Sound allows. It is the one hobby that has never turned into a spreadsheet.",
+      },
+      {
+        label: "On the move",
+        text: "Traveling with my wife, and churning credit cards to pay for it. The points game is a puzzle I enjoy more than I should.",
+      },
+    ],
     traitsLabel: "What I'm like",
     traitsTitle: "Three things that are true of me.",
     traits: [
@@ -178,8 +196,8 @@ export const site: SiteContent = {
         cta: "What that turned into",
       },
       {
-        question: "Where should we go next?",
-        body: "A trip is a problem worth over-planning. I keep a spreadsheet, and the best days are always the ones that ignore it.",
+        question: "Where should we go next, and how do we get there on points?",
+        body: "A trip is a problem worth over-planning. I keep a spreadsheet for the route and another for the credit cards, and the best days are always the ones that ignore both.",
         href: "/about",
         cta: "Where we've been",
       },
@@ -287,13 +305,14 @@ export const site: SiteContent = {
       "I'm optimistic about AI and allergic to demos. The interesting question isn't whether a model can do something impressive. It's whether a person inside a bank can use it on a real task and show their work afterward. That's the bar I try to build to.",
     ],
     lifeLine:
-      "I live in Seattle. When I'm not at a desk I'm usually on a long run, somewhere outdoors, or planning the next trip in more detail than it needs.",
+      "I live in Seattle. When I'm not at a desk I'm usually in a kayak, on a long run, or planning the next trip in more detail than it needs.",
     photo: { src: "/photos/venice-us.jpg", alt: "James Gilmore and his wife in Venice", caption: "Venice, with my wife" },
     heroPhoto: "great-wall-us",
     doLabel: "Things I do",
     iDo: [
+      "I kayak, as often as I can.",
       "I run long distances.",
-      "I plan trips in more detail than they need.",
+      "I plan trips in more detail than they need, and I churn credit cards to pay for them.",
       "I read history.",
       "I grow things, with mixed results.",
       "I watch a lot of sports, and I used to work in them.",
@@ -319,7 +338,7 @@ export const site: SiteContent = {
       {
         period: "2019–present",
         title: "Banking technology",
-        detail: "Software implementations, analytics, and automation for banks and credit unions, plus regulatory and compliance guidance for their executives.",
+        detail: "Software implementations, analytics, and automation for banks and credit unions. Now building the processes, data pipelines, and partnerships behind the client success team at Velocity / CSI.",
       },
       {
         period: "Now",

@@ -81,9 +81,26 @@ export default function HomePage() {
         </Container>
       )}
 
+      {/* Lately */}
+      <Container>
+        <section aria-labelledby="lately-heading" className="mt-16 grid gap-8 border-t border-ink pt-7 lg:mt-20 lg:grid-cols-12 lg:gap-8">
+          <div className="min-w-0 lg:col-span-4">
+            <h2 id="lately-heading" className="label m-0">{home.latelyLabel}</h2>
+          </div>
+          <dl className="m-0 grid gap-8 sm:grid-cols-3 sm:gap-6 lg:col-span-8">
+            {home.lately.map((item) => (
+              <div key={item.label} className="min-w-0">
+                <dt className="label">{item.label}</dt>
+                <dd className="m-0 mt-2 serif-text text-[1.05rem] leading-[1.55] text-ink-soft">{item.text}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      </Container>
+
       {/* Traits */}
       <Container>
-        <section aria-labelledby="traits-heading" className="mt-20 grid gap-10 border-t border-ink pt-7 lg:mt-28 lg:grid-cols-12 lg:gap-8">
+        <section aria-labelledby="traits-heading" className="mt-16 grid gap-10 border-t border-ink pt-7 lg:mt-20 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <p className="label m-0">{home.traitsLabel}</p>
             <h2 id="traits-heading" className="display m-0 mt-4 max-w-[18ch] text-[1.9rem] sm:text-[2.3rem]">
