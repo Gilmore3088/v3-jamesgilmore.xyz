@@ -15,6 +15,7 @@ Rules the pages follow:
 - A project's `url: null` hides every "visit the site" link for that project.
 - A project's `image` is a real screenshot in `public/projects/`. Set it to `null` for a text-only entry.
 - Photos live in `public/photos/` and are listed in `photos` with a true caption and a `trip` id. Home shows `home.band`; Places draws a world map from `trips[].pins` and lists every photo by trip.
+- `journey` is the route the home page draws first (where James has lived, in order). `wishlist` entries are hollow pins. `visitedCountries` are shaded.
 - `projectsPage.experiments` is empty; add `{ name, summary, url }` entries and a "Smaller things" section appears on Projects.
 - `projects[].caseStudy` is an empty array until there is a real write-up. Add
   `{ heading, body: [paragraphs] }` entries and they render on the project page.

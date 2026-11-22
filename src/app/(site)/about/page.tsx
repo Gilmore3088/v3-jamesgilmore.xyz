@@ -3,8 +3,8 @@ import Link from "next/link";
 import Arrow from "@/components/arrow";
 import Container from "@/components/container";
 import DoList from "@/components/do-list";
-import Hero from "@/components/hero";
 import PathList from "@/components/path-list";
+import PageHead from "@/components/page-head";
 import Photo, { getPhoto } from "@/components/photo";
 import { site } from "@/content/site";
 
@@ -22,13 +22,11 @@ export default function AboutPage() {
 
   return (
     <>
+      <PageHead label="About" title={about.title} />
       {hero && (
-        <Hero photo={hero} tall={false} position="center 55%">
-          <div className="rise max-w-[50rem]">
-            <p className="label m-0 text-ink-soft">About</p>
-            <h1 className="display m-0 mt-4 text-[2.7rem] xs:text-[3.1rem] sm:text-[4rem] lg:text-[5rem]">{about.title}</h1>
-          </div>
-        </Hero>
+        <Container>
+          <Photo photo={hero} aspect="aspect-[4/5] sm:aspect-[21/9]" sizes="(min-width: 1280px) 80rem, 100vw" priority caption={false} className="rise rise-1" />
+        </Container>
       )}
 
       {/* Story */}

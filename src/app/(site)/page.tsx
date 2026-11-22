@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Arrow from "@/components/arrow";
 import Container from "@/components/container";
-import Hero from "@/components/hero";
 import Mosaic from "@/components/mosaic";
 import { getPhoto } from "@/components/photo";
+import WorldMap from "@/components/world-map";
 import { site } from "@/content/site";
 import { Emphasis, plain } from "@/lib/emphasis";
 import { jsonLd } from "@/lib/site";
@@ -36,34 +36,42 @@ const structuredData = {
 
 export default function HomePage() {
   const { home, projects } = site;
-  const hero = getPhoto(home.heroPhoto);
   const band = home.band.map(getPhoto).filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }} />
 
-      {hero && (
-        <Hero photo={hero} position="70% 45%">
-          <div className="rise max-w-[52rem]">
-            <p className="label m-0 text-ink-soft">
-              {site.name} · {home.eyebrow}
-            </p>
-            <h1 className="display m-0 mt-4 text-[2.9rem] xs:text-[3.3rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[6rem]">
-              <Emphasis text={home.headline} />
-            </h1>
-            <p className="deck m-0 mt-6 max-w-[44ch] text-[1.25rem] text-ink-soft sm:text-[1.45rem]">{home.intro}</p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Link href="/about" className="arrow-link">
-                {home.aboutCta} <Arrow />
-              </Link>
-              <Link href="/contact" className="arrow-link">
-                {home.contactCta} <Arrow />
-              </Link>
+      {/* Opening: the map draws the route, then the world fills in */}
+      <Container>
+        <section className="pt-24 sm:pt-28">
+          <div className="rise grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-8">
+            <div className="min-w-0 lg:col-span-7">
+              <p className="label m-0">
+                {site.name} · {home.eyebrow}
+              </p>
+              <h1 className="display m-0 mt-3 max-w-[16ch] text-[2.4rem] xs:text-[2.7rem] sm:text-[3.2rem] lg:text-[3.6rem]">
+                <Emphasis text={home.headline} />
+              </h1>
+            </div>
+            <div className="min-w-0 lg:col-span-5">
+              <p className="deck m-0 max-w-[46ch] text-[1.08rem] text-ink-soft sm:text-[1.15rem]">{home.intro}</p>
+              <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3">
+                <Link href="/about" className="arrow-link">
+                  {home.aboutCta} <Arrow />
+                </Link>
+                <Link href="/contact" className="arrow-link">
+                  {home.contactCta} <Arrow />
+                </Link>
+              </div>
             </div>
           </div>
-        </Hero>
-      )}
+          <div className="panel mt-8 p-2 sm:p-4 lg:mt-10">
+            <WorldMap intro />
+          </div>
+          <p className="m-0 mt-3 px-1 text-[0.95rem] text-muted">{home.mapHint}</p>
+        </section>
+      </Container>
 
       {/* Lately */}
       <Container>

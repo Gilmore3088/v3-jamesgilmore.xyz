@@ -78,8 +78,8 @@ export type SiteContent = {
     intro: string;
     aboutCta: string;
     contactCta: string;
-    /** Full-screen photo behind the opening. A `src` from `photos`. */
-    heroPhoto: string;
+    /** Text under the map once the route has drawn. */
+    mapHint: string;
     /** Photos in the mosaic under the opening. `src` values from `photos`. */
     band: string[];
     /** What's going on right now. Update this whenever; it's the most alive part of the page. */
@@ -97,6 +97,11 @@ export type SiteContent = {
   };
   /** Every photo on the site. Home shows `home.band`; Places shows them all, grouped by trip. */
   photos: Photo[];
+  /**
+   * The route the home page draws first: where you've lived, in order.
+   * Each stop is [latitude, longitude]; `note` shows when the dot is picked.
+   */
+  journey: { name: string; pin: [number, number]; note?: string }[];
   /** Trips in the order they appear on Places. */
   trips: Trip[];
   /** Places still on the list. Hollow pins on the map. */
@@ -172,7 +177,7 @@ export const site: SiteContent = {
       "I'm James. I live in Seattle with my wife, Nikoly. I kayak whenever the water lets me, and we travel whenever the points allow. Most of my working life goes to solving problems for banks: making sense of their data and building tools that make the work easier. This is the personal site. The person comes first here, and the work comes second.",
     aboutCta: "More about me",
     contactCta: "Say hello",
-    heroPhoto: "kayak-sunset",
+    mapHint: "Drag to move, scroll to zoom, pick a dot.",
     band: ["great-wall-us", "patagonia-camp", "kayak-whale", "shanghai", "atacama"],
     latelyLabel: "Lately",
     lately: [
@@ -323,6 +328,12 @@ export const site: SiteContent = {
     { id: "northeast", name: "New York and Philadelphia", when: "2025", pins: [[40.76, -73.98], [39.97, -75.13]] },
     { id: "china", name: "China", note: "Beijing, the Great Wall at its quiet end, then Shanghai.", when: "2019", pins: [[40.67, 117.25], [31.23, 121.47]] },
     { id: "philippines", name: "Coron, Philippines", pins: [[11.99, 120.2]] },
+  ],
+  journey: [
+    { name: "Orlando", pin: [28.54, -81.38], note: "Where it started. UCF, and the football stadium." },
+    { name: "Chicago", pin: [41.88, -87.63], note: "Sports consulting years." },
+    { name: "Los Angeles", pin: [34.05, -118.24] },
+    { name: "Seattle", pin: [47.61, -122.33], note: "Home." },
   ],
   wishlist: [{ name: "Samarkand, Uzbekistan", pins: [[39.65, 66.98]], note: "The Registan. A dream, not a plan yet." }],
   visitedCountries: ["United States of America", "Chile", "China", "Italy", "Philippines", "Brazil", "Croatia", "Spain", "Portugal", "Morocco"],
