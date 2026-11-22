@@ -33,7 +33,7 @@ function Section({ label, paragraphs, muted = false, children }: { label: string
       <h2 className="label m-0 pt-2">{label}</h2>
       <div className="min-w-0">
         {paragraphs.map((para, i) => (
-          <p key={para} className={`m-0 serif-text text-[1.2rem] leading-[1.58] ${muted ? "text-muted" : "text-ink-soft"} ${i === 0 ? "" : "mt-5"}`}>
+          <p key={para} className={`m-0 body-text text-[1.25rem] leading-[1.65] ${muted ? "text-muted" : "text-ink-soft"} ${i === 0 ? "" : "mt-5"}`}>
             {para}
           </p>
         ))}
@@ -74,17 +74,17 @@ export default async function ProjectPage({ params }: PageProps) {
         <div className="min-w-0 lg:col-span-9">
           <p className="label m-0">Project</p>
           <h1 className="display m-0 mt-4 text-[2.8rem] sm:text-6xl lg:text-[4.5rem]">{project.name}</h1>
-          <p className="deck m-0 mt-6 max-w-[36ch] text-[1.3rem] leading-[1.4] text-ink-soft sm:text-[1.6rem]">{project.kicker}</p>
+          <p className="deck m-0 mt-6 max-w-[36ch] text-[1.3rem] leading-[1.4] text-ink-soft sm:text-[1.7rem]">{project.kicker}</p>
         </div>
         <dl className="m-0 grid min-w-0 content-start gap-5 text-sm lg:col-span-3 lg:col-start-10 lg:mt-3">
           <div>
             <dt className="label">Status</dt>
-            <dd className="m-0 mt-1 serif-text text-base">{project.status}</dd>
+            <dd className="m-0 mt-1 body-text text-base">{project.status}</dd>
           </div>
           {project.url && (
             <div>
               <dt className="label">Site</dt>
-              <dd className="m-0 mt-1 serif-text text-base">
+              <dd className="m-0 mt-1 body-text text-base">
                 <a href={project.url} className="link break-all" target="_blank" rel="noopener noreferrer">
                   {project.url.replace(/^https?:\/\/(www\.)?/, "")}
                 </a>
@@ -100,7 +100,7 @@ export default async function ProjectPage({ params }: PageProps) {
         </div>
       )}
 
-      <div className="max-w-[54rem] border-t border-ink">
+      <div className="max-w-[54rem]">
         <Section label="The problem" paragraphs={project.problem} />
         <Section label="Why I care" paragraphs={project.why} />
         <Section label="Where it is today" paragraphs={project.today} />
@@ -120,7 +120,7 @@ export default async function ProjectPage({ params }: PageProps) {
       </div>
 
       {next && next.slug !== project.slug && (
-        <nav aria-label="Next project" className="mt-20 border-t border-ink pt-7">
+        <nav aria-label="Next project" className="mt-20 pt-0">
           <p className="label m-0">Next project</p>
           <Link href={`/projects/${next.slug}`} className="card mt-3 inline-flex items-baseline gap-4 serif text-[1.8rem] leading-tight tracking-[-0.015em] no-underline sm:text-[2.2rem]">
             <span className="card-title">{next.name}</span> <Arrow className="text-evergreen" />

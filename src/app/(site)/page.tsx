@@ -47,17 +47,17 @@ export default function HomePage() {
       {/* Opening */}
       <Container>
         <section className="grid gap-10 pb-14 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-16 lg:pt-20">
-          <Portrait className="rise w-[8rem] sm:w-[10rem] lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1 lg:w-full" sizes="(min-width: 1024px) 24rem, 10rem" priority caption />
+          <Portrait className="rise w-[11rem] sm:w-[13rem] lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:row-start-1 lg:w-full" sizes="(min-width: 1024px) 24rem, 10rem" priority caption />
           <div className="rise min-w-0 lg:col-span-8 lg:row-start-1">
             <p className="label m-0">
               {site.name} <span aria-hidden="true" className="mx-2 text-line-strong">/</span> {home.eyebrow}
             </p>
-            <h1 className="display m-0 mt-5 max-w-[16ch] text-[2.5rem] xs:text-[2.9rem] sm:text-[3.6rem] md:text-[4.1rem] lg:text-[4.6rem]">
+            <h1 className="display m-0 mt-5 max-w-[16ch] text-[2.7rem] xs:text-[3.1rem] sm:text-[3.9rem] md:text-[4.5rem] lg:text-[5.1rem]">
               <Emphasis text={home.headline} />
             </h1>
           </div>
           <div className="rise rise-1 min-w-0 lg:col-span-7 lg:row-start-2">
-            <p className="deck m-0 max-w-[52ch] text-[1.25rem] leading-[1.45] text-ink-soft sm:text-[1.4rem]">{home.intro}</p>
+            <p className="deck m-0 max-w-[52ch] text-[1.35rem] leading-[1.5] text-ink-soft sm:text-[1.55rem]">{home.intro}</p>
             <div className="mt-8 flex flex-wrap items-center gap-x-10 gap-y-4">
               <Link href="/about" className="arrow-link">
                 {home.aboutCta} <Arrow />
@@ -83,7 +83,7 @@ export default function HomePage() {
 
       {/* Lately */}
       <Container>
-        <section aria-labelledby="lately-heading" className="mt-16 grid gap-8 border-t border-ink pt-7 lg:mt-20 lg:grid-cols-12 lg:gap-8">
+        <section aria-labelledby="lately-heading" className="mt-16 grid gap-8 pt-0 lg:mt-20 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <h2 id="lately-heading" className="label m-0">{home.latelyLabel}</h2>
           </div>
@@ -91,7 +91,7 @@ export default function HomePage() {
             {home.lately.map((item) => (
               <div key={item.label} className="min-w-0">
                 <dt className="label">{item.label}</dt>
-                <dd className="m-0 mt-2 serif-text text-[1.05rem] leading-[1.55] text-ink-soft">{item.text}</dd>
+                <dd className="m-0 mt-2 body-text text-[1.2rem] leading-[1.65] text-ink-soft">{item.text}</dd>
               </div>
             ))}
           </dl>
@@ -100,18 +100,18 @@ export default function HomePage() {
 
       {/* Traits */}
       <Container>
-        <section aria-labelledby="traits-heading" className="mt-16 grid gap-10 border-t border-ink pt-7 lg:mt-20 lg:grid-cols-12 lg:gap-8">
+        <section aria-labelledby="traits-heading" className="mt-16 grid gap-10 pt-0 lg:mt-20 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <p className="label m-0">{home.traitsLabel}</p>
-            <h2 id="traits-heading" className="display m-0 mt-4 max-w-[18ch] text-[1.9rem] sm:text-[2.3rem]">
+            <h2 id="traits-heading" className="display m-0 mt-4 max-w-[18ch] text-[2.3rem] sm:text-[2.9rem]">
               {home.traitsTitle}
             </h2>
           </div>
           <ul className="m-0 grid list-none gap-8 p-0 sm:grid-cols-3 sm:gap-6 lg:col-span-8">
             {home.traits.map((t) => (
               <li key={t.title} className="min-w-0 border-t border-line pt-4">
-                <h3 className="m-0 serif text-[1.4rem] leading-tight tracking-[-0.01em]">{t.title}</h3>
-                <p className="m-0 mt-3 serif-text text-[1.05rem] leading-[1.55] text-ink-soft">{t.body}</p>
+                <h3 className="m-0 serif text-[1.6rem] leading-tight tracking-[-0.01em]">{t.title}</h3>
+                <p className="m-0 mt-3 body-text text-[1.2rem] leading-[1.65] text-ink-soft">{t.body}</p>
               </li>
             ))}
           </ul>
@@ -120,18 +120,18 @@ export default function HomePage() {
 
       {/* Questions */}
       <Container>
-        <section aria-labelledby="questions-heading" className="mt-20 grid gap-10 border-t border-ink pt-7 lg:mt-28 lg:grid-cols-12 lg:gap-8">
+        <section aria-labelledby="questions-heading" className="mt-20 grid gap-10 pt-0 lg:mt-28 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <p className="label m-0">{home.questionsLabel}</p>
-            <h2 id="questions-heading" className="display m-0 mt-4 max-w-[18ch] text-[1.9rem] sm:text-[2.3rem]">
+            <h2 id="questions-heading" className="display m-0 mt-4 max-w-[18ch] text-[2.3rem] sm:text-[2.9rem]">
               {home.questionsTitle}
             </h2>
           </div>
           <ol className="m-0 grid list-none p-0 lg:col-span-8">
             {home.questions.map((q) => (
               <li key={q.question} className="grid gap-3 border-t border-line py-7 first:border-t-0 first:pt-0">
-                <h3 className="m-0 max-w-[28ch] serif text-[1.5rem] leading-[1.2] tracking-[-0.01em] sm:text-[1.75rem]">{q.question}</h3>
-                <p className="m-0 max-w-[58ch] serif-text text-[1.05rem] leading-[1.55] text-ink-soft">{q.body}</p>
+                <h3 className="m-0 max-w-[28ch] serif text-[1.8rem] leading-[1.2] tracking-[-0.01em] sm:text-[2rem]">{q.question}</h3>
+                <p className="m-0 max-w-[58ch] body-text text-[1.2rem] leading-[1.65] text-ink-soft">{q.body}</p>
                 <p className="m-0 mt-1">
                   <Link href={q.href} className="arrow-link">
                     {q.cta} <Arrow />
@@ -145,15 +145,15 @@ export default function HomePage() {
 
       {/* Places */}
       <Container>
-        <section aria-labelledby="places-heading" className="mt-20 border-t border-ink pt-7 lg:mt-28">
+        <section aria-labelledby="places-heading" className="mt-20 pt-0 lg:mt-28">
           <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
             <div className="min-w-0 lg:col-span-4">
               <p className="label m-0">{home.placesLabel}</p>
-              <h2 id="places-heading" className="display m-0 mt-4 text-[1.9rem] sm:text-[2.3rem]">
+              <h2 id="places-heading" className="display m-0 mt-4 text-[2.3rem] sm:text-[2.9rem]">
                 {home.placesTitle}
               </h2>
             </div>
-            <p className="m-0 max-w-[40ch] serif-text text-[1.05rem] leading-[1.55] text-muted lg:col-span-5 lg:col-start-5 lg:mt-1">{home.placesNote}</p>
+            <p className="m-0 max-w-[40ch] body-text text-[1.2rem] leading-[1.65] text-muted lg:col-span-5 lg:col-start-5 lg:mt-1">{home.placesNote}</p>
           </div>
           <div className="mt-10">
             <PhotoGrid photos={places} />
@@ -168,13 +168,13 @@ export default function HomePage() {
 
       {/* Work, briefly */}
       <Container>
-        <section aria-labelledby="work-heading" className="mt-20 grid gap-10 border-t border-ink pt-7 lg:mt-28 lg:grid-cols-12 lg:gap-8">
+        <section aria-labelledby="work-heading" className="mt-20 grid gap-10 pt-0 lg:mt-28 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <p className="label m-0">{home.projectsLabel}</p>
-            <h2 id="work-heading" className="display m-0 mt-4 max-w-[18ch] text-[1.9rem] sm:text-[2.3rem]">
+            <h2 id="work-heading" className="display m-0 mt-4 max-w-[18ch] text-[2.3rem] sm:text-[2.9rem]">
               {home.projectsTitle}
             </h2>
-            <p className="m-0 mt-4 max-w-[34ch] text-[0.95rem] leading-relaxed text-muted">{home.projectsNote}</p>
+            <p className="m-0 mt-4 max-w-[34ch] text-[1.05rem] leading-relaxed text-muted">{home.projectsNote}</p>
             <p className="mt-6">
               <Link href="/projects" className="arrow-link">
                 All projects <Arrow />
@@ -184,13 +184,13 @@ export default function HomePage() {
           <ul className="m-0 grid list-none gap-8 p-0 sm:grid-cols-2 lg:col-span-8">
             {projects.slice(0, 2).map((project) => (
               <li key={project.slug} className="min-w-0 border-t border-line pt-4">
-                <h3 className="m-0 serif text-[1.5rem] leading-tight tracking-[-0.01em]">
+                <h3 className="m-0 serif text-[1.7rem] leading-tight tracking-[-0.01em]">
                   <Link href={`/projects/${project.slug}`} className="no-underline hover:text-evergreen">
                     {project.name}
                   </Link>
                 </h3>
-                <p className="m-0 mt-2 serif-text text-[1.05rem] leading-snug text-ink-soft">{project.kicker}</p>
-                <p className="m-0 mt-3 max-w-[44ch] text-[0.95rem] leading-relaxed text-muted">{project.summary}</p>
+                <p className="m-0 mt-2 body-text text-[1.05rem] leading-snug text-ink-soft">{project.kicker}</p>
+                <p className="m-0 mt-3 max-w-[44ch] text-[1.05rem] leading-relaxed text-muted">{project.summary}</p>
                 <p className="mt-4">
                   <Link href={`/projects/${project.slug}`} className="arrow-link">
                     Read more <Arrow />

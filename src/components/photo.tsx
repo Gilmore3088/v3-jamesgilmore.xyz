@@ -29,7 +29,7 @@ export default function Photo({ photo, sizes, priority = false, aspect, caption 
       <div className={`relative ${aspect ?? ASPECT[photo.orientation]} w-full overflow-hidden border border-line bg-paper-2`}>
         <Image src={`/photos/${photo.src}.jpg`} alt={photo.alt} fill sizes={sizes} priority={priority} className="object-cover" />
       </div>
-      {caption && <figcaption className="mt-2.5 text-xs text-muted">{photo.caption}</figcaption>}
+      {caption && <figcaption className="mt-3 text-[0.9rem] text-muted">{photo.caption}</figcaption>}
     </figure>
   );
 }

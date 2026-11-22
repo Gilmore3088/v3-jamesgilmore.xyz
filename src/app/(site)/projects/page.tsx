@@ -22,14 +22,14 @@ export default function ProjectsPage() {
           <p className="label m-0">What I&apos;m building</p>
           <h1 className="display m-0 mt-4 text-[3rem] sm:text-6xl lg:text-[4.5rem]">{projectsPage.title}</h1>
         </div>
-        <p className="deck m-0 max-w-[40ch] text-[1.3rem] leading-[1.45] text-ink-soft lg:col-span-7 lg:col-start-6 lg:mt-2 sm:text-[1.5rem]">
+        <p className="deck m-0 max-w-[40ch] text-[1.4rem] leading-[1.5] text-ink-soft lg:col-span-7 lg:col-start-6 lg:mt-2 sm:text-[1.7rem]">
           {projectsPage.lede}
         </p>
       </header>
 
       <ol className="m-0 list-none p-0">
         {projects.map((project, i) => (
-          <li key={project.slug} className="grid gap-8 border-t border-ink py-10 lg:grid-cols-12 lg:gap-8 lg:py-14">
+          <li key={project.slug} className="grid gap-8 py-12 lg:grid-cols-12 lg:gap-8 lg:py-14">
             <div className="min-w-0 lg:col-span-4">
               <p className="label m-0">{project.status}</p>
               <h2 className="m-0 mt-3 serif text-[2.2rem] leading-[1.05] tracking-[-0.015em] sm:text-[2.6rem]">
@@ -37,7 +37,7 @@ export default function ProjectsPage() {
                   {project.name}
                 </Link>
               </h2>
-              <p className="m-0 mt-3 max-w-[30ch] serif-text text-[1.15rem] leading-snug text-ink-soft">{project.kicker}</p>
+              <p className="m-0 mt-3 max-w-[30ch] body-text text-[1.15rem] leading-snug text-ink-soft">{project.kicker}</p>
               <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
                 <Link href={`/projects/${project.slug}`} className="arrow-link">
                   Read more <Arrow />
@@ -56,7 +56,7 @@ export default function ProjectsPage() {
               <div className="min-w-0">
                 <h3 className="label m-0">The problem</h3>
                 {project.problem.map((para) => (
-                  <p key={para} className="m-0 mt-3 serif-text text-[1.05rem] leading-[1.55] text-ink-soft">
+                  <p key={para} className="m-0 mt-3 body-text text-[1.2rem] leading-[1.65] text-ink-soft">
                     {para}
                   </p>
                 ))}
@@ -64,7 +64,7 @@ export default function ProjectsPage() {
               <div className="min-w-0">
                 <h3 className="label m-0">Why I care</h3>
                 {project.why.map((para) => (
-                  <p key={para} className="m-0 mt-3 serif-text text-[1.05rem] leading-[1.55] text-ink-soft">
+                  <p key={para} className="m-0 mt-3 body-text text-[1.2rem] leading-[1.65] text-ink-soft">
                     {para}
                   </p>
                 ))}

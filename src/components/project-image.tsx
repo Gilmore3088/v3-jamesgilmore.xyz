@@ -22,7 +22,7 @@ export default function ProjectImage({ project, aspect = "aspect-[16/10]", sizes
   return (
     <figure className="m-0">
       {img}
-      <figcaption className="mt-3 text-xs text-muted">{project.image.caption}</figcaption>
+      <figcaption className="mt-3 text-[0.9rem] text-muted">{project.image.caption}</figcaption>
     </figure>
   );
 }
