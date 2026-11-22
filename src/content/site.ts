@@ -148,7 +148,7 @@ export const site: SiteContent = {
       "I'm James. I live in Seattle with my wife, I kayak whenever the water lets me, and we travel whenever the points allow. Most of my working life goes to solving problems for banks: making sense of their data and building tools that make the work easier. This is the personal site. The person comes first here, and the work comes second.",
     aboutCta: "More about me",
     contactCta: "Say hello",
-    band: ["rainier-window", "patagonia-camp", "shanghai"],
+    band: ["kayak-sunset", "patagonia-camp", "shanghai"],
     latelyLabel: "Lately",
     lately: [
       {
@@ -211,6 +211,9 @@ export const site: SiteContent = {
   },
 
   photos: [
+    { src: "kayak-sunset", alt: "James paddling a kayak toward the setting sun, mountains along the shore.", caption: "On the water, sunset", orientation: "square" },
+    { src: "kayak-whale", alt: "A humpback whale surfacing beside a tandem kayak, with James and his wife watching from the boat.", caption: "A whale, closer than planned", orientation: "square" },
+    { src: "rafting", alt: "James and three friends mid-rapid in a yellow raft, paddles up, everyone grinning.", caption: "Whitewater, with friends", orientation: "landscape" },
     { src: "venice-us", alt: "James and his wife in front of a terracotta building on a Venice canal.", caption: "Venice, with my wife", orientation: "portrait" },
     { src: "venice-canal", alt: "Boats on the Grand Canal in Venice on a clear afternoon.", caption: "Venice, the Grand Canal", orientation: "landscape" },
     { src: "great-wall-us", alt: "James and his wife sitting on the Great Wall of China with the wall winding over the hills behind them.", caption: "The Great Wall", orientation: "portrait" },
