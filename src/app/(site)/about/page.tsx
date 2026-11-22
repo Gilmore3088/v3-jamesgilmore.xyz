@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import Arrow from "@/components/arrow";
 import Container from "@/components/container";
+import PathList from "@/components/path-list";
+import Portrait from "@/components/portrait";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -26,22 +27,15 @@ export default function AboutPage() {
       </header>
 
       <div className="grid gap-12 border-t border-ink pt-9 lg:grid-cols-12 lg:gap-8 lg:pt-10">
-        {about.photo && (
-          <figure className="m-0 min-w-0 max-w-[16rem] lg:col-span-4 lg:max-w-[20rem]">
-            <Image
-              src={about.photo.src}
-              alt={about.photo.alt}
-              width={400}
-              height={400}
-              sizes="(min-width: 1024px) 20rem, 16rem"
-              className="block aspect-square h-auto w-full max-w-full object-cover"
-              priority
-            />
-            <figcaption className="label mt-3">{about.photo.caption}</figcaption>
-          </figure>
-        )}
+        <aside className="min-w-0 lg:col-span-4">
+          <Portrait className="max-w-[16rem] lg:max-w-[20rem]" sizes="(min-width: 1024px) 20rem, 16rem" priority caption />
+          <div className={about.photo ? "mt-10" : ""}>
+            <p className="label m-0 mb-3">In chapters</p>
+            <PathList compact />
+          </div>
+        </aside>
 
-        <div className={`min-w-0 max-w-[40rem] ${about.photo ? "lg:col-span-7 lg:col-start-6" : "lg:col-span-8 lg:col-start-5"}`}>
+        <div className="min-w-0 max-w-[40rem] lg:col-span-7 lg:col-start-6">
           {about.paragraphs.map((para, i) => (
             <p key={para} className={`m-0 serif-text text-[1.15rem] leading-[1.6] text-ink-soft ${i === 0 ? "" : "mt-6"}`}>
               {para}

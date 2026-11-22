@@ -56,6 +56,8 @@ export type SiteContent = {
     intro: string;
     aboutCta: string;
     contactCta: string;
+    backgroundLabel: string;
+    backgroundTitle: string;
     projectsLabel: string;
     projectsTitle: string;
     approachLabel: string;
@@ -74,8 +76,10 @@ export type SiteContent = {
     paragraphs: string[];
     /** The one line about place and life outside work. */
     lifeLine: string;
-    /** Optional portrait. `null` hides it and the layout adjusts. */
+    /** Portrait used on Home and About. `null` hides it and the layouts adjust. */
     photo: { src: string; alt: string; caption: string } | null;
+    /** Career in chapters, oldest first. Shown on Home and About. */
+    path: { period: string; title: string; detail: string }[];
   };
   contact: {
     title: string;
@@ -118,6 +122,8 @@ export const site: SiteContent = {
       "I work in banking technology: analytics, client implementations, and the kind of automation that gives people their afternoons back. On my own time I build tools I wish already existed, and I think a lot about how AI can improve real workflows without making them harder to trust.",
     aboutCta: "More about me",
     contactCta: "Get in touch",
+    backgroundLabel: "Background",
+    backgroundTitle: "Where I've been.",
     projectsLabel: "Projects",
     projectsTitle: "Two things I'm building.",
     approachLabel: "Approach",
@@ -213,9 +219,35 @@ export const site: SiteContent = {
     ],
     lifeLine:
       "I live in Seattle. When I'm not at a desk I'm usually on a long run, somewhere outdoors, or planning the next trip in more detail than it needs.",
-    // The only photo in the repo is a travel snapshot with another person in it.
-    // Example: { src: "/profile.jpg", alt: "James Gilmore", caption: "Venice" }
-    photo: null,
+    // Cropped from a travel snapshot. Replace /public/portrait.jpg with a proper portrait when you have one.
+    photo: { src: "/portrait.jpg", alt: "James Gilmore", caption: "Venice" },
+    path: [
+      {
+        period: "2011–2016",
+        title: "Collegiate athletics",
+        detail: "Ticket sales, then external operations at UCF Athletics. Helped build The Knightmare student section and the department's KPI dashboards.",
+      },
+      {
+        period: "2016–2018",
+        title: "Sports business consulting",
+        detail: "Sponsorship valuations, negotiations, RFPs, and executive dashboards for university and professional sports.",
+      },
+      {
+        period: "2018–2021",
+        title: "Independent consulting",
+        detail: "Strategy, software training, and negotiation support for university and athletics business units.",
+      },
+      {
+        period: "2019–present",
+        title: "Banking technology",
+        detail: "Software implementations, analytics, and automation for banks and credit unions, plus regulatory and compliance guidance for their executives.",
+      },
+      {
+        period: "Now",
+        title: "Independent builder",
+        detail: "Fee Insight and The AI Banking Institute, built on my own time.",
+      },
+    ],
   },
 
   contact: {

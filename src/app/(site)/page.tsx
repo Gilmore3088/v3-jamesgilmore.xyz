@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Arrow from "@/components/arrow";
 import Container from "@/components/container";
+import PathList from "@/components/path-list";
+import Portrait from "@/components/portrait";
 import ProjectCard from "@/components/project-card";
 import { site } from "@/content/site";
 import { Emphasis, plain } from "@/lib/emphasis";
@@ -41,8 +43,9 @@ export default function HomePage() {
 
       {/* Opening */}
       <Container>
-        <section className="grid gap-10 pb-16 pt-12 sm:pt-20 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-24">
-          <div className="rise min-w-0 lg:col-span-11">
+        <section className="grid gap-10 pb-16 pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-20 lg:pt-20">
+          <Portrait className="rise w-[7.5rem] sm:w-[9rem] lg:col-span-3 lg:col-start-10 lg:row-start-1 lg:w-full" sizes="(min-width: 1024px) 18rem, 9rem" priority />
+          <div className="rise min-w-0 lg:col-span-8 lg:row-start-1">
             <p className="label m-0">
               {site.name} <span aria-hidden="true" className="mx-2 text-line-strong">/</span> {home.eyebrow}
             </p>
@@ -50,7 +53,7 @@ export default function HomePage() {
               <Emphasis text={home.headline} />
             </h1>
           </div>
-          <div className="rise rise-1 min-w-0 lg:col-span-7 lg:col-start-5">
+          <div className="rise rise-1 min-w-0 lg:col-span-7 lg:col-start-5 lg:row-start-2">
             <p className="deck m-0 text-[1.3rem] leading-[1.45] text-ink-soft sm:text-[1.5rem]">{home.intro}</p>
             <div className="mt-8 flex flex-wrap items-center gap-x-10 gap-y-4">
               <Link href="/about" className="arrow-link">
@@ -64,9 +67,29 @@ export default function HomePage() {
         </section>
       </Container>
 
+      {/* Background */}
+      <Container>
+        <section aria-labelledby="background-heading" className="grid gap-10 border-t border-ink pt-7 lg:grid-cols-12 lg:gap-8">
+          <div className="min-w-0 lg:col-span-4">
+            <p className="label m-0">{home.backgroundLabel}</p>
+            <h2 id="background-heading" className="display m-0 mt-4 max-w-[18ch] text-[1.9rem] sm:text-[2.3rem]">
+              {home.backgroundTitle}
+            </h2>
+            <p className="mt-6">
+              <Link href="/about" className="arrow-link">
+                {home.aboutCta} <Arrow />
+              </Link>
+            </p>
+          </div>
+          <div className="min-w-0 lg:col-span-8">
+            <PathList />
+          </div>
+        </section>
+      </Container>
+
       {/* Projects */}
       <Container>
-        <section id="projects" aria-labelledby="projects-heading" className="grid gap-10 border-t border-ink pt-7 lg:grid-cols-12 lg:gap-8">
+        <section id="projects" aria-labelledby="projects-heading" className="mt-24 grid gap-10 border-t border-ink pt-7 lg:mt-32 lg:grid-cols-12 lg:gap-8">
           <div className="min-w-0 lg:col-span-4">
             <p className="label m-0">{home.projectsLabel}</p>
             <h2 id="projects-heading" className="display m-0 mt-4 max-w-[18ch] text-[1.9rem] sm:text-[2.3rem]">
