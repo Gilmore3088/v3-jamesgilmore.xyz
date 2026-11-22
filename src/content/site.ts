@@ -219,8 +219,7 @@ export const site: SiteContent = {
     ],
     lifeLine:
       "I live in Seattle. When I'm not at a desk I'm usually on a long run, somewhere outdoors, or planning the next trip in more detail than it needs.",
-    // Cropped from a travel snapshot. Replace /public/portrait.jpg with a proper portrait when you have one.
-    photo: { src: "/portrait.jpg", alt: "James Gilmore", caption: "Venice" },
+    photo: { src: "/profile.jpg", alt: "James Gilmore and his wife in Venice", caption: "Venice, with my wife" },
     path: [
       {
         period: "2011–2016",
