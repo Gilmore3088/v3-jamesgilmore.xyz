@@ -21,6 +21,29 @@ type Selection = { kind: "trip"; id: string } | { kind: "stop"; stop: MapStop } 
 /* Intro timing, in seconds. */
 const STOP_GAP = 1.1;
 
+/** A viewBox that holds the given points with padding, at least `minW` wide, never wider than the map. */
+function frame(points: { x: number; y: number }[], minW: number, W: number, H: number) {
+  const xs = points.map((p) => p.x);
+  const ys = points.map((p) => p.y);
+  const x1 = Math.min(...xs);
+  const x2 = Math.max(...xs);
+  const y1 = Math.min(...ys);
+  const y2 = Math.max(...ys);
+  const span = Math.max(x2 - x1, ((y2 - y1) * W) / H);
+  // padding: room for labels on the right and a little air all round
+  let w = Math.min(W, Math.max(minW, span * 1.9 + 120));
+  let h = (w * H) / W;
+  const cx = (x1 + x2) / 2 + w * 0.06;
+  const cy = (y1 + y2) / 2;
+  let x = cx - w / 2;
+  let y = cy - h / 2;
+  if (w > W) w = W;
+  if (h > H) h = H;
+  x = Math.min(W - w, Math.max(0, x));
+  y = Math.min(H - h, Math.max(0, y));
+  return { x, y, w, h };
+}
+
 /**
  * The map. Draws the journey first, then the world fills in; afterwards it pans,
  * zooms, and answers clicks with a panel.
@@ -28,7 +51,9 @@ const STOP_GAP = 1.1;
 export default function JourneyMap({ data, intro = false, labels, tripHrefBase, className = "" }: Props) {
   const { width: W, height: H } = data;
   const svgRef = useRef<SVGSVGElement>(null);
-  const [vb, setVb] = useState({ x: 0, y: 0, w: W, h: H });
+  const first = data.stops[0];
+  const startVb = intro && first ? frame([first], W / 9, W, H) : { x: 0, y: 0, w: W, h: H };
+  const [vb, setVb] = useState(startVb);
   const [sel, setSel] = useState<Selection>(null);
   const [intro_, setIntro] = useState(intro);
   const drag = useRef<{ id: number; x: number; y: number; moved: boolean } | null>(null);
@@ -46,11 +71,44 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
     [W, H]
   );
 
-  const k = vb.w / W; // scale factor so dots stay the same size on screen
-
-  /* Phones start framed on the journey; the world is a pinch away. */
+  /* Smooth camera: the rendered viewBox eases toward `vb` while the intro plays. */
+  const [shown, setShown] = useState(startVb);
+  const tween = useRef<number | null>(null);
   useEffect(() => {
-    if (!svgRef.current || data.stops.length === 0) return;
+    if (!intro_) {
+      setShown(vb);
+      return;
+    }
+    const from = { ...shownRef.current };
+    const to = vb;
+    const t0 = performance.now();
+    const dur = 950;
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+    const step = (now: number) => {
+      const t = Math.min(1, (now - t0) / dur);
+      const e = ease(t);
+      const next = { x: from.x + (to.x - from.x) * e, y: from.y + (to.y - from.y) * e, w: from.w + (to.w - from.w) * e, h: from.h + (to.h - from.h) * e };
+      shownRef.current = next;
+      setShown(next);
+      if (t < 1) tween.current = window.requestAnimationFrame(step);
+    };
+    if (tween.current) window.cancelAnimationFrame(tween.current);
+    tween.current = window.requestAnimationFrame(step);
+    return () => {
+      if (tween.current) window.cancelAnimationFrame(tween.current);
+    };
+  }, [vb, intro_]);
+  const shownRef = useRef(startVb);
+  useEffect(() => {
+    if (!intro_) shownRef.current = vb;
+  }, [vb, intro_]);
+
+  const view = intro_ ? shown : vb;
+  const k = view.w / W; // scale factor so dots stay the same size on screen
+
+  /* Phones (without the intro) start framed on the journey; the world is a pinch away. */
+  useEffect(() => {
+    if (intro || !svgRef.current || data.stops.length === 0) return;
     const narrow = svgRef.current.getBoundingClientRect().width < 560;
     if (!narrow) return;
     const xs = data.stops.map((s) => s.x);
@@ -68,14 +126,32 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
   const trip = sel?.kind === "trip" ? data.trips.find((t) => t.id === sel.id) ?? null : null;
   const routeDone = data.stops.length * STOP_GAP + 0.4;
 
-  /* The intro only plays once per page view; after it, nothing is delayed. Reduced motion skips it at once. */
+  /*
+   * The intro only plays once per page view. The camera starts on the first stop and
+   * widens with each leg, then pulls out to the whole world as the dots arrive.
+   * Reduced motion skips straight to the finished map.
+   */
   useEffect(() => {
     if (!intro) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ms = reduced ? 0 : (routeDone + 0.06 * (data.trips.length + 6) + 1.2) * 1000;
-    const t = window.setTimeout(() => setIntro(false), ms);
-    return () => window.clearTimeout(t);
-  }, [intro, routeDone, data.trips.length]);
+    const timers: number[] = [];
+    if (reduced) {
+      setVb({ x: 0, y: 0, w: W, h: H });
+      timers.push(window.setTimeout(() => setIntro(false), 0));
+      return () => timers.forEach(window.clearTimeout);
+    }
+    const stops = data.stops;
+    stops.forEach((_, i) => {
+      if (i === 0) return;
+      const seen = stops.slice(0, i + 1);
+      // each move lands as the leg finishes drawing
+      timers.push(window.setTimeout(() => setVb(frame(seen, W / 6, W, H)), (0.5 + (i - 1) * STOP_GAP) * 1000));
+    });
+    const narrow = (svgRef.current?.getBoundingClientRect().width ?? 1000) < 560;
+    timers.push(window.setTimeout(() => setVb(narrow ? frame(stops, W / 3, W, H) : { x: 0, y: 0, w: W, h: H }), (routeDone - 0.1) * 1000));
+    timers.push(window.setTimeout(() => setIntro(false), (routeDone + 0.06 * (data.trips.length + 6) + 1.4) * 1000));
+    return () => timers.forEach(window.clearTimeout);
+  }, [intro, routeDone, data.trips.length, data.stops, W, H]);
 
   const delay = (s: number) => (intro_ ? { animationDelay: `${s}s` } : undefined);
 
@@ -175,7 +251,7 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
       <div className="relative min-w-0 lg:col-span-9">
       <svg
         ref={svgRef}
-        viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`}
+        viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
         role="img"
         aria-label="World map: the places James has lived, in order, and the places he has been"
         className="h-auto w-full cursor-grab touch-none select-none active:cursor-grabbing"
