@@ -42,7 +42,7 @@ export default function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(structuredData) }} />
 
-      {/* Opening: the map draws the route, then the world fills in */}
+      {/* Opening: a short blurb, then the map draws the route and the world fills in */}
       <Container>
         <section className="pt-24 sm:pt-28">
           <div className="rise grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-8">
@@ -55,7 +55,7 @@ export default function HomePage() {
               </h1>
             </div>
             <div className="min-w-0 lg:col-span-5">
-              <p className="deck m-0 max-w-[46ch] text-[1.08rem] text-ink-soft sm:text-[1.15rem]">{home.intro}</p>
+              <p className="deck m-0 max-w-[40ch] text-[1.1rem] text-ink-soft sm:text-[1.2rem]">{home.intro}</p>
               <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-3">
                 <Link href="/about" className="arrow-link">
                   {home.aboutCta} <Arrow />
@@ -66,12 +66,14 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className="panel mt-8 p-2 sm:p-4 lg:mt-10">
-            <WorldMap intro />
-          </div>
-          <p className="m-0 mt-3 px-1 text-[0.95rem] text-muted">{home.mapHint}</p>
         </section>
       </Container>
+      <section aria-label="Where I have lived and been" className="mt-8 lg:mt-10">
+        <WorldMap intro layout="hero" />
+        <Container>
+          <p className="m-0 mt-3 text-[0.95rem] text-muted">{home.mapHint}</p>
+        </Container>
+      </section>
 
       {/* Lately */}
       <Container>

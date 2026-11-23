@@ -13,6 +13,8 @@ type Props = {
   labels: { beenLabel: string; wishLabel: string; panelHint: string };
   /** Prefix for a trip's "see the photos" link; the trip id is appended. */
   tripHrefBase: string;
+  /** "hero": full-bleed, half-height, edges fade; "page": boxed map with a side panel. */
+  layout?: "hero" | "page";
   className?: string;
 };
 
@@ -21,7 +23,7 @@ type Selection = { kind: "trip"; id: string } | { kind: "stop"; stop: MapStop } 
 /* Intro timing, in seconds. */
 const STOP_GAP = 1.1;
 /** Seconds between dots lighting up after the journey, and the whole fill-in window. */
-const DOT_GAP = 0.32;
+const DOT_GAP = 0.13;
 
 /** A fixed shuffle so every dot gets its own moment, in the same order on server and client. */
 function scatter(n: number): number[] {
@@ -35,26 +37,29 @@ function scatter(n: number): number[] {
   return order;
 }
 
-/** A viewBox that holds the given points with padding, at least `minW` wide, never wider than the map. */
-function frame(points: { x: number; y: number }[], minW: number, W: number, H: number) {
+/**
+ * A viewBox of the given aspect (width / height) that holds the points with padding,
+ * at least `minW` wide, never larger than the map.
+ */
+function frame(points: { x: number; y: number }[], minW: number, W: number, H: number, aspect: number, pad = 1.9) {
   const xs = points.map((p) => p.x);
   const ys = points.map((p) => p.y);
   const x1 = Math.min(...xs);
   const x2 = Math.max(...xs);
   const y1 = Math.min(...ys);
   const y2 = Math.max(...ys);
-  const span = Math.max(x2 - x1, ((y2 - y1) * W) / H);
+  const span = Math.max(x2 - x1, (y2 - y1) * aspect);
   // padding: room for labels on the right and a little air all round
-  let w = Math.min(W, Math.max(minW, span * 1.9 + 120));
-  let h = (w * H) / W;
+  let w = Math.max(minW, span * pad + 120);
+  w = Math.min(w, Math.max(W, H * aspect));
+  const h = w / aspect;
   const cx = (x1 + x2) / 2 + w * 0.06;
   const cy = (y1 + y2) / 2;
   let x = cx - w / 2;
   let y = cy - h / 2;
-  if (w > W) w = W;
-  if (h > H) h = H;
-  x = Math.min(W - w, Math.max(0, x));
-  y = Math.min(H - h, Math.max(0, y));
+  // a view wider than the map is centred on it; otherwise it stays inside the map
+  x = w > W ? (W - w) / 2 : Math.min(W - w, Math.max(0, x));
+  y = h > H ? (H - h) / 2 : Math.min(H - h, Math.max(0, y));
   return { x, y, w, h };
 }
 
@@ -62,12 +67,16 @@ function frame(points: { x: number; y: number }[], minW: number, W: number, H: n
  * The map. Draws the journey first, then the world fills in; afterwards it pans,
  * zooms, and answers clicks with a panel.
  */
-export default function JourneyMap({ data, intro = false, labels, tripHrefBase, className = "" }: Props) {
+export default function JourneyMap({ data, intro = false, labels, tripHrefBase, layout = "page", className = "" }: Props) {
   const { width: W, height: H } = data;
   const svgRef = useRef<SVGSVGElement>(null);
+  const [aspect, setAspect] = useState(W / H);
   const first = data.stops[0];
-  const startVb = intro && first ? frame([first], W / 9, W, H) : { x: 0, y: 0, w: W, h: H };
+  const startVb = intro && first ? frame([first], W / 9, W, H, W / H) : { x: 0, y: 0, w: W, h: H };
   const [vb, setVb] = useState(startVb);
+  const everything = [...data.stops, ...data.trips.flatMap((t) => t.pins), ...data.wishes];
+  /** The widest useful view: every dot, in the box's shape. */
+  const worldVb = () => (layout === "hero" ? frame(everything, W, W, H, aspect, 1.12) : { x: 0, y: 0, w: W, h: H });
   const [sel, setSel] = useState<Selection>(null);
   const [intro_, setIntro] = useState(intro);
   const drag = useRef<{ id: number; x: number; y: number; moved: boolean } | null>(null);
@@ -76,13 +85,15 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
 
   const clamp = useCallback(
     (n: { x: number; y: number; w: number; h: number }) => {
-      const w = Math.min(W, Math.max(W / 8, n.w));
-      const h = (w * H) / W;
-      const x = Math.min(W - w, Math.max(0, n.x));
-      const y = Math.min(H - h, Math.max(0, n.y));
+      const maxW = worldVb().w;
+      const w = Math.min(maxW, Math.max(W / 8, n.w));
+      const h = w / aspect;
+      const x = w > W ? (W - w) / 2 : Math.min(W - w, Math.max(0, n.x));
+      const y = h > H ? (H - h) / 2 : Math.min(H - h, Math.max(0, n.y));
       return { x, y, w, h };
     },
-    [W, H]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [W, H, aspect, layout]
   );
 
   /* Smooth camera: the rendered viewBox eases toward `vb` while the intro plays. */
@@ -133,20 +144,29 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
   })();
   const fillDone = routeDone + 0.6 + slots.size * DOT_GAP;
 
+  /* The hero box is not the map's shape, so track its aspect and frame to it. */
+  useEffect(() => {
+    if (layout !== "hero" || !svgRef.current) return;
+    const el = svgRef.current;
+    const measure = () => {
+      const r = el.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) setAspect(r.width / r.height);
+    };
+    const id = window.requestAnimationFrame(measure);
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(el);
+    return () => {
+      window.cancelAnimationFrame(id);
+      ro.disconnect();
+    };
+  }, [layout]);
+
   /* Phones (without the intro) start framed on the journey; the world is a pinch away. */
   useEffect(() => {
     if (intro || !svgRef.current || data.stops.length === 0) return;
     const narrow = svgRef.current.getBoundingClientRect().width < 560;
     if (!narrow) return;
-    const xs = data.stops.map((s) => s.x);
-    const ys = data.stops.map((s) => s.y);
-    const pad = 70;
-    const x1 = Math.min(...xs) - pad;
-    const x2 = Math.max(...xs) + pad * 2.2;
-    const y1 = Math.min(...ys) - pad;
-    const y2 = Math.max(...ys) + pad;
-    const w = Math.max(x2 - x1, ((y2 - y1) * W) / H, W / 3);
-    const id = window.requestAnimationFrame(() => setVb(clamp({ x: x1 - (w - (x2 - x1)) / 2, y: y1 - ((w * H) / W - (y2 - y1)) / 2, w, h: (w * H) / W })));
+    const id = window.requestAnimationFrame(() => setVb(frame(data.stops, W / 3, W, H, W / H)));
     return () => window.cancelAnimationFrame(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -162,7 +182,7 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timers: number[] = [];
     if (reduced) {
-      setVb({ x: 0, y: 0, w: W, h: H });
+      setVb(worldVb());
       timers.push(window.setTimeout(() => setIntro(false), 0));
       return () => timers.forEach(window.clearTimeout);
     }
@@ -171,22 +191,30 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
       if (i === 0) return;
       const seen = stops.slice(0, i + 1);
       // each move lands as the leg finishes drawing
-      timers.push(window.setTimeout(() => setVb(frame(seen, W / 6, W, H)), (0.5 + (i - 1) * STOP_GAP) * 1000));
+      timers.push(window.setTimeout(() => setVb(frame(seen, W / 6, W, H, aspect)), (0.5 + (i - 1) * STOP_GAP) * 1000));
     });
     const narrow = (svgRef.current?.getBoundingClientRect().width ?? 1000) < 560;
-    timers.push(window.setTimeout(() => setVb(narrow ? frame(stops, W / 3, W, H) : { x: 0, y: 0, w: W, h: H }), (routeDone - 0.1) * 1000));
+    timers.push(window.setTimeout(() => setVb(narrow ? frame(stops, W / 3, W, H, aspect) : worldVb()), (routeDone - 0.1) * 1000));
     timers.push(window.setTimeout(() => setIntro(false), (fillDone + 0.8) * 1000));
     return () => timers.forEach(window.clearTimeout);
-  }, [intro, routeDone, fillDone, data.stops, W, H]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [intro, routeDone, fillDone, data.stops, W, H, aspect]);
 
   const delay = (s: number) => (intro_ ? { animationDelay: `${s}s` } : undefined);
 
+  /* Client px per viewBox unit, plus the centering offset, for either preserveAspectRatio. */
+  const metrics = useCallback(() => {
+    const r = svgRef.current!.getBoundingClientRect();
+    const scale = layout === "hero" ? Math.max(r.width / vb.w, r.height / vb.h) : Math.min(r.width / vb.w, r.height / vb.h);
+    return { r, scale, ox: r.left + (r.width - vb.w * scale) / 2, oy: r.top + (r.height - vb.h * scale) / 2 };
+  }, [vb, layout]);
+
   const toSvg = useCallback(
     (cx: number, cy: number) => {
-      const r = svgRef.current!.getBoundingClientRect();
-      return { x: vb.x + ((cx - r.left) / r.width) * vb.w, y: vb.y + ((cy - r.top) / r.height) * vb.h };
+      const { scale, ox, oy } = metrics();
+      return { x: vb.x + (cx - ox) / scale, y: vb.y + (cy - oy) / scale };
     },
-    [vb]
+    [vb, metrics]
   );
 
 
@@ -225,7 +253,7 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
   function onPointerMove(e: React.PointerEvent<SVGSVGElement>) {
     if (!pointers.current.has(e.pointerId)) return;
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    const r = e.currentTarget.getBoundingClientRect();
+    const { scale } = metrics();
     if (pinch.current && pointers.current.size === 2) {
       const [a, b] = [...pointers.current.values()];
       const d = Math.hypot(a.x - b.x, a.y - b.y);
@@ -234,8 +262,8 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
       return;
     }
     if (drag.current && drag.current.id === e.pointerId) {
-      const dx = ((e.clientX - drag.current.x) / r.width) * vb.w;
-      const dy = ((e.clientY - drag.current.y) / r.height) * vb.h;
+      const dx = (e.clientX - drag.current.x) / scale;
+      const dy = (e.clientY - drag.current.y) / scale;
       if (!drag.current.moved && Math.abs(e.clientX - drag.current.x) + Math.abs(e.clientY - drag.current.y) > 4) {
         drag.current.moved = true;
         e.currentTarget.setPointerCapture(e.pointerId);
@@ -272,15 +300,14 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
   /* A lived-in stop that shares a spot with a trip links to that trip's photos. */
   const tripNear = (st: MapStop) => data.trips.find((t) => t.pins.some((p) => Math.hypot(p.x - st.x, p.y - st.y) < 6)) ?? null;
 
-  return (
-    <div className={`grid gap-4 lg:grid-cols-12 lg:gap-5 ${className}`}>
-      <div className="relative min-w-0 lg:col-span-9">
+  const svg = (
       <svg
         ref={svgRef}
         viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
         role="img"
         aria-label="World map: the places James has lived, in order, and the places he has been"
-        className="h-auto w-full cursor-grab touch-none select-none active:cursor-grabbing"
+        preserveAspectRatio={layout === "hero" ? "xMidYMid slice" : "xMidYMid meet"}
+        className={`w-full cursor-grab touch-none select-none active:cursor-grabbing ${layout === "hero" ? "h-full" : "h-auto"}`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -355,27 +382,26 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
         })}
 
       </svg>
+  );
 
-      {/* zoom controls */}
-      <div className="absolute right-3 top-3 flex flex-col gap-1.5">
+  const controls = (
+      <div className={layout === "hero" ? "flex gap-1.5" : "absolute right-3 top-3 flex flex-col gap-1.5"}>
         <button type="button" onClick={() => zoomAt(1 / 1.4)} aria-label="Zoom in" className="panel h-10 w-10 cursor-pointer border border-line text-xl font-semibold text-ink hover:text-accent">
           +
         </button>
         <button type="button" onClick={() => zoomAt(1.4)} aria-label="Zoom out" className="panel h-10 w-10 cursor-pointer border border-line text-xl font-semibold text-ink hover:text-accent">
           −
         </button>
-        {(vb.w < W - 1 || vb.x > 0 || vb.y > 0) && (
-          <button type="button" onClick={() => setVb({ x: 0, y: 0, w: W, h: H })} aria-label="Reset view" className="panel h-10 w-10 cursor-pointer border border-line text-sm font-semibold text-muted hover:text-accent">
+        {Math.abs(vb.w - worldVb().w) > 1 && (
+          <button type="button" onClick={() => setVb(worldVb())} aria-label="Reset view" className="panel h-10 w-10 cursor-pointer border border-line text-sm font-semibold text-muted hover:text-accent">
             ⟲
           </button>
         )}
       </div>
+  );
 
-      </div>
-
-      <div className="flex min-w-0 flex-col gap-3 lg:col-span-3">
-      {/* panel */}
-      <aside aria-live="polite" className={`panel flex-1 p-5 ${intro_ ? "map-fade" : ""}`} style={delay(routeDone + 1.0)}>
+  const panel = (
+      <aside aria-live="polite" className={`panel p-5 ${layout === "hero" ? "" : "flex-1"} ${intro_ ? "map-fade" : ""}`} style={delay(routeDone + 1.0)}>
         {trip ? (
           <div>
             {trip.when && <p className="label m-0">{trip.when}</p>}
@@ -426,8 +452,9 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
           <p className="body-text m-0 text-[0.98rem] text-muted">{labels.panelHint}</p>
         )}
       </aside>
+  );
 
-      {/* legend */}
+  const legend = (
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-1 text-[0.92rem] text-muted">
         <span className="inline-flex items-center gap-2"><span className="inline-block h-3 w-3 rounded-full border-2 border-accent bg-ink" /> Lived</span>
         <span className="inline-flex items-center gap-2"><span className="inline-block h-3 w-3 rounded-full bg-accent" /> {labels.beenLabel}</span>
@@ -435,6 +462,32 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
           <span className="inline-flex items-center gap-2"><span className="inline-block h-3 w-3 rounded-full border-2 border-dashed border-ink-soft" /> {labels.wishLabel}</span>
         )}
       </div>
+  );
+
+  if (layout === "hero") {
+    return (
+      <div className={className}>
+        <div className="map-fade-edges relative h-[52vh] max-h-[38rem] min-h-[20rem] w-full overflow-hidden">{svg}</div>
+        <div className="mx-auto mt-4 grid w-full max-w-[80rem] gap-4 px-5 sm:px-8 lg:grid-cols-12 lg:gap-6 lg:px-12">
+          <div className="min-w-0 lg:col-span-5">{panel}</div>
+          <div className="flex min-w-0 flex-wrap items-center justify-between gap-4 lg:col-span-7 lg:col-start-6">
+            {legend}
+            {controls}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`grid gap-4 lg:grid-cols-12 lg:gap-5 ${className}`}>
+      <div className="relative min-w-0 lg:col-span-9">
+        {svg}
+        {controls}
+      </div>
+      <div className="flex min-w-0 flex-col gap-3 lg:col-span-3">
+        {panel}
+        {legend}
       </div>
     </div>
   );

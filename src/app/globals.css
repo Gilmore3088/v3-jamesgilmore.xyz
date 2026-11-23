@@ -251,3 +251,27 @@ body {
     stroke-dashoffset: 0;
   }
 }
+
+/* full-bleed map: the sides fade into the page */
+.map-fade-edges {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+}
+.map-fade-edges::before,
+.map-fade-edges::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3rem;
+  pointer-events: none;
+  z-index: 1;
+}
+.map-fade-edges::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--color-bg), transparent);
+}
+.map-fade-edges::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--color-bg), transparent);
+}
