@@ -20,6 +20,20 @@ type Selection = { kind: "trip"; id: string } | { kind: "stop"; stop: MapStop } 
 
 /* Intro timing, in seconds. */
 const STOP_GAP = 1.1;
+/** Seconds between dots lighting up after the journey, and the whole fill-in window. */
+const DOT_GAP = 0.32;
+
+/** A fixed shuffle so every dot gets its own moment, in the same order on server and client. */
+function scatter(n: number): number[] {
+  const order = Array.from({ length: n }, (_, i) => i);
+  let seed = 7;
+  for (let i = n - 1; i > 0; i--) {
+    seed = (seed * 9301 + 49297) % 233280;
+    const j = Math.floor((seed / 233280) * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+}
 
 /** A viewBox that holds the given points with padding, at least `minW` wide, never wider than the map. */
 function frame(points: { x: number; y: number }[], minW: number, W: number, H: number) {
@@ -104,7 +118,20 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
   }, [vb, intro_]);
 
   const view = intro_ ? shown : vb;
+  const routeDone = data.stops.length * STOP_GAP + 0.4;
   const k = view.w / W; // scale factor so dots stay the same size on screen
+
+  /* Every trip pin and wish pin gets its own slot in a shuffled sequence after the journey. */
+  const slots = (() => {
+    const keys: string[] = [];
+    data.trips.forEach((t) => t.pins.forEach((_, i) => keys.push(`${t.id}-${i}`)));
+    data.wishes.forEach((_, i) => keys.push(`w-${i}`));
+    const order = scatter(keys.length);
+    const m = new Map<string, number>();
+    keys.forEach((key, i) => m.set(key, routeDone + 0.6 + order[i] * DOT_GAP));
+    return m;
+  })();
+  const fillDone = routeDone + 0.6 + slots.size * DOT_GAP;
 
   /* Phones (without the intro) start framed on the journey; the world is a pinch away. */
   useEffect(() => {
@@ -124,7 +151,6 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const trip = sel?.kind === "trip" ? data.trips.find((t) => t.id === sel.id) ?? null : null;
-  const routeDone = data.stops.length * STOP_GAP + 0.4;
 
   /*
    * The intro only plays once per page view. The camera starts on the first stop and
@@ -149,9 +175,9 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
     });
     const narrow = (svgRef.current?.getBoundingClientRect().width ?? 1000) < 560;
     timers.push(window.setTimeout(() => setVb(narrow ? frame(stops, W / 3, W, H) : { x: 0, y: 0, w: W, h: H }), (routeDone - 0.1) * 1000));
-    timers.push(window.setTimeout(() => setIntro(false), (routeDone + 0.06 * (data.trips.length + 6) + 1.4) * 1000));
+    timers.push(window.setTimeout(() => setIntro(false), (fillDone + 0.8) * 1000));
     return () => timers.forEach(window.clearTimeout);
-  }, [intro, routeDone, data.trips.length, data.stops, W, H]);
+  }, [intro, routeDone, fillDone, data.stops, W, H]);
 
   const delay = (s: number) => (intro_ ? { animationDelay: `${s}s` } : undefined);
 
@@ -262,7 +288,7 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
       >
         <path d={data.landPath} fill="var(--color-surface-2)" stroke="var(--color-line)" strokeWidth={0.6 * k} />
         {data.visitedPaths.map((d, i) => (
-          <path key={i} d={d} fill="var(--color-accent)" fillOpacity="0.16" stroke="var(--color-accent)" strokeOpacity="0.5" strokeWidth={0.7 * k} className={intro_ ? "map-fade" : ""} style={delay(routeDone + 0.3)} />
+          <path key={i} d={d} fill="var(--color-accent)" fillOpacity="0.16" stroke="var(--color-accent)" strokeOpacity="0.5" strokeWidth={0.7 * k} className={intro_ ? "map-fade" : ""} style={delay(routeDone + 0.8 + ((i * 7) % Math.max(1, data.visitedPaths.length)) * ((slots.size * DOT_GAP) / Math.max(1, data.visitedPaths.length)))} />
         ))}
 
         {/* the journey */}
@@ -275,7 +301,7 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
           return (
             <g key={`w-${i}`} role="button" tabIndex={0} aria-label={`${w.name}, want to go`} aria-pressed={active} className="cursor-pointer outline-none" onClick={() => pick({ kind: "wish", wish: w })} onKeyDown={(e) => keyPick(e, { kind: "wish", wish: w })}>
               <circle cx={w.x} cy={w.y} r={13 * k} fill="transparent" />
-              <g className={intro_ ? "map-pop" : ""} style={{ ...delay(routeDone + 0.06 * (data.trips.length + i) + 0.4), transformOrigin: `${w.x}px ${w.y}px` }}>
+              <g className={intro_ ? "map-pop" : ""} style={{ ...delay(slots.get(`w-${i}`) ?? routeDone), transformOrigin: `${w.x}px ${w.y}px` }}>
                 <circle cx={w.x} cy={w.y} r={active ? dotR * 1.3 : dotR} fill="var(--color-bg)" stroke="var(--color-ink-soft)" strokeWidth={stroke} strokeDasharray={active ? undefined : `${2.5 * k} ${2 * k}`} />
               </g>
             </g>
@@ -283,13 +309,13 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
         })}
 
         {/* trips */}
-        {data.trips.map((t, ti) =>
+        {data.trips.map((t) =>
           t.pins.map((p, i) => {
             const active = sel?.kind === "trip" && sel.id === t.id;
             return (
               <g key={`${t.id}-${i}`} role="button" tabIndex={0} aria-label={`${t.name}: show trip`} aria-pressed={active} className="group cursor-pointer outline-none" onClick={() => pick({ kind: "trip", id: t.id })} onKeyDown={(e) => keyPick(e, { kind: "trip", id: t.id })}>
                 <circle cx={p.x} cy={p.y} r={14 * k} fill="transparent" />
-                <g className={intro_ ? "map-pop" : ""} style={{ ...delay(routeDone + 0.06 * ti + 0.02 * i + 0.4), transformOrigin: `${p.x}px ${p.y}px` }}>
+                <g className={intro_ ? "map-pop" : ""} style={{ ...delay(slots.get(`${t.id}-${i}`) ?? routeDone), transformOrigin: `${p.x}px ${p.y}px` }}>
                   {active && <circle cx={p.x} cy={p.y} r={ring} fill="var(--color-accent)" fillOpacity="0.25" />}
                   <circle cx={p.x} cy={p.y} r={active ? dotR * 1.3 : dotR} fill={t.photos.length > 0 ? "var(--color-accent)" : "var(--color-accent-deep)"} stroke="var(--color-bg)" strokeWidth={stroke} />
                   {i === 0 && (
@@ -349,7 +375,7 @@ export default function JourneyMap({ data, intro = false, labels, tripHrefBase, 
 
       <div className="flex min-w-0 flex-col gap-3 lg:col-span-3">
       {/* panel */}
-      <aside aria-live="polite" className={`panel flex-1 p-5 ${intro_ ? "map-fade" : ""}`} style={delay(routeDone + 1.2)}>
+      <aside aria-live="polite" className={`panel flex-1 p-5 ${intro_ ? "map-fade" : ""}`} style={delay(routeDone + 1.0)}>
         {trip ? (
           <div>
             {trip.when && <p className="label m-0">{trip.when}</p>}
