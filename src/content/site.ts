@@ -332,7 +332,7 @@ export const site: SiteContent = {
   journey: [
     { name: "Orlando", pin: [28.54, -81.38], note: "Where it started. UCF, and the football stadium." },
     { name: "Chicago", pin: [41.88, -87.63], note: "Sports consulting years." },
-    { name: "Los Angeles", pin: [34.05, -118.24] },
+    { name: "Orange County", pin: [33.72, -117.83] },
     { name: "Seattle", pin: [47.61, -122.33], note: "Home." },
   ],
   wishlist: [{ name: "Samarkand, Uzbekistan", pins: [[39.65, 66.98]], note: "The Registan. A dream, not a plan yet." }],
